@@ -1,5 +1,8 @@
 package ui;
 
+import business.ControllerInterface;
+import business.LoginException;
+import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -89,15 +92,20 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
 		newMemberBtn.setOnAction(
 				(ActionEvent e) -> {
-//					try {
-//						ControllerInterface c = new SystemController();
+					try {
+						ControllerInterface c = new SystemController();
+						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
+								lastNameTextField.getText(), streetTextField.getText(),
+								cityTextField.getText(), stateTextField.getText(),
+								zipTextField.getText(), phoneTextField.getText());
 //						c.login(userTextField.getText().trim(), pwBox.getText().trim());
 //						messageBar.setFill(Start.Colors.green);
 //						messageBar.setText("Login successful");
-//					} catch(LoginException ex) {
+					} catch(Exception ex) {
 //						messageBar.setFill(Start.Colors.red);
 //						messageBar.setText("Error! " + ex.getMessage());
-//					}
+					}
+
 					System.out.println("New member created!");
 				});
 

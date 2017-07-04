@@ -6,8 +6,10 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import business.Book;
 import business.BookCopy;
@@ -48,6 +50,12 @@ public class DataAccessFacade implements DataAccess {
 		//   userId -> User
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
+
+	public void writeLibraryMember(LibraryMember member) {
+        HashMap<String, LibraryMember> members = readMemberMap();
+        members.put(member.getMemberId(), member);
+        saveToStorage(StorageType.MEMBERS, members);
+    }
 	
 	
 	/////load methods - these place test data into the storage area

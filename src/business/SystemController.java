@@ -41,6 +41,16 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
-	
-	
+
+	public void addMember(String id, String firstName, String lastName, String street, String city, String state, String zip, String phone) {
+		Address address = new Address(street, city, state, zip);
+		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
+
+		DataAccessFacade dataAccessFacade = new DataAccessFacade();
+		dataAccessFacade.writeLibraryMember(newLibraryMember);
+	}
+
+
+
+
 }
