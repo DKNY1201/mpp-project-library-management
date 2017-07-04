@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +25,8 @@ public class SystemController implements ControllerInterface {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
 	}
+
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
@@ -52,12 +53,39 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void checkoutBook(String memberID, String isbnNumber) throws Exception {
+	public void checkoutBook(String memberID, String isbnNumber) throws CheckoutBookException {
 		DataAccess da = new DataAccessFacade();
 
-		if (!da.searchMember(memberID)) {
-			throw new Exception();
+		LibraryMember member = null;
+		Book book = null;
+
+		if (da.searchMember(memberID) == null) {
+			throw new CheckoutBookException("Member ID not found!");
 		}
+
+		member = da.searchMember(memberID);
+
+		// Create new LibraryMember because I want to create new Checkout Record for this library member
+		member = new LibraryMember(memberID, member.getFirstName(), member.getLastName(),
+				member.getTelephone(), member.getAddress());
+		System.out.println(member.getCheckoutRecord().testdata);
+
+		if (da.searchBook(isbnNumber) == null) {
+			throw new CheckoutBookException("The requested book is not available!");
+		}
+
+		book = da.searchBook(isbnNumber);
+
+		if (!book.isAvailable()) {
+			throw new CheckoutBookException("The requested book is not available!");
+		}
+
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		int maxCheckoutLength = book.getMaxCheckoutLength();
+
+		member.checkout(bookCopy, LocalDate.now(), LocalDate.now().plusDays(maxCheckoutLength));
+
+		da.printMembers();
 
 		System.out.println("Checked out book");
 	}

@@ -1,5 +1,6 @@
 package ui;
 
+import business.CheckoutBookException;
 import business.ControllerInterface;
 import business.SystemController;
 import javafx.event.ActionEvent;
@@ -64,11 +65,11 @@ public class CheckoutBook extends Stage implements LibWindow {
 					try {
 						ControllerInterface c = new SystemController();
 						c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
-					} catch(Exception ex) {
+					} catch(CheckoutBookException ex) {
 						Alert alert = new Alert(Alert.AlertType.WARNING);
 						alert.setTitle("Incorrect information");
 //						alert.setHeaderText("Look, an Information Dialog");
-						alert.setContentText("Member ID or ISBN number incorrect!");
+						alert.setContentText(ex.getMessage());
 						alert.showAndWait();
 					}
 				});

@@ -6,10 +6,7 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import business.Book;
 import business.BookCopy;
@@ -42,6 +39,17 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, LibraryMember>) readFromStorage(
 				StorageType.MEMBERS);
 	}
+
+	@Override
+	public void printMembers() {
+        HashMap<String, LibraryMember> members = readMemberMap();
+
+//        HashSet<String> hashSet = (HashSet<String>) members.keySet();
+        for (String k: members.keySet()) {
+            System.out.println(members.get(k));
+        }
+
+    }
 	
 	
 	@SuppressWarnings("unchecked")
@@ -58,9 +66,35 @@ public class DataAccessFacade implements DataAccess {
     }
 
     @Override
-    public boolean searchMember(String memberID) {
+    public LibraryMember searchMember(String memberID) {
         HashMap<String, LibraryMember> members = readMemberMap();
-        return members.containsKey(memberID);
+        if (members.containsKey(memberID)) {
+            return members.get(memberID);
+        }
+        return null;
+    }
+
+    @Override
+    public Book searchBook(String isbn) {
+        HashMap<String,Book> books = readBooksMap();
+        if (books.containsKey(isbn)) {
+            return books.get(isbn);
+        }
+        return null;
+    }
+
+    @Override
+    public void saveMember(LibraryMember member) {
+        HashMap<String, LibraryMember> members = readMemberMap();
+        members.put(member.getMemberId(), member);
+        saveToStorage(StorageType.MEMBERS, members);
+    }
+
+    @Override
+    public void saveBook(Book book) {
+        HashMap<String, Book> books = readBooksMap();
+        books.put(book.getIsbn(), book);
+        saveToStorage(StorageType.BOOKS, books);
     }
 
 
