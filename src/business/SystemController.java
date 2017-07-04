@@ -52,8 +52,14 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void checkoutBook(String memberID, String isbnNumber) {
+	public void checkoutBook(String memberID, String isbnNumber) throws Exception {
+		DataAccess da = new DataAccessFacade();
 
+		if (!da.searchMember(memberID)) {
+			throw new Exception();
+		}
+
+		System.out.println("Checked out book");
 	}
 
 

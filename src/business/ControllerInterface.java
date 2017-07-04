@@ -11,5 +11,5 @@ public interface ControllerInterface {
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public void addMember(String id, String firstName, String lastName, String street, String city, String state, String zip, String phone);
-	public void checkoutBook(String memberID, String isbnNumber);
+	public void checkoutBook(String memberID, String isbnNumber) throws Exception;
 }

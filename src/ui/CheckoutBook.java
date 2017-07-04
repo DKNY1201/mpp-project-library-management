@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -52,38 +53,35 @@ public class CheckoutBook extends Stage implements LibWindow {
 		TextField isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 2);
 
-
-
-		Button newMemberBtn = new Button("Checkout");
+		Button checkoutBookBtn = new Button("Checkout");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-		hbBtn.getChildren().add(newMemberBtn);
+		hbBtn.getChildren().add(checkoutBookBtn);
 		grid.add(hbBtn, 1, 3);
 
-		newMemberBtn.setOnAction(
+		checkoutBookBtn.setOnAction(
 				(ActionEvent e) -> {
 					try {
 						ControllerInterface c = new SystemController();
-//						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
-//								lastNameTextField.getText(), streetTextField.getText(),
-//								cityTextField.getText(), stateTextField.getText(),
-//								zipTextField.getText(), phoneTextField.getText());
+						c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
 					} catch(Exception ex) {
+						Alert alert = new Alert(Alert.AlertType.WARNING);
+						alert.setTitle("Incorrect information");
+//						alert.setHeaderText("Look, an Information Dialog");
+						alert.setContentText("Member ID or ISBN number incorrect!");
+						alert.showAndWait();
 					}
-
-					System.out.println("New member created!");
 				});
 
 
 
 		Button backBtn = new Button("<= Back to Main");
-        backBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
-        	}
-        });
+        backBtn.setOnAction(
+				(ActionEvent e) -> {
+					Start.hideAllWindows();
+					Start.primStage().show();
+				});
+
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);

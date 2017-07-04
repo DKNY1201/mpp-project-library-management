@@ -147,20 +147,22 @@ public class Start extends Application {
                         NewMemberWindow.INSTANCE.init();
                     }
 
-                    ControllerInterface ci = new SystemController();
-                    List<String> ids = ci.allMemberIds();
-                    Collections.sort(ids);
-                    StringBuilder sb = new StringBuilder();
-                    for (String s : ids) {
-                        sb.append(s + "\n");
+                    NewMemberWindow.INSTANCE.show();
+                });
+
+        MenuItem checkoutBook = new MenuItem("Checkout book");
+        checkoutBook.setOnAction(
+                (ActionEvent e) -> {
+                    hideAllWindows();
+                    if (!CheckoutBook.INSTANCE.isInitialized()) {
+                        CheckoutBook.INSTANCE.init();
                     }
 
-                    NewMemberWindow.INSTANCE.show();
-
+                    CheckoutBook.INSTANCE.show();
                 });
 
 
-        optionsMenu.getItems().addAll(login, bookIds, memberIds, addNewMember);
+        optionsMenu.getItems().addAll(login, bookIds, memberIds, addNewMember, checkoutBook);
 
         mainMenu.getMenus().addAll(optionsMenu);
         Scene scene = new Scene(topContainer, 420, 375);

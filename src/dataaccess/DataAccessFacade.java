@@ -56,9 +56,15 @@ public class DataAccessFacade implements DataAccess {
         members.put(member.getMemberId(), member);
         saveToStorage(StorageType.MEMBERS, members);
     }
-	
-	
-	/////load methods - these place test data into the storage area
+
+    @Override
+    public boolean searchMember(String memberID) {
+        HashMap<String, LibraryMember> members = readMemberMap();
+        return members.containsKey(memberID);
+    }
+
+
+    /////load methods - these place test data into the storage area
 	///// - used just once at startup  
 	//static void loadMemberMap(List<LibraryMember> memberList) {
 		
