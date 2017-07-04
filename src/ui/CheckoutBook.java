@@ -1,7 +1,6 @@
 package ui;
 
 import business.ControllerInterface;
-import business.LoginException;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -19,8 +17,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class NewMemberWindow extends Stage implements LibWindow {
-	public static final NewMemberWindow INSTANCE = new NewMemberWindow();
+public class CheckoutBook extends Stage implements LibWindow {
+	public static final CheckoutBook INSTANCE = new CheckoutBook();
 
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -29,7 +27,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private NewMemberWindow() {}
+	private CheckoutBook() {}
 	
 	public void init() {
 		GridPane grid = new GridPane();
@@ -39,7 +37,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Add new member");
+        Text scenetitle = new Text("Checkout book");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -49,57 +47,31 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		TextField memberIDTextField = new TextField();
 		grid.add(memberIDTextField, 1, 1);
 
-		Label firstNameLabel = new Label("First name");
-		grid.add(firstNameLabel, 0, 2);
-		TextField firstNameTextField = new TextField();
-		grid.add(firstNameTextField, 1, 2);
+		Label isbnLabel = new Label("ISBN number");
+		grid.add(isbnLabel, 0, 2);
+		TextField isbnTextField = new TextField();
+		grid.add(isbnTextField, 1, 2);
 
-		Label lastNameLabel = new Label("Last name");
-		grid.add(lastNameLabel, 0, 3);
-		TextField lastNameTextField = new TextField();
-		grid.add(lastNameTextField, 1, 3);
 
-		Label streetLabel = new Label("Street");
-		grid.add(streetLabel, 0, 4);
-		TextField streetTextField = new TextField();
-		grid.add(streetTextField, 1, 4);
 
-		Label cityLabel = new Label("City");
-		grid.add(cityLabel, 0, 5);
-		TextField cityTextField = new TextField();
-		grid.add(cityTextField, 1, 5);
-
-		Label stateLabel = new Label("State");
-		grid.add(stateLabel, 0, 6);
-		TextField stateTextField = new TextField();
-		grid.add(stateTextField, 1, 6);
-
-		Label zipLabel = new Label("Zip");
-		grid.add(zipLabel, 0, 7);
-		TextField zipTextField = new TextField();
-		grid.add(zipTextField, 1, 7);
-
-		Label phoneLable = new Label("Phone");
-		grid.add(phoneLable, 0, 8);
-		TextField phoneTextField = new TextField();
-		grid.add(phoneTextField, 1, 8);
-
-		Button newMemberBtn = new Button("Create new member");
+		Button newMemberBtn = new Button("Checkout");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(newMemberBtn);
-		grid.add(hbBtn, 1, 9);
+		grid.add(hbBtn, 1, 3);
 
 		newMemberBtn.setOnAction(
 				(ActionEvent e) -> {
 					try {
 						ControllerInterface c = new SystemController();
-						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
-								lastNameTextField.getText(), streetTextField.getText(),
-								cityTextField.getText(), stateTextField.getText(),
-								zipTextField.getText(), phoneTextField.getText());
+//						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
+//								lastNameTextField.getText(), streetTextField.getText(),
+//								cityTextField.getText(), stateTextField.getText(),
+//								zipTextField.getText(), phoneTextField.getText());
 					} catch(Exception ex) {
 					}
+
+					System.out.println("New member created!");
 				});
 
 
@@ -115,7 +87,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
-        grid.add(hBack, 0, 10);
+        grid.add(hBack, 0, 4);
 
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
