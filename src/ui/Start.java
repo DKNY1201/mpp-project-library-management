@@ -11,7 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -133,11 +136,16 @@ public class Start extends Application {
                     LoginWindow.INSTANCE.clear();
                     LoginWindow.INSTANCE.show();
                 }else{
-                	SystemController.currentAuth = Auth.UNAUTHENTICATED;
-                	optionsMenu.getItems().clear();
-                	optionsMenu.getItems().addAll(login);
-                	mainMenu.getMenus().clear();
-                	btnLogin.setText("Login");
+                	Alert alert = new Alert(AlertType.NONE, "Do you want to logout?", ButtonType.YES, ButtonType.NO);
+                	alert.showAndWait();
+
+                	if (alert.getResult() == ButtonType.YES) {
+                		SystemController.currentAuth = Auth.UNAUTHENTICATED;
+                    	optionsMenu.getItems().clear();
+                    	optionsMenu.getItems().addAll(login);
+                    	mainMenu.getMenus().clear();
+                    	btnLogin.setText("Login");
+                	}
                 }
             }
         });
