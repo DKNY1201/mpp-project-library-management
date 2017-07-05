@@ -1,17 +1,13 @@
 package ui;
 
-import business.Address;
 import business.CheckoutRecord;
+import business.CheckoutRecordEntry;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -20,19 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
-import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 public class CheckoutRecordWindow extends Stage implements LibWindow {
 	public static final CheckoutRecordWindow INSTANCE = new CheckoutRecordWindow();
@@ -50,7 +37,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 	private CheckoutRecordWindow() {
 	}
 
-	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
+	private ObservableList<CheckoutRecordEntry> checkoutRecordData = FXCollections.observableArrayList();
 
 	public void init() {
 		GridPane grid = new GridPane();
@@ -64,32 +51,25 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		TableView<LibraryMember> table = new TableView<LibraryMember>();
-		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
-		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("firstName"));
-		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Last Name");
-		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("lastName"));
-		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Telephone");
-		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
-		TableColumn<LibraryMember, CheckoutRecord> checkoutRecordColumn = new TableColumn<LibraryMember, CheckoutRecord>(
-				"Checkout Record");
-		checkoutRecordColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, CheckoutRecord>("checkoutRecord"));
-		table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, checkoutRecordColumn);
+		TableView<CheckoutRecordEntry> table = new TableView<CheckoutRecordEntry>();
+		TableColumn<CheckoutRecordEntry, String> bookCopyColumn = new TableColumn<CheckoutRecordEntry, String>("Book Copy");
+		bookCopyColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("bookCopy"));
+		TableColumn<CheckoutRecordEntry, String> checkoutDateColumn = new TableColumn<CheckoutRecordEntry, String>("Checkout Date");
+		checkoutDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("checkoutDate"));
+		TableColumn<CheckoutRecordEntry, String> dueDateColumn = new TableColumn<CheckoutRecordEntry, String>("Due Date");
+		dueDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("dueDate"));
+		table.getColumns().addAll(bookCopyColumn, checkoutDateColumn, dueDateColumn);
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
 		table.setMinHeight(80);
-		firstNameColumn.setMinWidth(100);
-		lastNameColumn.setMinWidth(100);
-		telephoneColumn.setMinWidth(100);
-		checkoutRecordColumn.setMinWidth(600);
 
 		grid.add(table, 0, 1, 2, 1);
 
 		ControllerInterface c = new SystemController();
-		libMemberData.clear();
-		libMemberData.addAll(c.getAllMembers());
-		table.setItems(libMemberData);
+		checkoutRecordData.clear();
+		checkoutRecordData.addAll(c.getAllCheckoutRecordEntries());
+		table.setItems(checkoutRecordData);
 
 		Button backBtn = new Button("<= Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
@@ -102,16 +82,6 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 0, 2);
 
-//		final VBox vbox = new VBox();
-//		vbox.setSpacing(5);
-//		vbox.setPadding(new Insets(10, 0, 0, 10));
-//		vbox.getChildren().addAll(table, hBack);
-//
-//
-//		Scene scene = new Scene(new Group());
-//		((Group) scene.getRoot()).getChildren().addAll(vbox);
-//		setScene(scene);
-		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);

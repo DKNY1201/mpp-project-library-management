@@ -23,8 +23,16 @@ public class CheckoutRecord implements Serializable {
     public void addEntry(CheckoutRecordEntry checkoutRecordEntry) {
         checkoutRecordEntries.add(checkoutRecordEntry);
     }
+    
+    public List<CheckoutRecordEntry> getCheckoutRecordEntries() {
+		return checkoutRecordEntries;
+	}
 
-    @Override
+	public void setCheckoutRecordEntries(List<CheckoutRecordEntry> checkoutRecordEntries) {
+		this.checkoutRecordEntries = checkoutRecordEntries;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String newLine = System.lineSeparator();

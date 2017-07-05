@@ -15,4 +15,6 @@ public interface ControllerInterface {
 	public void addCopyBook(String isbn) throws AddCopyBookException;
 	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors) throws AddBookException;
 	public List<LibraryMember> getAllMembers();
+	public List<Book> getAllBooks();
+	public List<CheckoutRecordEntry> getAllCheckoutRecordEntries();
 }
