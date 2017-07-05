@@ -54,7 +54,7 @@ final public class BookCopy implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Book title: " + getBook().getTitle() + ", copy number: " + getCopyNum() + ", is available: " + isAvailable();
+		return "title: " + getBook().getTitle() + ", copy number: " + getCopyNum();
 	}
 	
 }
