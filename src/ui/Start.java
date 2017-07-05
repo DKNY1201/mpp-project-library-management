@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -18,6 +19,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,6 +28,7 @@ import javafx.stage.Stage;
 
 
 public class Start extends Application {
+	private static MenuBar mainMenu;
 	private static Menu optionsMenu;
 	private static MenuItem bookIds;
 	private static MenuItem memberIds;
@@ -33,6 +36,7 @@ public class Start extends Application {
 	private static MenuItem checkoutBook;
 	private static MenuItem login;
 	private static MenuItem logout;
+	private static Button btnLogin;
 	
     public static void main(String[] args) {
         launch(args);
@@ -67,20 +71,26 @@ public class Start extends Application {
     public static void updateMenuByAuth(Auth auth){
     	switch (SystemController.currentAuth) {
 		case ADMIN:
+			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, logout);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember);	
+			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 			break;
 		case LIBRARIAN:
+			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, logout);
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook);
+			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 			break;
 		case BOTH:
+			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook, logout);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook);
+			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 		default:
@@ -96,7 +106,7 @@ public class Start extends Application {
 
         VBox topContainer = new VBox();
         topContainer.setId("top-container");
-        MenuBar mainMenu = new MenuBar();
+        mainMenu = new MenuBar();
         VBox imageHolder = new VBox();
         Image image = new Image("ui/library.jpg", 400, 300, false, false);
 
@@ -110,12 +120,37 @@ public class Start extends Application {
         splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
         splashBox.getChildren().add(splashLabel);
         splashBox.setAlignment(Pos.CENTER);
-
-        topContainer.getChildren().add(mainMenu);
+        
+        btnLogin = new Button("Login");
+        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (SystemController.currentAuth == Auth.UNAUTHENTICATED){
+                	hideAllWindows();
+                	if (!LoginWindow.INSTANCE.isInitialized()) {
+                        LoginWindow.INSTANCE.init();
+                    }
+                    LoginWindow.INSTANCE.clear();
+                    LoginWindow.INSTANCE.show();
+                }else{
+                	SystemController.currentAuth = Auth.UNAUTHENTICATED;
+                	optionsMenu.getItems().clear();
+                	optionsMenu.getItems().addAll(login);
+                	mainMenu.getMenus().clear();
+                	btnLogin.setText("Login");
+                }
+            }
+        });
+        
+        HBox hbox = new HBox(mainMenu, btnLogin);
+        HBox.setHgrow(mainMenu, Priority.ALWAYS);
+        HBox.setHgrow(btnLogin, Priority.NEVER);
+        
+        topContainer.getChildren().add(hbox);
         topContainer.getChildren().add(splashBox);
         topContainer.getChildren().add(imageHolder);
-
-        optionsMenu = new Menu("Options");
+        
+        optionsMenu = new Menu("Menu");
         
         login = new MenuItem("Login");
         login.setOnAction(new EventHandler<ActionEvent>() {
@@ -204,8 +239,8 @@ public class Start extends Application {
                     CheckoutBook.INSTANCE.show();
                 });
 
-        optionsMenu.getItems().addAll(login);
-        mainMenu.getMenus().addAll(optionsMenu);
+        //optionsMenu.getItems().addAll(login);
+        //mainMenu.getMenus().addAll(optionsMenu);
         Scene scene = new Scene(topContainer, 420, 375);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
