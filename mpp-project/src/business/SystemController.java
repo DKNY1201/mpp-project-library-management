@@ -3,6 +3,7 @@ package business;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import business.Book;
@@ -13,15 +14,15 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = Auth.UNAUTHENTICATED;
-	
+
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
-		if(!map.containsKey(id)) {
+		if (!map.containsKey(id)) {
 			throw new LoginException("ID " + id + " not found");
 		}
 		String passwordFound = map.get(id).getPassword();
-		if(!passwordFound.equals(password)) {
+		if (!passwordFound.equals(password)) {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
@@ -34,7 +35,7 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
 	}
-	
+
 	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
@@ -42,22 +43,22 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
-	
+
 	@Override
 	public List<Author> getAllAuthors() {
 		DataAccess da = new DataAccessFacade();
 		return da.getAllAuthors();
 	}
-	
-	@Override
-    public LibraryMember searchMember(String memberID) {
-		DataAccess da = new DataAccessFacade();
-        return da.searchMember(memberID);
-    }
 
 	@Override
-	public void addMember(String id, String firstName, String lastName, String street,
-                          String city, String state, String zip, String phone) {
+	public LibraryMember searchMember(String memberID) {
+		DataAccess da = new DataAccessFacade();
+		return da.searchMember(memberID);
+	}
+
+	@Override
+	public void addMember(String id, String firstName, String lastName, String street, String city, String state,
+			String zip, String phone) {
 		Address address = new Address(street, city, state, zip);
 		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
 
@@ -93,24 +94,35 @@ public class SystemController implements ControllerInterface {
 		da.saveBook(book);
 	}
 
-    @Override
-    public void addCopyBook(String isbn) throws AddCopyBookException{
-        DataAccess da = new DataAccessFacade();
-        Book book;
-
-        if ((book = da.searchBook(isbn)) == null) {
-            throw new AddCopyBookException("Book cannot found!");
-        }
-
-        book.addCopy();
-        da.saveBook(book);
-    }
-
-    @Override
-	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)  throws AddBookException{
+	@Override
+	public void addCopyBook(String isbn) throws AddCopyBookException {
 		DataAccess da = new DataAccessFacade();
-        Book book = new Book(isbn, title, maxCheckoutLength, authors);
-        da.saveBook(book);
+		Book book;
+
+		if ((book = da.searchBook(isbn)) == null) {
+			throw new AddCopyBookException("Book cannot found!");
+		}
+
+		book.addCopy();
+		da.saveBook(book);
 	}
-    
+
+	@Override
+	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)
+			throws AddBookException {
+		DataAccess da = new DataAccessFacade();
+		Book book = new Book(isbn, title, maxCheckoutLength, authors);
+		da.saveBook(book);
+	}
+
+	@Override
+	public List<LibraryMember> getAllMembers() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
+		List<LibraryMember> listMembers = new ArrayList<>();
+		for (String key : memberHashMap.keySet()) {
+			listMembers.add(memberHashMap.get(key));
+		}
+		return listMembers;
+	}
 }
