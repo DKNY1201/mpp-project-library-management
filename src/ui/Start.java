@@ -5,6 +5,7 @@ import java.util.List;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +26,14 @@ import javafx.stage.Stage;
 
 
 public class Start extends Application {
+	private static Menu optionsMenu;
+	private static MenuItem bookIds;
+	private static MenuItem memberIds;
+	private static MenuItem addNewMember;
+	private static MenuItem checkoutBook;
+	private static MenuItem login;
+	private static MenuItem logout;
+	
     public static void main(String[] args) {
         launch(args);
     }
@@ -54,6 +63,30 @@ public class Start extends Application {
             st.hide();
         }
     }
+    
+    public static void updateMenuByAuth(Auth auth){
+    	switch (SystemController.currentAuth) {
+		case ADMIN:
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, logout);
+			Start.hideAllWindows();
+			Start.primStage().show();
+			break;
+		case LIBRARIAN:
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, logout);
+			Start.hideAllWindows();
+			Start.primStage().show();
+			break;
+		case BOTH:
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook, logout);
+			Start.hideAllWindows();
+			Start.primStage().show();
+		default:
+			break;
+		}
+    }
 
 
     @Override
@@ -82,9 +115,9 @@ public class Start extends Application {
         topContainer.getChildren().add(splashBox);
         topContainer.getChildren().add(imageHolder);
 
-        Menu optionsMenu = new Menu("Options");
-        MenuItem login = new MenuItem("Login");
-
+        optionsMenu = new Menu("Options");
+        
+        login = new MenuItem("Login");
         login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -96,8 +129,18 @@ public class Start extends Application {
                 LoginWindow.INSTANCE.show();
             }
         });
+        
+        logout = new MenuItem("Logout");
+        logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            	SystemController.currentAuth = Auth.UNAUTHENTICATED;
+            	optionsMenu.getItems().clear();
+            	optionsMenu.getItems().addAll(login);
+            }
+        });
 
-        MenuItem bookIds = new MenuItem("All Book Ids");
+        bookIds = new MenuItem("All Book Ids");
         bookIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -117,7 +160,7 @@ public class Start extends Application {
             }
         });
 
-        MenuItem memberIds = new MenuItem("All Member Ids");
+        memberIds = new MenuItem("All Member Ids");
         memberIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -139,7 +182,7 @@ public class Start extends Application {
             }
         });
 
-        MenuItem addNewMember = new MenuItem("Add new member");
+        addNewMember = new MenuItem("Add new member");
         addNewMember.setOnAction(
                 (ActionEvent e) -> {
                     hideAllWindows();
@@ -150,7 +193,7 @@ public class Start extends Application {
                     NewMemberWindow.INSTANCE.show();
                 });
 
-        MenuItem checkoutBook = new MenuItem("Checkout book");
+        checkoutBook = new MenuItem("Checkout book");
         checkoutBook.setOnAction(
                 (ActionEvent e) -> {
                     hideAllWindows();
@@ -161,9 +204,7 @@ public class Start extends Application {
                     CheckoutBook.INSTANCE.show();
                 });
 
-
-        optionsMenu.getItems().addAll(login, bookIds, memberIds, addNewMember, checkoutBook);
-
+        optionsMenu.getItems().addAll(login);
         mainMenu.getMenus().addAll(optionsMenu);
         Scene scene = new Scene(topContainer, 420, 375);
         primaryStage.setScene(scene);
