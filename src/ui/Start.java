@@ -5,11 +5,16 @@ import java.util.List;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -17,6 +22,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -25,6 +31,16 @@ import javafx.stage.Stage;
 
 
 public class Start extends Application {
+	private static MenuBar mainMenu;
+	private static Menu optionsMenu;
+	private static MenuItem bookIds;
+	private static MenuItem memberIds;
+	private static MenuItem addNewMember;
+	private static MenuItem checkoutBook;
+	private static MenuItem login;
+	private static MenuItem logout;
+	private static Button btnLogin;
+	
     public static void main(String[] args) {
         launch(args);
     }
@@ -54,6 +70,36 @@ public class Start extends Application {
             st.hide();
         }
     }
+    
+    public static void updateMenuByAuth(Auth auth){
+    	switch (SystemController.currentAuth) {
+		case ADMIN:
+			btnLogin.setText("Logout");
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember);	
+			mainMenu.getMenus().addAll(optionsMenu);
+			Start.hideAllWindows();
+			Start.primStage().show();
+			break;
+		case LIBRARIAN:
+			btnLogin.setText("Logout");
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook);
+			mainMenu.getMenus().addAll(optionsMenu);
+			Start.hideAllWindows();
+			Start.primStage().show();
+			break;
+		case BOTH:
+			btnLogin.setText("Logout");
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook);
+			mainMenu.getMenus().addAll(optionsMenu);
+			Start.hideAllWindows();
+			Start.primStage().show();
+		default:
+			break;
+		}
+    }
 
 
     @Override
@@ -63,7 +109,7 @@ public class Start extends Application {
 
         VBox topContainer = new VBox();
         topContainer.setId("top-container");
-        MenuBar mainMenu = new MenuBar();
+        mainMenu = new MenuBar();
         VBox imageHolder = new VBox();
         Image image = new Image("ui/library.jpg", 400, 300, false, false);
 
@@ -77,14 +123,44 @@ public class Start extends Application {
         splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
         splashBox.getChildren().add(splashLabel);
         splashBox.setAlignment(Pos.CENTER);
+        
+        btnLogin = new Button("Login");
+        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (SystemController.currentAuth == Auth.UNAUTHENTICATED){
+                	hideAllWindows();
+                	if (!LoginWindow.INSTANCE.isInitialized()) {
+                        LoginWindow.INSTANCE.init();
+                    }
+                    LoginWindow.INSTANCE.clear();
+                    LoginWindow.INSTANCE.show();
+                }else{
+                	Alert alert = new Alert(AlertType.NONE, "Do you want to logout?", ButtonType.YES, ButtonType.NO);
+                	alert.showAndWait();
 
-        topContainer.getChildren().add(mainMenu);
+                	if (alert.getResult() == ButtonType.YES) {
+                		SystemController.currentAuth = Auth.UNAUTHENTICATED;
+                    	optionsMenu.getItems().clear();
+                    	optionsMenu.getItems().addAll(login);
+                    	mainMenu.getMenus().clear();
+                    	btnLogin.setText("Login");
+                	}
+                }
+            }
+        });
+        
+        HBox hbox = new HBox(mainMenu, btnLogin);
+        HBox.setHgrow(mainMenu, Priority.ALWAYS);
+        HBox.setHgrow(btnLogin, Priority.NEVER);
+        
+        topContainer.getChildren().add(hbox);
         topContainer.getChildren().add(splashBox);
         topContainer.getChildren().add(imageHolder);
-
-        Menu optionsMenu = new Menu("Options");
-        MenuItem login = new MenuItem("Login");
-
+        
+        optionsMenu = new Menu("Menu");
+        
+        login = new MenuItem("Login");
         login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -96,8 +172,18 @@ public class Start extends Application {
                 LoginWindow.INSTANCE.show();
             }
         });
+        
+        logout = new MenuItem("Logout");
+        logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            	SystemController.currentAuth = Auth.UNAUTHENTICATED;
+            	optionsMenu.getItems().clear();
+            	optionsMenu.getItems().addAll(login);
+            }
+        });
 
-        MenuItem bookIds = new MenuItem("All Book Ids");
+        bookIds = new MenuItem("All Book Ids");
         bookIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -117,7 +203,7 @@ public class Start extends Application {
             }
         });
 
-        MenuItem memberIds = new MenuItem("All Member Ids");
+        memberIds = new MenuItem("All Member Ids");
         memberIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -139,7 +225,7 @@ public class Start extends Application {
             }
         });
 
-        MenuItem addNewMember = new MenuItem("Add new member");
+        addNewMember = new MenuItem("Add new member");
         addNewMember.setOnAction(
                 (ActionEvent e) -> {
                     hideAllWindows();
@@ -150,7 +236,7 @@ public class Start extends Application {
                     NewMemberWindow.INSTANCE.show();
                 });
 
-        MenuItem checkoutBook = new MenuItem("Checkout book");
+        checkoutBook = new MenuItem("Checkout book");
         checkoutBook.setOnAction(
                 (ActionEvent e) -> {
                     hideAllWindows();
@@ -161,10 +247,8 @@ public class Start extends Application {
                     CheckoutBook.INSTANCE.show();
                 });
 
-
-        optionsMenu.getItems().addAll(login, bookIds, memberIds, addNewMember, checkoutBook);
-
-        mainMenu.getMenus().addAll(optionsMenu);
+        //optionsMenu.getItems().addAll(login);
+        //mainMenu.getMenus().addAll(optionsMenu);
         Scene scene = new Scene(topContainer, 420, 375);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
