@@ -126,4 +126,26 @@ public class SystemController implements ControllerInterface {
 		return listMembers;
 	}
 
+	@Override
+	public List<Book> getAllBooks() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> bookHashMap = da.readBooksMap();
+		List<Book> listBooks = new ArrayList<>();
+		for (String key: bookHashMap.keySet()) {
+			listBooks.add(bookHashMap.get(key));
+		}
+		return listBooks;
+	}
+
+	@Override
+	public List<CheckoutRecordEntry> getAllCheckoutRecordEntries() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
+		List<CheckoutRecordEntry> listCheckoutRecords = new ArrayList<>();
+		for (String key: memberHashMap.keySet()) {
+			LibraryMember libraryMember = memberHashMap.get(key);
+			listCheckoutRecords.addAll(libraryMember.getCheckoutRecord().getCheckoutRecordEntries());
+		}
+		return listCheckoutRecords;
+	}
 }

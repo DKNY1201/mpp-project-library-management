@@ -191,7 +191,7 @@ public class Start extends Application {
             }
         });
 
-        bookIds = new MenuItem("All Book Ids");
+        bookIds = new MenuItem("All Books");
         bookIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -199,19 +199,11 @@ public class Start extends Application {
                 if (!AllBooksWindow.INSTANCE.isInitialized()) {
                     AllBooksWindow.INSTANCE.init();
                 }
-                ControllerInterface ci = new SystemController();
-                List<String> ids = ci.allBookIds();
-                Collections.sort(ids);
-                StringBuilder sb = new StringBuilder();
-                for (String s : ids) {
-                    sb.append(s + "\n");
-                }
-                AllBooksWindow.INSTANCE.setData(sb.toString());
                 AllBooksWindow.INSTANCE.show();
             }
         });
 
-        memberIds = new MenuItem("All Member Ids");
+        memberIds = new MenuItem("All Members");
         memberIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -219,16 +211,6 @@ public class Start extends Application {
                 if (!AllMembersWindow.INSTANCE.isInitialized()) {
                     AllMembersWindow.INSTANCE.init();
                 }
-                ControllerInterface ci = new SystemController();
-                List<String> ids = ci.allMemberIds();
-                Collections.sort(ids);
-                System.out.println(ids);
-                StringBuilder sb = new StringBuilder();
-                for (String s : ids) {
-                    sb.append(s + "\n");
-                }
-                System.out.println(sb.toString());
-                AllMembersWindow.INSTANCE.setData(sb.toString());
                 AllMembersWindow.INSTANCE.show();
             }
         });
