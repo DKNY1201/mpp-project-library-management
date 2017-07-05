@@ -42,6 +42,18 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+	
+	@Override
+	public List<Author> getAllAuthors() {
+		DataAccess da = new DataAccessFacade();
+		return da.getAllAuthors();
+	}
+	
+	@Override
+    public LibraryMember searchMember(String memberID) {
+		DataAccess da = new DataAccessFacade();
+        return da.searchMember(memberID);
+    }
 
 	@Override
 	public void addMember(String id, String firstName, String lastName, String street,
@@ -100,4 +112,5 @@ public class SystemController implements ControllerInterface {
         Book book = new Book(isbn, title, maxCheckoutLength, authors);
         da.saveBook(book);
 	}
+    
 }

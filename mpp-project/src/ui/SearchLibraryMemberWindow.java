@@ -1,11 +1,9 @@
 package ui;
 
-import business.AddCopyBookException;
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,12 +24,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import ui.CheckoutRecordWindow.Person;
+import ui.rulesets.RuleException;
+import ui.rulesets.RuleSet;
+import ui.rulesets.RuleSetFactory;
 
 public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
-
+	
+	private TextField memberIdTextField;
+	
 	private boolean isInitialized = false;
 
 	public boolean isInitialized() {
@@ -45,6 +47,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	private SearchLibraryMemberWindow() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -59,7 +62,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 
 		Label memberIdLabel = new Label("Member ID");
 		grid.add(memberIdLabel, 0, 2);
-		TextField memberIdTextField = new TextField();
+		memberIdTextField = new TextField();
 		grid.add(memberIdTextField, 1, 2);
 
 		Button searchBtn = new Button("Search");
@@ -90,17 +93,23 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		
 		grid.add(table, 0, 4, 2, 1);
 		
-		DataAccessFacade daf = new DataAccessFacade();
+		ControllerInterface c = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
-				LibraryMember member = daf.searchMember(memberIdTextField.getText());
+				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(SearchLibraryMemberWindow.this);
+				searchLibMemberRules.applyRules(SearchLibraryMemberWindow.this);
+				
+				LibraryMember member = c.searchMember(memberIdTextField.getText());
 				if (member != null) {
 					libMemberData.clear();
 					libMemberData.add(member);
 					table.setItems(libMemberData);					
 				}
-			} catch (Exception ex) {
-
+			} catch (RuleException ex) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Incorrect input data");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
 			}
 		});
 		
@@ -110,7 +119,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 			public void handle(ActionEvent e) {
 				if (libMemberData.size() > 0){
 					LibraryMember libMem = libMemberData.get(0);
-					System.out.println(libMem.getCheckoutRecord());	
+					System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());	
 				}
 			}
 		});
@@ -137,5 +146,9 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		Scene scene = new Scene(grid, 900, 400);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);
+	}
+	
+	public String getMemberId(){
+		return memberIdTextField.getText();
 	}
 }

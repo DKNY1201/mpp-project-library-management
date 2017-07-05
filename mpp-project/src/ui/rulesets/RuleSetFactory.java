@@ -11,6 +11,8 @@ final public class RuleSetFactory {
 	static {
 		map.put(NewMemberWindow.class, new NewMemberRuleSet());
 		map.put(CheckoutBookWindow.class, new CheckoutBookRuleSet());
+		map.put(AddBookWindow.class, new AddBookRuleSet());
+		map.put(SearchLibraryMemberWindow.class, new SearchLibraryMemberRuleSet());
 	}
 	public static RuleSet getRuleSet(Stage c) {
 		Class<? extends Stage> cl = c.getClass();

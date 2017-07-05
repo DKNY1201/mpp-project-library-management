@@ -41,7 +41,17 @@ public class CheckoutRecordEntry implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Book copy: " + getBookCopy() + "\n, checkout date: " + getCheckoutDate() + ", due date: " + getDueDate();
+	public String toString() {
+		String separateLine = String.format("%14s| %11s| %100s\n", "", "", "").replace(' ', '-');
+		String data = String.format("%-14s| %-11s| %s", getCheckoutDate(), getDueDate(),
+				getBookCopy().getBook().getTitle());
+		return separateLine + data;
+	}
+    
+    public String printCheckoutEntry(){
+    	String separateLine = String.format("%14s| %11s| %100s\n", "", "", "").replace(' ', '-');
+		String data = String.format("%-14s| %-11s| %s", getCheckoutDate(), getDueDate(),
+				getBookCopy().getBook().getTitle());
+		return separateLine + data;
     }
 }

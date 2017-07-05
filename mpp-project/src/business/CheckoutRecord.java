@@ -26,17 +26,32 @@ public class CheckoutRecord implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        String newLine = System.lineSeparator();
-        sb.append(newLine);
-        //sb.append("Checkout Record: ");
-        //sb.append(checkoutRecordEntries.size());
-        //sb.append(newLine);
-        sb.append("Checkout Date | Due Date   | Book Title\n");
-        for (CheckoutRecordEntry entry: checkoutRecordEntries) {
-            sb.append(entry.toString());
+    	if (checkoutRecordEntries.size() > 0){
+    		StringBuilder sb = new StringBuilder();
+            String newLine = System.lineSeparator();
             sb.append(newLine);
-        }
-        return sb.toString();
+            sb.append("Checkout Date | Due Date   | Book Title\n");
+            for (CheckoutRecordEntry entry: checkoutRecordEntries) {
+                sb.append(entry.toString());
+                sb.append(newLine);
+            }
+            return sb.toString();
+    	}
+        return "";
+    }
+    
+    public String printCheckoutRecord(){
+    	if (checkoutRecordEntries.size() > 0){
+    		StringBuilder sb = new StringBuilder();
+            String newLine = System.lineSeparator();
+            sb.append(newLine);
+            sb.append("Checkout Date | Due Date   | Book Title\n");
+            for (CheckoutRecordEntry entry: checkoutRecordEntries) {
+                sb.append(entry.printCheckoutEntry());
+                sb.append(newLine);
+            }
+            return sb.toString();
+    	}
+        return "";
     }
 }
