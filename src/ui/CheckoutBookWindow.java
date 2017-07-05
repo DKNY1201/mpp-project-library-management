@@ -4,7 +4,6 @@ import business.CheckoutBookException;
 import business.ControllerInterface;
 import business.SystemController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,8 +18,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CheckoutBook extends Stage implements LibWindow {
-	public static final CheckoutBook INSTANCE = new CheckoutBook();
+public class CheckoutBookWindow extends Stage implements LibWindow {
+	public static final CheckoutBookWindow INSTANCE = new CheckoutBookWindow();
 
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -29,7 +28,7 @@ public class CheckoutBook extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private CheckoutBook() {}
+	private CheckoutBookWindow() {}
 	
 	public void init() {
 		GridPane grid = new GridPane();
@@ -68,7 +67,6 @@ public class CheckoutBook extends Stage implements LibWindow {
 					} catch(CheckoutBookException ex) {
 						Alert alert = new Alert(Alert.AlertType.WARNING);
 						alert.setTitle("Incorrect information");
-//						alert.setHeaderText("Look, an Information Dialog");
 						alert.setContentText(ex.getMessage());
 						alert.showAndWait();
 					}

@@ -59,17 +59,13 @@ public class SystemController implements ControllerInterface {
 		LibraryMember member = null;
 		Book book = null;
 
-		if (da.searchMember(memberID) == null) {
+		if ((member = da.searchMember(memberID)) == null) {
 			throw new CheckoutBookException("Member ID not found!");
 		}
 
-		member = da.searchMember(memberID);
-
-		if (da.searchBook(isbnNumber) == null) {
+		if ((book = da.searchBook(isbnNumber)) == null) {
 			throw new CheckoutBookException("The requested book is not available!");
 		}
-
-		book = da.searchBook(isbnNumber);
 
 		if (!book.isAvailable()) {
 			throw new CheckoutBookException("The requested book is not available!");
@@ -77,15 +73,25 @@ public class SystemController implements ControllerInterface {
 
 		BookCopy bookCopy = book.getNextAvailableCopy();
 		int maxCheckoutLength = book.getMaxCheckoutLength();
-        System.out.println("Max checkout length" + maxCheckoutLength);
 
 		member.checkout(bookCopy, LocalDate.now(), LocalDate.now().plusDays(maxCheckoutLength));
 
 		da.saveMember(member);
 		da.saveBook(book);
-
-        da.printMembers();
 	}
+
+    @Override
+    public void addCopyBook(String isbn) throws AddCopyBookException{
+        DataAccess da = new DataAccessFacade();
+        Book book;
+
+        if ((book = da.searchBook(isbn)) == null) {
+            throw new AddCopyBookException("Book cannot found!");
+        }
+
+        book.addCopy();
+        da.saveBook(book);
+    }
 
 
 }

@@ -36,7 +36,7 @@ final public class LibraryMember extends Person implements Serializable {
 	}
 
 	public void checkout(BookCopy bookCopy, LocalDate checkoutDate, LocalDate dueDate) {
-		bookCopy.setAvailableToFalse();
+        bookCopy.setAvailableToFalse();
 		CheckoutRecordEntry checkoutRecordEntry = CheckoutRecordEntry.createEntry(bookCopy, checkoutDate, dueDate);
 		checkoutRecord.addEntry(checkoutRecordEntry);
 		setCheckoutRecord(checkoutRecord);

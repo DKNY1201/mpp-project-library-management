@@ -37,6 +37,8 @@ public class Start extends Application {
 	private static MenuItem memberIds;
 	private static MenuItem addNewMember;
 	private static MenuItem checkoutBook;
+    private static MenuItem checkoutRecords;
+    private static MenuItem addCopyBook;
 	private static MenuItem login;
 	private static MenuItem logout;
 	private static Button btnLogin;
@@ -61,7 +63,9 @@ public class Start extends Application {
             AllMembersWindow.INSTANCE,
             AllBooksWindow.INSTANCE,
             NewMemberWindow.INSTANCE,
-            CheckoutBook.INSTANCE
+            CheckoutBookWindow.INSTANCE,
+            CheckoutRecordWindow.INSTANCE,
+            AddCopyBookWindow.INSTANCE
     };
 
     public static void hideAllWindows() {
@@ -76,7 +80,7 @@ public class Start extends Application {
 		case ADMIN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember);	
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -84,7 +88,7 @@ public class Start extends Application {
 		case LIBRARIAN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook);
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -92,7 +96,7 @@ public class Start extends Application {
 		case BOTH:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook, checkoutRecords);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -240,11 +244,33 @@ public class Start extends Application {
         checkoutBook.setOnAction(
                 (ActionEvent e) -> {
                     hideAllWindows();
-                    if (!CheckoutBook.INSTANCE.isInitialized()) {
-                        CheckoutBook.INSTANCE.init();
+                    if (!CheckoutBookWindow.INSTANCE.isInitialized()) {
+                        CheckoutBookWindow.INSTANCE.init();
                     }
 
-                    CheckoutBook.INSTANCE.show();
+                    CheckoutBookWindow.INSTANCE.show();
+                });
+
+        checkoutRecords = new MenuItem("Checkout Records");
+        checkoutRecords.setOnAction(
+                (ActionEvent e) -> {
+                    hideAllWindows();
+                    if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
+                        CheckoutRecordWindow.INSTANCE.init();
+                    }
+
+                    CheckoutRecordWindow.INSTANCE.show();
+                });
+
+        addCopyBook = new MenuItem("Add copy book");
+        addCopyBook.setOnAction(
+                (ActionEvent e) -> {
+                    hideAllWindows();
+                    if (!AddCopyBookWindow.INSTANCE.isInitialized()) {
+                        AddCopyBookWindow.INSTANCE.init();
+                    }
+
+                    AddCopyBookWindow.INSTANCE.show();
                 });
 
         //optionsMenu.getItems().addAll(login);

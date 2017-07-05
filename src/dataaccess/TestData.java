@@ -1,6 +1,5 @@
 package dataaccess;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +44,6 @@ public class TestData {
 			add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
 			add(new Book("99-22223", "Thinking Java", 21, Arrays.asList(allAuthors.get(3))));
 			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));
-			
 		}
 	};
 	

@@ -22,7 +22,6 @@ public class CheckoutRecord implements Serializable {
 
     public void addEntry(CheckoutRecordEntry checkoutRecordEntry) {
         checkoutRecordEntries.add(checkoutRecordEntry);
-        System.out.println("Add entry successful");
     }
 
     @Override
