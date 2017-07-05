@@ -31,6 +31,7 @@ public class CheckoutRecord implements Serializable {
         String newLine = System.lineSeparator();
         sb.append(newLine);
         sb.append("Checkout Record: ");
+        sb.append(checkoutRecordEntries.size());
         for (CheckoutRecordEntry entry: checkoutRecordEntries) {
             sb.append(entry.toString());
             sb.append(newLine);

@@ -65,10 +65,6 @@ public class SystemController implements ControllerInterface {
 
 		member = da.searchMember(memberID);
 
-		// Create new LibraryMember because I want to create new Checkout Record for this library member
-		member = new LibraryMember(memberID, member.getFirstName(), member.getLastName(),
-				member.getTelephone(), member.getAddress());
-
 		if (da.searchBook(isbnNumber) == null) {
 			throw new CheckoutBookException("The requested book is not available!");
 		}
@@ -85,14 +81,10 @@ public class SystemController implements ControllerInterface {
 
 		member.checkout(bookCopy, LocalDate.now(), LocalDate.now().plusDays(maxCheckoutLength));
 
-
-
 		da.saveMember(member);
 		da.saveBook(book);
 
         da.printMembers();
-
-		System.out.println("Checked out book");
 	}
 
 

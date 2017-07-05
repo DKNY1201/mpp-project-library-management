@@ -87,15 +87,15 @@ public class TestData {
 
 
 //    @SuppressWarnings("serial")
-    List<CheckoutRecord> allCheckoutRecord = new ArrayList<CheckoutRecord>() {
-        {
-            CheckoutRecord checkoutRecord1 = new CheckoutRecord();
-            BookCopy bookCopy11 = new BookCopy(allBooks.get(0), 4, true);
-            CheckoutRecordEntry checkoutRecordEntry11 = CheckoutRecordEntry.createEntry(bookCopy11, LocalDate.now(), LocalDate.now());
-            checkoutRecord1.addEntry(checkoutRecordEntry11);
-            add(checkoutRecord1);
-        }
-    };
+//    List<CheckoutRecord> allCheckoutRecord = new ArrayList<CheckoutRecord>() {
+//        {
+//            CheckoutRecord checkoutRecord1 = new CheckoutRecord();
+//            BookCopy bookCopy11 = new BookCopy(allBooks.get(0), 4, true);
+//            CheckoutRecordEntry checkoutRecordEntry11 = CheckoutRecordEntry.createEntry(bookCopy11, LocalDate.now(), LocalDate.now());
+//            checkoutRecord1.addEntry(checkoutRecordEntry11);
+//            add(checkoutRecord1);
+//        }
+//    };
 
 	//create library members
 	
@@ -110,8 +110,8 @@ public class TestData {
 		
 		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
 		members.add(libraryMember);
-		CheckoutRecord checkoutRecord = allCheckoutRecord.get(0);
-        libraryMember.setCheckoutRecord(checkoutRecord);
+//		CheckoutRecord checkoutRecord = allCheckoutRecord.get(0);
+//        libraryMember.setCheckoutRecord(checkoutRecord);
 
 		
 		DataAccessFacade.loadMemberMap(members);
