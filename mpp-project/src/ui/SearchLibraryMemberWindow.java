@@ -26,7 +26,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import ui.CheckoutRecordWindow.Person;
 
 public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();

@@ -25,29 +25,32 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 	public static final CheckoutBookWindow INSTANCE = new CheckoutBookWindow();
 
 	private boolean isInitialized = false;
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
+
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private CheckoutBookWindow() {}
 
-    TextField memberIDTextField;
-    TextField isbnTextField;
+	private CheckoutBookWindow() {
+	}
 
-    public void init() {
+	TextField memberIDTextField;
+	TextField isbnTextField;
+
+	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Checkout book");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
-        grid.add(scenetitle, 0, 0, 2, 1);
-
+		Text scenetitle = new Text("Checkout book");
+		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
+		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label memberIDLabel = new Label("Member ID");
 		grid.add(memberIDLabel, 0, 1);
@@ -56,7 +59,7 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 
 		Label isbnLabel = new Label("ISBN number");
 		grid.add(isbnLabel, 0, 2);
-        isbnTextField = new TextField();
+		isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 2);
 
 		Button checkoutBookBtn = new Button("Checkout");
@@ -65,49 +68,54 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		hbBtn.getChildren().add(checkoutBookBtn);
 		grid.add(hbBtn, 1, 3);
 
-		checkoutBookBtn.setOnAction(
-		        (ActionEvent e) -> {
-                    try {
-                        RuleSet checkoutBookRules = RuleSetFactory.getRuleSet(CheckoutBookWindow.this);
-                        checkoutBookRules.applyRules(CheckoutBookWindow.this);
+		checkoutBookBtn.setOnAction((ActionEvent e) -> {
+			try {
+				RuleSet checkoutBookRules = RuleSetFactory.getRuleSet(CheckoutBookWindow.this);
+				checkoutBookRules.applyRules(CheckoutBookWindow.this);
 
-                        ControllerInterface c = new SystemController();
-                        c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
-                    } catch (CheckoutBookException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Database issue");
-                        alert.setContentText(ex.getMessage());
-                        alert.showAndWait();
-                    } catch (RuleException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Incorrect input data");
-                        alert.setContentText(ex.getMessage());
-                        alert.showAndWait();
-                    }
-                });
+				ControllerInterface c = new SystemController();
+				c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
+
+				Start.hideAllWindows();
+				if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
+					CheckoutRecordWindow.INSTANCE.init();
+				}
+
+				CheckoutRecordWindow.INSTANCE.show();
+			} catch (CheckoutBookException ex) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Database issue");
+				alert.setContentText(ex.getMessage());
+				alert.showAndWait();
+			} catch (RuleException ex) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Incorrect input data");
+				alert.setContentText(ex.getMessage());
+				alert.showAndWait();
+			}
+		});
 
 		Button backBtn = new Button("<= Back to Main");
-        backBtn.setOnAction(
-				(ActionEvent e) -> {
-					Start.hideAllWindows();
-					Start.primStage().show();
-				});
+		backBtn.setOnAction((ActionEvent e) -> {
+			Start.hideAllWindows();
+			Start.primStage().show();
+		});
 
-        HBox hBack = new HBox(10);
-        hBack.setAlignment(Pos.BOTTOM_LEFT);
-        hBack.getChildren().add(backBtn);
-        grid.add(hBack, 0, 4);
+		HBox hBack = new HBox(10);
+		hBack.setAlignment(Pos.BOTTOM_LEFT);
+		hBack.getChildren().add(backBtn);
+		grid.add(hBack, 0, 4);
 
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-        setScene(scene);
+		setScene(scene);
 	}
 
 	public String getMemberIDValue() {
-        return this.memberIDTextField.getText();
-    }
+		return this.memberIDTextField.getText();
+	}
 
-    public String getIsbnValue() {
-        return this.isbnTextField.getText();
-    }
+	public String getIsbnValue() {
+		return this.isbnTextField.getText();
+	}
 }

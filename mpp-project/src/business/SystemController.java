@@ -3,6 +3,7 @@ package business;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import business.Book;
@@ -99,5 +100,16 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
         Book book = new Book(isbn, title, maxCheckoutLength, authors);
         da.saveBook(book);
+	}
+
+	@Override
+	public List<LibraryMember> getAllMembers() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
+		List<LibraryMember> listMembers = new ArrayList<>();
+		for (String key: memberHashMap.keySet()) {
+			listMembers.add(memberHashMap.get(key));
+		}
+		return listMembers;
 	}
 }

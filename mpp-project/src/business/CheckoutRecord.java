@@ -28,14 +28,14 @@ public class CheckoutRecord implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String newLine = System.lineSeparator();
-        sb.append(newLine);
-        //sb.append("Checkout Record: ");
-        //sb.append(checkoutRecordEntries.size());
-        //sb.append(newLine);
-        sb.append("Checkout Date | Due Date   | Book Title\n");
-        for (CheckoutRecordEntry entry: checkoutRecordEntries) {
-            sb.append(entry.toString());
+        int size = checkoutRecordEntries.size();
+        for (int i = 0; i < size; i++) {
+        	sb.append(checkoutRecordEntries.get(i));
             sb.append(newLine);
+            if (i != size - 1) {
+	            sb.append("----------------------------------------------------");
+	            sb.append(newLine);
+            }
         }
         return sb.toString();
     }
