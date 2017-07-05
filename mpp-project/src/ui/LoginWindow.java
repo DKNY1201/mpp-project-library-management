@@ -3,7 +3,6 @@ package ui;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
-import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
