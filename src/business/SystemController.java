@@ -44,7 +44,8 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void addMember(String id, String firstName, String lastName, String street, String city, String state, String zip, String phone) {
+	public void addMember(String id, String firstName, String lastName, String street,
+                          String city, String state, String zip, String phone) {
 		Address address = new Address(street, city, state, zip);
 		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
 

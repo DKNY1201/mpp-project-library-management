@@ -102,7 +102,6 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		newMemberBtn.setOnAction(
 				(ActionEvent e) -> {
 					try {
-
 						RuleSet newMemberRules = RuleSetFactory.getRuleSet(NewMemberWindow.this);
 						newMemberRules.applyRules(NewMemberWindow.this);
 
@@ -112,14 +111,12 @@ public class NewMemberWindow extends Stage implements LibWindow {
 								cityTextField.getText(), stateTextField.getText(),
 								zipTextField.getText(), phoneTextField.getText());
 					} catch(RuleException ex) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Incorrect information");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Incorrect input data");
                         alert.setContentText(ex.getMessage());
                         alert.showAndWait();
 					}
 				});
-
-
 
 		Button backBtn = new Button("<= Back to Main");
         backBtn.setOnAction(

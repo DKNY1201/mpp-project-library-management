@@ -23,24 +23,23 @@ final public class NewMemberRuleSet implements RuleSet {
 		String phone = newMemberWindow.getPhoneValue();
 
 		nonEmptyRule(memberID, firstName, lastName, street, city, state, zip, phone);
-//		numericRule(id);
-//		zipRule(zip);
-//		stateRule(state);
-//		idZipRule(id, zip);
+        phoneRule(phone);
+		zipRule(zip);
+		stateRule(state);
 	}
 
-	private void numericRule(String numericString) throws RuleException {
+	private void phoneRule(String numericString) throws RuleException {
 		try {
 			Integer.parseInt(numericString);
 		} catch (NumberFormatException e) {
-			throw new RuleException("ID field must be numeric.");
+			throw new RuleException("Phone field must be numeric.");
 		}
 	}
 
 	private void nonEmptyRule(String memberID, String firstName, String lastName, String street,
 							  String city, String state, String zip, String phone) throws RuleException {
-		if (memberID.equals("") || firstName.equals("") || lastName.equals("") || street.equals("")
-				|| city.equals("") || state.equals("") || zip.equals("") || phone.equals("")) {
+		if (memberID.trim().equals("") || firstName.trim().equals("") || lastName.trim().equals("") || street.trim().equals("")
+				|| city.trim().equals("") || state.trim().equals("") || zip.trim().equals("") || phone.trim().equals("")) {
 			throw new RuleException("All fields must be nonempty.");
 		}
 	}
@@ -62,10 +61,4 @@ final public class NewMemberRuleSet implements RuleSet {
 		}
 	}
 	
-	private void idZipRule(String id, String zip) throws RuleException {
-		if (id.equals(zip)) {
-			throw new RuleException("ID field may not equal zip field.");
-		}
-	}
-
 }

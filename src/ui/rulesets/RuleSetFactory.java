@@ -10,7 +10,7 @@ final public class RuleSetFactory {
 	static HashMap<Class<? extends Stage>, RuleSet> map = new HashMap<>();
 	static {
 		map.put(NewMemberWindow.class, new NewMemberRuleSet());
-//		map.put(ProfileWindow.class, new CustomerProfileRuleSet());
+		map.put(CheckoutBookWindow.class, new CheckoutBookRuleSet());
 	}
 	public static RuleSet getRuleSet(Stage c) {
 		Class<? extends Stage> cl = c.getClass();

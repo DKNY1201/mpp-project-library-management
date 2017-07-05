@@ -17,6 +17,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ui.rulesets.RuleException;
+import ui.rulesets.RuleSet;
+import ui.rulesets.RuleSetFactory;
 
 public class CheckoutBookWindow extends Stage implements LibWindow {
 	public static final CheckoutBookWindow INSTANCE = new CheckoutBookWindow();
@@ -29,8 +32,11 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 	private CheckoutBookWindow() {}
-	
-	public void init() {
+
+    TextField memberIDTextField;
+    TextField isbnTextField;
+
+    public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
@@ -45,12 +51,12 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 
 		Label memberIDLabel = new Label("Member ID");
 		grid.add(memberIDLabel, 0, 1);
-		TextField memberIDTextField = new TextField();
+		memberIDTextField = new TextField();
 		grid.add(memberIDTextField, 1, 1);
 
 		Label isbnLabel = new Label("ISBN number");
 		grid.add(isbnLabel, 0, 2);
-		TextField isbnTextField = new TextField();
+        isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 2);
 
 		Button checkoutBookBtn = new Button("Checkout");
@@ -62,17 +68,23 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		checkoutBookBtn.setOnAction(
 		        (ActionEvent e) -> {
                     try {
+                        RuleSet checkoutBookRules = RuleSetFactory.getRuleSet(CheckoutBookWindow.this);
+                        checkoutBookRules.applyRules(CheckoutBookWindow.this);
+
                         ControllerInterface c = new SystemController();
                         c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
                     } catch (CheckoutBookException ex) {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Incorrect information");
+                        alert.setTitle("Database issue");
+                        alert.setContentText(ex.getMessage());
+                        alert.showAndWait();
+                    } catch (RuleException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Incorrect input data");
                         alert.setContentText(ex.getMessage());
                         alert.showAndWait();
                     }
                 });
-
-
 
 		Button backBtn = new Button("<= Back to Main");
         backBtn.setOnAction(
@@ -90,4 +102,12 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}
+
+	public String getMemberIDValue() {
+        return this.memberIDTextField.getText();
+    }
+
+    public String getIsbnValue() {
+        return this.isbnTextField.getText();
+    }
 }

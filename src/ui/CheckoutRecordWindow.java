@@ -121,13 +121,11 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
 
 		Button backBtn = new Button("<= Back to Main");
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
-		});
+        backBtn.setOnAction(
+                (ActionEvent e) -> {
+                    Start.hideAllWindows();
+                    Start.primStage().show();
+                });
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
