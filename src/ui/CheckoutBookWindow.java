@@ -60,17 +60,17 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		grid.add(hbBtn, 1, 3);
 
 		checkoutBookBtn.setOnAction(
-				(ActionEvent e) -> {
-					try {
-						ControllerInterface c = new SystemController();
-						c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
-					} catch(CheckoutBookException ex) {
-						Alert alert = new Alert(Alert.AlertType.WARNING);
-						alert.setTitle("Incorrect information");
-						alert.setContentText(ex.getMessage());
-						alert.showAndWait();
-					}
-				});
+		        (ActionEvent e) -> {
+                    try {
+                        ControllerInterface c = new SystemController();
+                        c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
+                    } catch (CheckoutBookException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Incorrect information");
+                        alert.setContentText(ex.getMessage());
+                        alert.showAndWait();
+                    }
+                });
 
 
 

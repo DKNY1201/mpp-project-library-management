@@ -8,16 +8,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ui.rulesets.RuleException;
+import ui.rulesets.RuleSet;
+import ui.rulesets.RuleSetFactory;
 
 public class NewMemberWindow extends Stage implements LibWindow {
 	public static final NewMemberWindow INSTANCE = new NewMemberWindow();
@@ -30,7 +30,16 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 	private NewMemberWindow() {}
-	
+
+	TextField memberIDTextField;
+	TextField firstNameTextField;
+	TextField lastNameTextField;
+	TextField streetTextField;
+	TextField cityTextField;
+	TextField stateTextField;
+	TextField zipTextField;
+	TextField phoneTextField;
+
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -46,42 +55,42 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
 		Label memberIDLabel = new Label("Member ID");
 		grid.add(memberIDLabel, 0, 1);
-		TextField memberIDTextField = new TextField();
+		memberIDTextField = new TextField();
 		grid.add(memberIDTextField, 1, 1);
 
 		Label firstNameLabel = new Label("First name");
 		grid.add(firstNameLabel, 0, 2);
-		TextField firstNameTextField = new TextField();
+		firstNameTextField = new TextField();
 		grid.add(firstNameTextField, 1, 2);
 
 		Label lastNameLabel = new Label("Last name");
 		grid.add(lastNameLabel, 0, 3);
-		TextField lastNameTextField = new TextField();
+		lastNameTextField = new TextField();
 		grid.add(lastNameTextField, 1, 3);
 
 		Label streetLabel = new Label("Street");
 		grid.add(streetLabel, 0, 4);
-		TextField streetTextField = new TextField();
+		streetTextField = new TextField();
 		grid.add(streetTextField, 1, 4);
 
 		Label cityLabel = new Label("City");
 		grid.add(cityLabel, 0, 5);
-		TextField cityTextField = new TextField();
+		cityTextField = new TextField();
 		grid.add(cityTextField, 1, 5);
 
 		Label stateLabel = new Label("State");
 		grid.add(stateLabel, 0, 6);
-		TextField stateTextField = new TextField();
+		stateTextField = new TextField();
 		grid.add(stateTextField, 1, 6);
 
 		Label zipLabel = new Label("Zip");
 		grid.add(zipLabel, 0, 7);
-		TextField zipTextField = new TextField();
+		zipTextField = new TextField();
 		grid.add(zipTextField, 1, 7);
 
 		Label phoneLable = new Label("Phone");
 		grid.add(phoneLable, 0, 8);
-		TextField phoneTextField = new TextField();
+		phoneTextField = new TextField();
 		grid.add(phoneTextField, 1, 8);
 
 		Button newMemberBtn = new Button("Create new member");
@@ -93,25 +102,32 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		newMemberBtn.setOnAction(
 				(ActionEvent e) -> {
 					try {
+
+						RuleSet newMemberRules = RuleSetFactory.getRuleSet(NewMemberWindow.this);
+						newMemberRules.applyRules(NewMemberWindow.this);
+
 						ControllerInterface c = new SystemController();
 						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
 								lastNameTextField.getText(), streetTextField.getText(),
 								cityTextField.getText(), stateTextField.getText(),
 								zipTextField.getText(), phoneTextField.getText());
-					} catch(Exception ex) {
+					} catch(RuleException ex) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Incorrect information");
+                        alert.setContentText(ex.getMessage());
+                        alert.showAndWait();
 					}
 				});
 
 
 
 		Button backBtn = new Button("<= Back to Main");
-        backBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
-        	}
-        });
+        backBtn.setOnAction(
+				(ActionEvent e) -> {
+					Start.hideAllWindows();
+					Start.primStage().show();
+				});
+
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
@@ -120,5 +136,37 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
+	}
+
+	public String getMemberIDValue() {
+		return memberIDTextField.getText();
+	}
+
+	public String getFirstNameValue() {
+		return memberIDTextField.getText();
+	}
+
+	public String getLastNameValue() {
+		return lastNameTextField.getText();
+	}
+
+	public String getStreetValue() {
+		return streetTextField.getText();
+	}
+
+	public String getCityValue() {
+		return cityTextField.getText();
+	}
+
+	public String getStateValue() {
+		return stateTextField.getText();
+	}
+
+	public String getZipValue() {
+		return zipTextField.getText();
+	}
+
+	public String getPhoneValue() {
+		return phoneTextField.getText();
 	}
 }
