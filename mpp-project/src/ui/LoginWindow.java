@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 
 public class LoginWindow extends Stage implements LibWindow {
 	public static final LoginWindow INSTANCE = new LoginWindow();
-	public static Auth currentAuth = null;
 
 	private boolean isInitialized = false;
 
@@ -38,6 +37,7 @@ public class LoginWindow extends Stage implements LibWindow {
 
 	public void clear() {
 		messageBar.setText("");
+		
 	}
 
 	private LoginWindow() {
@@ -52,7 +52,7 @@ public class LoginWindow extends Stage implements LibWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Login");
+		Text scenetitle = new Text("Library System");
 		// setting id for CSS styling
 		scenetitle.setId("login-text");
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -99,20 +99,6 @@ public class LoginWindow extends Stage implements LibWindow {
 				}
 			}
 		});
-
-		Button backBtn = new Button("<= Back to Main");
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.updateMenuByAuth(SystemController.currentAuth);
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
-		});
-		HBox hBack = new HBox(10);
-		hBack.setAlignment(Pos.BOTTOM_LEFT);
-		hBack.getChildren().add(backBtn);
-		grid.add(hBack, 0, 7);
 
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
