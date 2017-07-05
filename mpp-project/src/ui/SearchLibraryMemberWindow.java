@@ -1,11 +1,9 @@
 package ui;
 
-import business.AddCopyBookException;
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,6 +46,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	private SearchLibraryMemberWindow() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");

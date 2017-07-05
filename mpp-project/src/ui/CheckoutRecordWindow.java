@@ -1,9 +1,7 @@
 package ui;
 
-import business.CheckoutRecord;
 import business.CheckoutRecordEntry;
 import business.ControllerInterface;
-import business.LibraryMember;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -39,6 +37,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 
 	private ObservableList<CheckoutRecordEntry> checkoutRecordData = FXCollections.observableArrayList();
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");

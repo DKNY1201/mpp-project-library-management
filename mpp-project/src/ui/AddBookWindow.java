@@ -180,6 +180,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 	}
 	
 	public Boolean hasSelectedAuthor(){
-		return !selectedAuthors.isEmpty();
+		//if (selectedAuthors == null) return false;
+		return false;
 	}
 }
