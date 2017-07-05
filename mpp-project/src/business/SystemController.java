@@ -94,5 +94,10 @@ public class SystemController implements ControllerInterface {
         da.saveBook(book);
     }
 
-
+    @Override
+	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)  throws AddBookException{
+		DataAccess da = new DataAccessFacade();
+        Book book = new Book(isbn, title, maxCheckoutLength, authors);
+        da.saveBook(book);
+	}
 }

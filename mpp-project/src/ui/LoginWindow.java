@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -113,9 +115,18 @@ public class LoginWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 7);
 
 		Scene scene = new Scene(grid);
-		setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    public void handle(KeyEvent ke) {
+		        if (ke.getCode() == KeyCode.ENTER) {
+		        	btn.fire();
+		        	ke.consume();
+		        }
+		    }
+		});
 
-		scene.getStylesheets().add(getClass().getResource("Login.css").toExternalForm());
+		setScene(scene);
 		show();
 	}
 
