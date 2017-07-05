@@ -39,6 +39,8 @@ public class Start extends Application {
 	private static MenuItem checkoutBook;
     private static MenuItem checkoutRecords;
     private static MenuItem addCopyBook;
+    private static MenuItem addNewBook;
+    private static MenuItem searchLibraryMember;
 	private static MenuItem login;
 	private static MenuItem logout;
 	private static Button btnLogin;
@@ -65,7 +67,9 @@ public class Start extends Application {
             NewMemberWindow.INSTANCE,
             CheckoutBookWindow.INSTANCE,
             CheckoutRecordWindow.INSTANCE,
-            AddCopyBookWindow.INSTANCE
+            AddCopyBookWindow.INSTANCE,
+            AddBookWindow.INSTANCE,
+            SearchLibraryMemberWindow.INSTANCE
     };
 
     public static void hideAllWindows() {
@@ -80,7 +84,7 @@ public class Start extends Application {
 		case ADMIN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -88,7 +92,7 @@ public class Start extends Application {
 		case LIBRARIAN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords);
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords, searchLibraryMember);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -96,7 +100,7 @@ public class Start extends Application {
 		case BOTH:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, checkoutBook, checkoutRecords, addCopyBook);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook, checkoutBook, checkoutRecords, searchLibraryMember);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -109,7 +113,7 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) {
         primStage = primaryStage;
-        primaryStage.setTitle("Main Page");
+        primaryStage.setTitle("Library System");
 
         VBox topContainer = new VBox();
         topContainer.setId("top-container");
@@ -273,8 +277,28 @@ public class Start extends Application {
                     AddCopyBookWindow.INSTANCE.show();
                 });
 
-        //optionsMenu.getItems().addAll(login);
-        //mainMenu.getMenus().addAll(optionsMenu);
+        addNewBook = new MenuItem("Add new book");
+        addNewBook.setOnAction(
+                (ActionEvent e) -> {
+                    hideAllWindows();
+                    if (!AddBookWindow.INSTANCE.isInitialized()) {
+                    	AddBookWindow.INSTANCE.init();
+                    }
+
+                    AddBookWindow.INSTANCE.show();
+                });
+        
+        searchLibraryMember = new MenuItem("Search Library Member");
+        searchLibraryMember.setOnAction(
+                (ActionEvent e) -> {
+                    hideAllWindows();
+                    if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
+                    	SearchLibraryMemberWindow.INSTANCE.init();
+                    }
+
+                    SearchLibraryMemberWindow.INSTANCE.show();
+                });
+        
         Scene scene = new Scene(topContainer, 420, 375);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
