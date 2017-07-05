@@ -11,7 +11,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -146,12 +145,9 @@ public class AddBookWindow extends Stage implements LibWindow {
 		});
 
 		Button backBtn = new Button("<= Back to Main");
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
+		backBtn.setOnAction((ActionEvent e) -> {
+			Start.hideAllWindows();
+			Start.primStage().show();
 		});
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);

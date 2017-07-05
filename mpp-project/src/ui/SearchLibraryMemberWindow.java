@@ -7,7 +7,6 @@ import business.SystemController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -113,13 +112,10 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		});
 
 		Button printCheckoutRecord = new Button("Print Checkout Record");
-		printCheckoutRecord.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if (libMemberData.size() > 0) {
-					LibraryMember libMem = libMemberData.get(0);
-					System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
-				}
+		printCheckoutRecord.setOnAction((ActionEvent e) -> {
+			if (libMemberData.size() > 0) {
+				LibraryMember libMem = libMemberData.get(0);
+				System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
 			}
 		});
 
@@ -129,12 +125,9 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		grid.add(hPrint, 0, 7, 2, 1);
 
 		Button backBtn = new Button("<= Back to Main");
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
+		backBtn.setOnAction((ActionEvent e) ->  {
+			Start.hideAllWindows();
+			Start.primStage().show();
 		});
 
 		HBox hBack = new HBox(10);

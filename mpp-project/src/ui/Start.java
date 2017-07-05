@@ -4,7 +4,6 @@ import business.SystemController;
 import dataaccess.Auth;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,7 +24,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-
 public class Start extends Application {
 	private static MenuBar mainMenu;
 	private static Menu optionsMenu;
@@ -33,50 +31,42 @@ public class Start extends Application {
 	private static MenuItem memberIds;
 	private static MenuItem addNewMember;
 	private static MenuItem checkoutBook;
-    private static MenuItem checkoutRecords;
-    private static MenuItem addCopyBook;
-    private static MenuItem addNewBook;
-    private static MenuItem searchLibraryMember;
+	private static MenuItem checkoutRecords;
+	private static MenuItem addCopyBook;
+	private static MenuItem addNewBook;
+	private static MenuItem searchLibraryMember;
 	private static MenuItem login;
 	private static MenuItem logout;
 	private static Button btnLogin;
-	
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    private static Stage primStage = null;
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    public static Stage primStage() {
-        return primStage;
-    }
+	private static Stage primStage = null;
 
-    public static class Colors {
-        static Color green = Color.web("#034220");
-        static Color red = Color.FIREBRICK;
-    }
+	public static Stage primStage() {
+		return primStage;
+	}
 
-    private static Stage[] allWindows = {
-            LoginWindow.INSTANCE,
-            AllMembersWindow.INSTANCE,
-            AllBooksWindow.INSTANCE,
-            NewMemberWindow.INSTANCE,
-            CheckoutBookWindow.INSTANCE,
-            CheckoutRecordWindow.INSTANCE,
-            AddCopyBookWindow.INSTANCE,
-            AddBookWindow.INSTANCE,
-            SearchLibraryMemberWindow.INSTANCE
-    };
+	public static class Colors {
+		static Color green = Color.web("#034220");
+		static Color red = Color.FIREBRICK;
+	}
 
-    public static void hideAllWindows() {
-        primStage.hide();
-        for (Stage st : allWindows) {
-            st.hide();
-        }
-    }
-    
-    public static void updateMenuByAuth(Auth auth){
-    	switch (SystemController.currentAuth) {
+	private static Stage[] allWindows = { LoginWindow.INSTANCE, AllMembersWindow.INSTANCE, AllBooksWindow.INSTANCE,
+			NewMemberWindow.INSTANCE, CheckoutBookWindow.INSTANCE, CheckoutRecordWindow.INSTANCE,
+			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE };
+
+	public static void hideAllWindows() {
+		primStage.hide();
+		for (Stage st : allWindows) {
+			st.hide();
+		}
+	}
+
+	public static void updateMenuByAuth(Auth auth) {
+		switch (SystemController.currentAuth) {
 		case ADMIN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
@@ -96,191 +86,170 @@ public class Start extends Application {
 		case BOTH:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook, checkoutBook, checkoutRecords, searchLibraryMember);
+			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook, checkoutBook,
+					checkoutRecords, searchLibraryMember);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 		default:
 			break;
 		}
-    }
+	}
 
+	@Override
+	public void start(Stage primaryStage) {
+		primStage = primaryStage;
+		primaryStage.setTitle("Library System");
 
-    @Override
-    public void start(Stage primaryStage) {
-        primStage = primaryStage;
-        primaryStage.setTitle("Library System");
+		VBox topContainer = new VBox();
+		topContainer.setId("top-container");
+		mainMenu = new MenuBar();
+		VBox imageHolder = new VBox();
+		Image image = new Image("ui/library.jpg", 400, 300, false, false);
 
-        VBox topContainer = new VBox();
-        topContainer.setId("top-container");
-        mainMenu = new MenuBar();
-        VBox imageHolder = new VBox();
-        Image image = new Image("ui/library.jpg", 400, 300, false, false);
+		// simply displays in ImageView the image as is
+		ImageView iv = new ImageView();
+		iv.setImage(image);
+		imageHolder.getChildren().add(iv);
+		imageHolder.setAlignment(Pos.CENTER);
+		HBox splashBox = new HBox();
+		Label splashLabel = new Label("The Library System");
+		splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
+		splashBox.getChildren().add(splashLabel);
+		splashBox.setAlignment(Pos.CENTER);
 
-        // simply displays in ImageView the image as is
-        ImageView iv = new ImageView();
-        iv.setImage(image);
-        imageHolder.getChildren().add(iv);
-        imageHolder.setAlignment(Pos.CENTER);
-        HBox splashBox = new HBox();
-        Label splashLabel = new Label("The Library System");
-        splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
-        splashBox.getChildren().add(splashLabel);
-        splashBox.setAlignment(Pos.CENTER);
-        
-        btnLogin = new Button("Login");
-        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if (SystemController.currentAuth == Auth.UNAUTHENTICATED){
-                	hideAllWindows();
-                	if (!LoginWindow.INSTANCE.isInitialized()) {
-                        LoginWindow.INSTANCE.init();
-                    }
-                    LoginWindow.INSTANCE.clear();
-                    LoginWindow.INSTANCE.show();
-                }else{
-                	Alert alert = new Alert(AlertType.NONE, "Do you want to logout?", ButtonType.YES, ButtonType.NO);
-                	alert.showAndWait();
+		btnLogin = new Button("Login");
+		btnLogin.setOnAction((ActionEvent e) -> {
+			if (SystemController.currentAuth == Auth.UNAUTHENTICATED) {
+				hideAllWindows();
+				if (!LoginWindow.INSTANCE.isInitialized()) {
+					LoginWindow.INSTANCE.init();
+				}
+				LoginWindow.INSTANCE.clear();
+				LoginWindow.INSTANCE.show();
+			} else {
+				Alert alert = new Alert(AlertType.NONE, "Do you want to logout?", ButtonType.YES, ButtonType.NO);
+				alert.showAndWait();
 
-                	if (alert.getResult() == ButtonType.YES) {
-                		SystemController.currentAuth = Auth.UNAUTHENTICATED;
-                    	optionsMenu.getItems().clear();
-                    	optionsMenu.getItems().addAll(login);
-                    	mainMenu.getMenus().clear();
-                    	btnLogin.setText("Login");
-                	}
-                }
-            }
-        });
-        
-        HBox hbox = new HBox(mainMenu, btnLogin);
-        HBox.setHgrow(mainMenu, Priority.ALWAYS);
-        HBox.setHgrow(btnLogin, Priority.NEVER);
-        
-        topContainer.getChildren().add(hbox);
-        topContainer.getChildren().add(splashBox);
-        topContainer.getChildren().add(imageHolder);
-        
-        optionsMenu = new Menu("Menu");
-        
-        login = new MenuItem("Login");
-        login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                hideAllWindows();
-                if (!LoginWindow.INSTANCE.isInitialized()) {
-                    LoginWindow.INSTANCE.init();
-                }
-                LoginWindow.INSTANCE.clear();
-                LoginWindow.INSTANCE.show();
-            }
-        });
-        
-        logout = new MenuItem("Logout");
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-            	SystemController.currentAuth = Auth.UNAUTHENTICATED;
-            	optionsMenu.getItems().clear();
-            	optionsMenu.getItems().addAll(login);
-            }
-        });
+				if (alert.getResult() == ButtonType.YES) {
+					SystemController.currentAuth = Auth.UNAUTHENTICATED;
+					optionsMenu.getItems().clear();
+					optionsMenu.getItems().addAll(login);
+					mainMenu.getMenus().clear();
+					btnLogin.setText("Login");
+				}
+			}
+		});
 
-        bookIds = new MenuItem("All Books");
-        bookIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                hideAllWindows();
-                if (!AllBooksWindow.INSTANCE.isInitialized()) {
-                    AllBooksWindow.INSTANCE.init();
-                }
-                AllBooksWindow.INSTANCE.show();
-            }
-        });
+		HBox hbox = new HBox(mainMenu, btnLogin);
+		HBox.setHgrow(mainMenu, Priority.ALWAYS);
+		HBox.setHgrow(btnLogin, Priority.NEVER);
 
-        memberIds = new MenuItem("All Members");
-        memberIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                hideAllWindows();
-                if (!AllMembersWindow.INSTANCE.isInitialized()) {
-                    AllMembersWindow.INSTANCE.init();
-                }
-                AllMembersWindow.INSTANCE.show();
-            }
-        });
+		topContainer.getChildren().add(hbox);
+		topContainer.getChildren().add(splashBox);
+		topContainer.getChildren().add(imageHolder);
 
-        addNewMember = new MenuItem("Add new member");
-        addNewMember.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!NewMemberWindow.INSTANCE.isInitialized()) {
-                        NewMemberWindow.INSTANCE.init();
-                    }
+		optionsMenu = new Menu("Menu");
 
-                    NewMemberWindow.INSTANCE.show();
-                });
+		login = new MenuItem("Login");
+		login.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!LoginWindow.INSTANCE.isInitialized()) {
+				LoginWindow.INSTANCE.init();
+			}
+			LoginWindow.INSTANCE.clear();
+			LoginWindow.INSTANCE.show();
+		});
 
-        checkoutBook = new MenuItem("Checkout book");
-        checkoutBook.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!CheckoutBookWindow.INSTANCE.isInitialized()) {
-                        CheckoutBookWindow.INSTANCE.init();
-                    }
+		logout = new MenuItem("Logout");
+		logout.setOnAction((ActionEvent e) -> {
+			SystemController.currentAuth = Auth.UNAUTHENTICATED;
+			optionsMenu.getItems().clear();
+			optionsMenu.getItems().addAll(login);
+		});
 
-                    CheckoutBookWindow.INSTANCE.show();
-                });
+		bookIds = new MenuItem("All Books");
+		bookIds.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!AllBooksWindow.INSTANCE.isInitialized()) {
+				AllBooksWindow.INSTANCE.init();
+			}
+			AllBooksWindow.INSTANCE.show();
+		});
 
-        checkoutRecords = new MenuItem("Checkout Records");
-        checkoutRecords.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
-                        CheckoutRecordWindow.INSTANCE.init();
-                    }
+		memberIds = new MenuItem("All Members");
+		memberIds.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!AllMembersWindow.INSTANCE.isInitialized()) {
+				AllMembersWindow.INSTANCE.init();
+			}
+			AllMembersWindow.INSTANCE.show();
+		});
 
-                    CheckoutRecordWindow.INSTANCE.show();
-                });
+		addNewMember = new MenuItem("Add new member");
+		addNewMember.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!NewMemberWindow.INSTANCE.isInitialized()) {
+				NewMemberWindow.INSTANCE.init();
+			}
 
-        addCopyBook = new MenuItem("Add copy book");
-        addCopyBook.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!AddCopyBookWindow.INSTANCE.isInitialized()) {
-                        AddCopyBookWindow.INSTANCE.init();
-                    }
+			NewMemberWindow.INSTANCE.show();
+		});
 
-                    AddCopyBookWindow.INSTANCE.show();
-                });
+		checkoutBook = new MenuItem("Checkout book");
+		checkoutBook.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!CheckoutBookWindow.INSTANCE.isInitialized()) {
+				CheckoutBookWindow.INSTANCE.init();
+			}
 
-        addNewBook = new MenuItem("Add new book");
-        addNewBook.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!AddBookWindow.INSTANCE.isInitialized()) {
-                    	AddBookWindow.INSTANCE.init();
-                    }
+			CheckoutBookWindow.INSTANCE.show();
+		});
 
-                    AddBookWindow.INSTANCE.show();
-                });
-        
-        searchLibraryMember = new MenuItem("Search Library Member");
-        searchLibraryMember.setOnAction(
-                (ActionEvent e) -> {
-                    hideAllWindows();
-                    if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
-                    	SearchLibraryMemberWindow.INSTANCE.init();
-                    }
+		checkoutRecords = new MenuItem("Checkout Records");
+		checkoutRecords.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
+				CheckoutRecordWindow.INSTANCE.init();
+			}
 
-                    SearchLibraryMemberWindow.INSTANCE.show();
-                });
-        
-        Scene scene = new Scene(topContainer, 420, 375);
-        primaryStage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-        primaryStage.show();
-    }
+			CheckoutRecordWindow.INSTANCE.show();
+		});
+
+		addCopyBook = new MenuItem("Add copy book");
+		addCopyBook.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!AddCopyBookWindow.INSTANCE.isInitialized()) {
+				AddCopyBookWindow.INSTANCE.init();
+			}
+
+			AddCopyBookWindow.INSTANCE.show();
+		});
+
+		addNewBook = new MenuItem("Add new book");
+		addNewBook.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!AddBookWindow.INSTANCE.isInitialized()) {
+				AddBookWindow.INSTANCE.init();
+			}
+
+			AddBookWindow.INSTANCE.show();
+		});
+
+		searchLibraryMember = new MenuItem("Search Library Member");
+		searchLibraryMember.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
+				SearchLibraryMemberWindow.INSTANCE.init();
+			}
+
+			SearchLibraryMemberWindow.INSTANCE.show();
+		});
+
+		Scene scene = new Scene(topContainer, 420, 375);
+		primaryStage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		primaryStage.show();
+	}
 
 }
