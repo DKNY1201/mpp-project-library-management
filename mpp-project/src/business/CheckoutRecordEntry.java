@@ -44,4 +44,11 @@ public class CheckoutRecordEntry implements Serializable {
     public String toString() {
         return "Book copy: " + getBookCopy() + "\nCheckout date: " + getCheckoutDate() + " | Due date: " + getDueDate();
     }
+    
+    public String printCheckoutEntry(){
+    	String separateLine = String.format("%14s| %11s| %100s\n", "", "", "").replace(' ', '-');
+		String data = String.format("%-14s| %-11s| %s", getCheckoutDate(), getDueDate(),
+				getBookCopy().getBook().getTitle());
+		return separateLine + data;
+    }
 }

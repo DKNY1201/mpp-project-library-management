@@ -47,4 +47,19 @@ public class CheckoutRecord implements Serializable {
         }
         return sb.toString();
     }
+    
+    public String printCheckoutRecord(){
+    	if (checkoutRecordEntries.size() > 0){
+    		StringBuilder sb = new StringBuilder();
+            String newLine = System.lineSeparator();
+            sb.append(newLine);
+            sb.append("Checkout Date | Due Date   | Book Title\n");
+            for (CheckoutRecordEntry entry: checkoutRecordEntries) {
+                sb.append(entry.printCheckoutEntry());
+                sb.append(newLine);
+            }
+            return sb.toString();
+    	}
+        return "";
+    }
 }
