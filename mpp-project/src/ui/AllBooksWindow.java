@@ -34,6 +34,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	
 	private ObservableList<Book> bookData = FXCollections.observableArrayList();
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");

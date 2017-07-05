@@ -35,6 +35,7 @@ public class AllMembersWindow extends Stage implements LibWindow {
 	
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
