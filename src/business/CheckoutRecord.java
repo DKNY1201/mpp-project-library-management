@@ -1,27 +1,36 @@
 package business;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Bi on 7/4/17.
  */
-public class CheckoutRecord {
-    private List<CheckoutRecordEntry> checkoutRecordEntries;
-    public String testdata = "Testdata";
+public class CheckoutRecord implements Serializable {
+    private static final long serialVersionUID;
 
-    CheckoutRecord(){
+    static {
+        serialVersionUID = 5467032815847529663L;
+    }
+
+    private List<CheckoutRecordEntry> checkoutRecordEntries;
+
+    public CheckoutRecord(){
         checkoutRecordEntries = new ArrayList<>();
     }
 
     public void addEntry(CheckoutRecordEntry checkoutRecordEntry) {
         checkoutRecordEntries.add(checkoutRecordEntry);
+        System.out.println("Add entry successful");
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String newLine = System.lineSeparator();
+        sb.append(newLine);
+        sb.append("Checkout Record: ");
         for (CheckoutRecordEntry entry: checkoutRecordEntries) {
             sb.append(entry.toString());
             sb.append(newLine);

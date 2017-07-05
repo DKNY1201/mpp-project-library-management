@@ -1,11 +1,19 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Created by Bi on 7/4/17.
  */
-public class CheckoutRecordEntry {
+public class CheckoutRecordEntry implements Serializable {
+
+    private static final long serialVersionUID;
+
+    static {
+        serialVersionUID = 3665880920647848290L;
+    }
+
     private LocalDate checkoutDate;
     private LocalDate dueDate;
     private BookCopy bookCopy;
@@ -34,6 +42,6 @@ public class CheckoutRecordEntry {
 
     @Override
     public String toString() {
-        return "Book copy: " + getBookCopy() + ", checkout date: " + getCheckoutDate() + ", due date" + getCheckoutDate();
+        return "Book copy: " + getBookCopy() + "\n, checkout date: " + getCheckoutDate() + ", due date: " + getCheckoutDate();
     }
 }

@@ -44,7 +44,6 @@ public class DataAccessFacade implements DataAccess {
 	public void printMembers() {
         HashMap<String, LibraryMember> members = readMemberMap();
 
-//        HashSet<String> hashSet = (HashSet<String>) members.keySet();
         for (String k: members.keySet()) {
             System.out.println(members.get(k));
         }

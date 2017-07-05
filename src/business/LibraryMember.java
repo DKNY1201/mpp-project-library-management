@@ -25,16 +25,21 @@ final public class LibraryMember extends Person implements Serializable {
 		return checkoutRecord;
 	}
 
+	public void setCheckoutRecord(CheckoutRecord checkoutRecord) {
+		this.checkoutRecord = checkoutRecord;
+	}
+
 	@Override
 	public String toString() {
 		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + 
-				", " + getTelephone() + " " + getAddress() + "\nCheckout Record: " + getCheckoutRecord() ;
+				", " + getTelephone() + " " + getAddress()  + getCheckoutRecord() ;
 	}
 
 	public void checkout(BookCopy bookCopy, LocalDate checkoutDate, LocalDate dueDate) {
-		bookCopy.changeAvailability();
+		bookCopy.setAvailableToFalse();
 		CheckoutRecordEntry checkoutRecordEntry = CheckoutRecordEntry.createEntry(bookCopy, checkoutDate, dueDate);
 		checkoutRecord.addEntry(checkoutRecordEntry);
+		setCheckoutRecord(checkoutRecord);
 	}
 
 	private static final long serialVersionUID = -2226197306790714013L;
