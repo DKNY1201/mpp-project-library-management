@@ -47,7 +47,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Add new member");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
+        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
 
@@ -129,7 +129,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
         grid.add(hBack, 0, 10);
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
         setScene(scene);
 	}
 

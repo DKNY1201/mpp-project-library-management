@@ -1,4 +1,4 @@
-package ui.rulesets;
+package ui;
 //package ui.rulesets;
 //
 //import java.awt.Component;

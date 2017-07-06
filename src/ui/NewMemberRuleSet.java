@@ -1,4 +1,4 @@
-package ui.rulesets;
+package ui;
 
 import javafx.stage.Stage;
 import ui.*;

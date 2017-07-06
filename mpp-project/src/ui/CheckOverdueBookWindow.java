@@ -129,7 +129,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 6, 2, 1);
 
 		Scene scene = new Scene(grid, 900, 600);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
 

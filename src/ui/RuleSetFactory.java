@@ -1,4 +1,4 @@
-package ui.rulesets;
+package ui;
 
 import java.util.HashMap;
 

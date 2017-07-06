@@ -48,6 +48,12 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<Book> table = new TableView<Book>();
+		
+		ControllerInterface c = new SystemController();
+		bookData.clear();
+		bookData.addAll(c.getAllBooks());
+		table.setItems(bookData);
+		
 		TableColumn<Book, String> isbnColumn = new TableColumn<Book, String>("ISBN");
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<Book, String>("isbn"));
 		TableColumn<Book, String> titleColumn = new TableColumn<Book, String>("Title");
@@ -59,11 +65,6 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		table.setMinWidth(425);
 
 		grid.add(table, 0, 1);
-
-		ControllerInterface c = new SystemController();
-		bookData.clear();
-		bookData.addAll(c.getAllBooks());
-		table.setItems(bookData);
 
 		Button backBtn = new Button("<= Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
@@ -77,7 +78,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 2);
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
 }
