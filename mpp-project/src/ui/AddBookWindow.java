@@ -9,7 +9,6 @@ import business.ControllerInterface;
 import business.SystemController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,15 +20,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
@@ -42,8 +43,8 @@ public class AddBookWindow extends Stage implements LibWindow {
 	private TextField titleTextField;
 	private TextField numOfCopiesTextField;
 	private ComboBox<Integer> maxCheckoutLenComboBox;
-	private ObservableList<Integer> maxCheckoutLenOptions = FXCollections.observableArrayList(7,21);
-	private ListView<Author> listView;
+	private ObservableList<Integer> maxCheckoutLenOptions = FXCollections.observableArrayList(7, 21);
+	private TableView<Author> tableView;
 	private List<Author> selectedAuthors;
 	private List<Author> listAuthors;
 
@@ -60,6 +61,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 	private AddBookWindow() {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init() {
 		GridPane grid = new GridPane();
@@ -93,35 +95,44 @@ public class AddBookWindow extends Stage implements LibWindow {
 		maxCheckoutLenComboBox = new ComboBox<>(maxCheckoutLenOptions);
 		maxCheckoutLenComboBox.getSelectionModel().select(1);
 		grid.add(maxCheckoutLenComboBox, 1, 4);
-		
-		listView = new ListView<>();
 
 		ControllerInterface c = new SystemController();
 		listAuthors = c.getAllAuthors();
-		for (Author author : listAuthors) {
-			listView.getItems().add(author);
-		}
-
 		selectedAuthors = new ArrayList<Author>();
-		listView.setCellFactory(CheckBoxListCell.forListView(new Callback<Author, ObservableValue<Boolean>>() {
-			@Override
-			public ObservableValue<Boolean> call(Author item) {
-				BooleanProperty observable = new SimpleBooleanProperty();
-				observable.addListener((obs, wasSelected, isNowSelected) -> {
-					if (isNowSelected)
-						selectedAuthors.add(item);
-					else
-						selectedAuthors.remove(item);
-				});
-				return observable;
-			}
-		}));
-
-		listView.setMinWidth(400);
-
+		
+		tableView = new TableView<Author>();
+		TableColumn<Author, String> firstNameColumn = new TableColumn<Author, String>("First Name");
+		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
+		TableColumn<Author, String> lastNameColumn = new TableColumn<Author, String>("Last Name");
+		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
+		TableColumn<Author, String> bioColumn = new TableColumn<Author, String>("Biography");
+		bioColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("bio"));
+		TableColumn<Author,Boolean> selectColumn = new TableColumn<Author,Boolean>("Select");
+		
+		selectColumn.setCellFactory(col -> {
+            CheckBoxTableCell<Author, Boolean> cell = new CheckBoxTableCell<>(index -> {
+                BooleanProperty observable = new SimpleBooleanProperty();
+                observable.addListener((obs, wasSelected, isNowSelected) -> {
+					Author author = tableView.getItems().get(index);
+					if (isNowSelected){
+						selectedAuthors.add(author);
+					}else{
+						selectedAuthors.remove(author);
+					}
+                });
+                return observable ;
+            });
+            return cell ;
+        });
+		
+		tableView.getItems().setAll(listAuthors);
+		tableView.getColumns().addAll(selectColumn,firstNameColumn,lastNameColumn,bioColumn);
+		tableView.setMinWidth(600);
+		tableView.setEditable(true);
+		
 		Label authorsLabel = new Label("Authors");
 		grid.add(authorsLabel, 0, 5);
-		grid.add(listView, 1, 5);
+		grid.add(tableView, 1, 5);
 		
 		Button newAuthorBtn = new Button("New Author");
 		HBox hbNewAuthorBtn = new HBox(10);
@@ -173,17 +184,14 @@ public class AddBookWindow extends Stage implements LibWindow {
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 0, 10);
 
-		Scene scene = new Scene(grid, 700, 1000);
+		Scene scene = new Scene(grid, 1000, 1000);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
-	
-	public void addNewAuthorToListView(Author author){
+
+	public void addNewAuthorToTable(Author author) {
 		listAuthors.add(author);
-		listView.getItems().clear();
-		for (Author anAuthor : listAuthors) {
-			listView.getItems().add(anAuthor);
-		}
+		tableView.getItems().add(author);
 	}
 
 	public String getISBN() {
@@ -203,7 +211,8 @@ public class AddBookWindow extends Stage implements LibWindow {
 	}
 
 	public Boolean noAuthorSelected() {
-		if (selectedAuthors == null) return true;
+		if (selectedAuthors == null)
+			return true;
 		return selectedAuthors.isEmpty();
 	}
 }
