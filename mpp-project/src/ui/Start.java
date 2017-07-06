@@ -108,7 +108,7 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 		mainMenu = new MenuBar();
 		VBox imageHolder = new VBox();
-		Image image = new Image("ui/resource/image/login-background.png", 400, 300, false, false);
+		Image image = new Image("ui/resource/image/login-background.png", 600, 400, false, false);
 
 		// simply displays in ImageView the image as is
 		ImageView iv = new ImageView();
@@ -268,7 +268,7 @@ public class Start extends Application {
 
 		LoginWindow.INSTANCE.init();
 
-		Scene scene = new Scene(topContainer, 420, 375);
+		Scene scene = new Scene(topContainer, 620, 475);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		// primaryStage.show();
