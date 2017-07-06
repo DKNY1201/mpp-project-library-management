@@ -111,6 +111,9 @@ public class SystemController implements ControllerInterface {
 			throws AddBookException {
 		DataAccess da = new DataAccessFacade();
 		Book book = new Book(isbn, title, maxCheckoutLength, authors);
+		for (int i = 1; i < numOfCopies; i++) {
+			book.addCopy();
+		}
 		da.saveBook(book);
 	}
 
@@ -130,7 +133,7 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, Book> bookHashMap = da.readBooksMap();
 		List<Book> listBooks = new ArrayList<>();
-		for (String key: bookHashMap.keySet()) {
+		for (String key : bookHashMap.keySet()) {
 			listBooks.add(bookHashMap.get(key));
 		}
 		return listBooks;
@@ -141,7 +144,7 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
 		List<CheckoutRecordEntry> listCheckoutRecords = new ArrayList<>();
-		for (String key: memberHashMap.keySet()) {
+		for (String key : memberHashMap.keySet()) {
 			LibraryMember libraryMember = memberHashMap.get(key);
 			listCheckoutRecords.addAll(libraryMember.getCheckoutRecord().getCheckoutRecordEntries());
 		}

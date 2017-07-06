@@ -54,7 +54,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Search library member");
+		Text scenetitle = new Text("Check overdue book");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		grid.add(scenetitle, 0, 0, 2, 1);
 
