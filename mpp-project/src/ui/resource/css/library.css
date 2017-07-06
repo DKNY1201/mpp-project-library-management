@@ -2,6 +2,10 @@
      -fx-background-color: #cccccc;/*#8E0000*/
 }
 
+#new-member-container .label {
+	-fx-text-fill: #ffffff;
+}
+
 .label {
    -fx-text-fill: #000000;
 }
@@ -12,6 +16,10 @@
 
 .text{
 	-fx-text-fill: #ffffff;
+}
+
+#while-color {
+    -fx-fill: #ffffff;
 }
 
 .menu-bar { 
