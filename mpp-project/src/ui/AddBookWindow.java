@@ -10,12 +10,15 @@ import business.SystemController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -37,10 +40,12 @@ public class AddBookWindow extends Stage implements LibWindow {
 
 	private TextField isbnTextField;
 	private TextField titleTextField;
-	private TextField maxCheckoutLenTextField;
 	private TextField numOfCopiesTextField;
+	private ComboBox<Integer> maxCheckoutLenComboBox;
+	private ObservableList<Integer> maxCheckoutLenOptions = FXCollections.observableArrayList(7,21);
 	private ListView<Author> listView;
 	private List<Author> selectedAuthors;
+	private List<Author> listAuthors;
 
 	private boolean isInitialized = false;
 
@@ -78,21 +83,22 @@ public class AddBookWindow extends Stage implements LibWindow {
 		titleTextField = new TextField();
 		grid.add(titleTextField, 1, 2);
 
-		Label maxCheckoutLenLabel = new Label("Maximum checkout lenght");
-		grid.add(maxCheckoutLenLabel, 0, 3);
-		maxCheckoutLenTextField = new TextField();
-		grid.add(maxCheckoutLenTextField, 1, 3);
-
 		Label numOfCopiesLabel = new Label("Number of copies");
-		grid.add(numOfCopiesLabel, 0, 4);
+		grid.add(numOfCopiesLabel, 0, 3);
 		numOfCopiesTextField = new TextField();
-		grid.add(numOfCopiesTextField, 1, 4);
+		grid.add(numOfCopiesTextField, 1, 3);
 
+		Label maxCheckoutLenLabel = new Label("Maximum checkout lenght");
+		grid.add(maxCheckoutLenLabel, 0, 4);
+		maxCheckoutLenComboBox = new ComboBox<>(maxCheckoutLenOptions);
+		maxCheckoutLenComboBox.getSelectionModel().select(1);
+		grid.add(maxCheckoutLenComboBox, 1, 4);
+		
 		listView = new ListView<>();
 
 		ControllerInterface c = new SystemController();
-		List<Author> authors = c.getAllAuthors();
-		for (Author author : authors) {
+		listAuthors = c.getAllAuthors();
+		for (Author author : listAuthors) {
 			listView.getItems().add(author);
 		}
 
@@ -116,8 +122,22 @@ public class AddBookWindow extends Stage implements LibWindow {
 		Label authorsLabel = new Label("Authors");
 		grid.add(authorsLabel, 0, 5);
 		grid.add(listView, 1, 5);
+		
+		Button newAuthorBtn = new Button("New Author");
+		HBox hbNewAuthorBtn = new HBox(10);
+		hbNewAuthorBtn.setAlignment(Pos.BOTTOM_RIGHT);
+		hbNewAuthorBtn.getChildren().add(newAuthorBtn);
+		grid.add(hbNewAuthorBtn, 1, 6);
+		
+		newAuthorBtn.setOnAction((ActionEvent e) -> {
+			Start.hideAllWindows();
+			if (!NewAuthorWindow.INSTANCE.isInitialized()) {
+				NewAuthorWindow.INSTANCE.init();
+			}
+			NewAuthorWindow.INSTANCE.show();
+		});
 
-		Button newMemberBtn = new Button("Add new book");
+		Button newMemberBtn = new Button("Save");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(newMemberBtn);
@@ -128,7 +148,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 				RuleSet addBookRules = RuleSetFactory.getRuleSet(AddBookWindow.this);
 				addBookRules.applyRules(AddBookWindow.this);
 
-				c.addBook(getISBN(), getBookTitle(), Integer.parseInt(getMaxCheckoutLenght()),
+				c.addBook(getISBN(), getBookTitle(), getMaxCheckoutLenght(),
 						Integer.parseInt(getNumberOfCopies()), selectedAuthors);
 			} catch (AddBookException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -157,6 +177,14 @@ public class AddBookWindow extends Stage implements LibWindow {
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
+	
+	public void addNewAuthorToListView(Author author){
+		listAuthors.add(author);
+		listView.getItems().clear();
+		for (Author anAuthor : listAuthors) {
+			listView.getItems().add(anAuthor);
+		}
+	}
 
 	public String getISBN() {
 		return isbnTextField.getText();
@@ -166,8 +194,8 @@ public class AddBookWindow extends Stage implements LibWindow {
 		return titleTextField.getText();
 	}
 
-	public String getMaxCheckoutLenght() {
-		return maxCheckoutLenTextField.getText();
+	public int getMaxCheckoutLenght() {
+		return maxCheckoutLenComboBox.getValue();
 	}
 
 	public String getNumberOfCopies() {
