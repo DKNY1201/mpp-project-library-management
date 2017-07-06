@@ -26,7 +26,8 @@ import javafx.stage.Stage;
 
 public class Start extends Application {
 	private static MenuBar mainMenu;
-	private static Menu optionsMenu;
+	private static Menu bookMenu;
+	private static Menu memberMenu;
 	private static MenuItem bookIds;
 	private static MenuItem memberIds;
 	private static MenuItem addNewMember;
@@ -71,27 +72,32 @@ public class Start extends Application {
 		switch (SystemController.currentAuth) {
 		case ADMIN:
 			btnLogin.setText("Logout");
-			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook);
-			mainMenu.getMenus().addAll(optionsMenu);
+			bookMenu.getItems().clear();
+			memberMenu.getItems().clear();
+			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook);
+			memberMenu.getItems().addAll(memberIds, addNewMember);
+			mainMenu.getMenus().addAll(bookMenu, memberMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 			break;
 		case LIBRARIAN:
 			btnLogin.setText("Logout");
-			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords, searchLibraryMember,
-					checkOverdueBook);
-			mainMenu.getMenus().addAll(optionsMenu);
+			bookMenu.getItems().clear();
+			memberMenu.getItems().clear();
+			bookMenu.getItems().addAll(bookIds, checkoutBook, checkoutRecords, checkOverdueBook);
+			memberMenu.getItems().addAll(memberIds, searchLibraryMember);
+			mainMenu.getMenus().addAll(bookMenu, memberMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 			break;
 		case BOTH:
 			btnLogin.setText("Logout");
-			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook, checkoutBook,
-					checkoutRecords, searchLibraryMember, checkOverdueBook);
-			mainMenu.getMenus().addAll(optionsMenu);
+			bookMenu.getItems().clear();
+			memberMenu.getItems().clear();
+			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook, checkoutBook,
+					checkoutRecords, checkOverdueBook);
+			memberMenu.getItems().addAll(memberIds, addNewMember, searchLibraryMember);
+			mainMenu.getMenus().addAll(bookMenu, memberMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
 		default:
@@ -108,9 +114,8 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 		mainMenu = new MenuBar();
 		VBox imageHolder = new VBox();
-		Image image = new Image("ui/resource/image/login-background.png", 600, 400, false, false);
+		Image image = new Image("ui/resource/image/books.png", 600, 400, false, false);
 
-		// simply displays in ImageView the image as is
 		ImageView iv = new ImageView();
 		iv.setImage(image);
 		imageHolder.getChildren().add(iv);
@@ -136,8 +141,8 @@ public class Start extends Application {
 
 				if (alert.getResult() == ButtonType.YES) {
 					SystemController.currentAuth = Auth.UNAUTHENTICATED;
-					optionsMenu.getItems().clear();
-					optionsMenu.getItems().addAll(login);
+					bookMenu.getItems().clear();
+					bookMenu.getItems().addAll(login);
 					mainMenu.getMenus().clear();
 					btnLogin.setText("Login");
 
@@ -159,7 +164,8 @@ public class Start extends Application {
 		topContainer.getChildren().add(splashBox);
 		topContainer.getChildren().add(imageHolder);
 
-		optionsMenu = new Menu("Menu");
+		bookMenu = new Menu("Menu");
+		memberMenu = new Menu("Member");
 
 		login = new MenuItem("Login");
 		login.setOnAction((ActionEvent e) -> {
@@ -174,8 +180,8 @@ public class Start extends Application {
 		logout = new MenuItem("Logout");
 		logout.setOnAction((ActionEvent e) -> {
 			SystemController.currentAuth = Auth.UNAUTHENTICATED;
-			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(login);
+			bookMenu.getItems().clear();
+			bookMenu.getItems().addAll(login);
 		});
 
 		bookIds = new MenuItem("All books");
@@ -271,7 +277,6 @@ public class Start extends Application {
 		Scene scene = new Scene(topContainer, 620, 475);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
-		// primaryStage.show();
 	}
 
 }
