@@ -122,7 +122,8 @@ public class Start extends Application {
 		imageHolder.setAlignment(Pos.CENTER);
 		HBox splashBox = new HBox();
 		Label splashLabel = new Label("The Library System");
-		splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
+		splashLabel.setId("library-system-title");
+		splashLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 		splashBox.getChildren().add(splashLabel);
 		splashBox.setAlignment(Pos.CENTER);
 
