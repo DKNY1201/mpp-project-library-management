@@ -12,10 +12,28 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 import ui.CheckOverdueBookWindow.OverdueDateRecord;
 import ui.CheckoutRecordWindow;
+import ui.Start;
 import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = Auth.UNAUTHENTICATED;
+
+	public static String getCurrentAuthString() {
+		String auth = "";
+		switch (currentAuth) {
+		case ADMIN:
+			auth = "Administrator";
+			break;
+		case LIBRARIAN:
+			auth = "Librarian";
+			break;
+		case BOTH:
+			auth = "God";
+		default:
+			break;
+		}
+		return auth;
+	}
 
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
@@ -177,7 +195,7 @@ public class SystemController implements ControllerInterface {
 				Book book = bookCopy.getBook();
 				LocalDate dueDate = checkoutRecordEntry.getDueDate();
 				LocalDate yesterdayDate = LocalDate.now().minusDays(1);
-				
+
 				if (book.getIsbn().equals(isbn) && dueDate.compareTo(yesterdayDate) <= 0) {
 					int copyNum = bookCopy.getCopyNum();
 					String title = book.getTitle();
@@ -185,7 +203,7 @@ public class SystemController implements ControllerInterface {
 					String firstName = libraryMember.getFirstName();
 					String lastName = libraryMember.getLastName();
 					LocalDate checkoutDate = checkoutRecordEntry.getCheckoutDate();
-					
+
 					listOverdueDateRecord.add(new OverdueDateRecord(isbn, title, copyNum, memberId, firstName, lastName,
 							checkoutDate, dueDate));
 				}

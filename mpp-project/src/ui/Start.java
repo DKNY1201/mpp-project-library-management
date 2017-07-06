@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Start extends Application {
@@ -114,7 +115,7 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 		mainMenu = new MenuBar();
 		VBox imageHolder = new VBox();
-		Image image = new Image("ui/resource/image/books.png", 600, 400, false, false);
+		Image image = new Image("ui/resource/image/books.png", 550, 300, false, false);
 
 		ImageView iv = new ImageView();
 		iv.setImage(image);
@@ -126,7 +127,13 @@ public class Start extends Application {
 		splashLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 		splashBox.getChildren().add(splashLabel);
 		splashBox.setAlignment(Pos.CENTER);
-
+		
+		HBox splashBox2 = new HBox();
+		Label splashLabel2 = new Label("Your are login as: " + SystemController.getCurrentAuthString());
+		splashLabel2.setId("auth-text");
+		splashBox2.getChildren().add(splashLabel2);
+		splashBox2.setAlignment(Pos.CENTER);
+		
 		btnLogin = new Button("Login");
 		btnLogin.setId("rich-blue");
 		btnLogin.setOnAction((ActionEvent e) -> {
@@ -165,6 +172,7 @@ public class Start extends Application {
 		topContainer.getChildren().add(hbox);
 		topContainer.getChildren().add(splashBox);
 		topContainer.getChildren().add(imageHolder);
+		topContainer.getChildren().add(splashBox2);
 
 		bookMenu = new Menu("Menu");
 		memberMenu = new Menu("Member");

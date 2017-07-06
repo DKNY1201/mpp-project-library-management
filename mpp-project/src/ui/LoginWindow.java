@@ -52,7 +52,6 @@ public class LoginWindow extends Stage implements LibWindow {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Text scenetitle = new Text("Library System");
-		// setting id for CSS styling
 		scenetitle.setId("welcome-text");
 		grid.add(scenetitle, 0, 0, 2, 1);
 

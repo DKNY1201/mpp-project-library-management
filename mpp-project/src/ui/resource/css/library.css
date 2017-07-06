@@ -11,6 +11,10 @@
 	-fx-text-fill: #ffffff;
 }
 
+#auth-text {
+	-fx-text-fill: #ffffff;
+}
+
 .label {
    -fx-text-fill: #000000;
 }
