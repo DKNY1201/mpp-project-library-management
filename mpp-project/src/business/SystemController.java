@@ -179,9 +179,9 @@ public class SystemController implements ControllerInterface {
 				LocalDate yesterdayDate = LocalDate.now().minusDays(1);
 				//Use to hard code date to get overdue record
 				//yesterdayDate = LocalDate.now().plusDays(7);
-				yesterdayDate = LocalDate.now().plusDays(21);
+				//yesterdayDate = LocalDate.now().plusDays(21);
 				
-				if (book.getIsbn().equals(isbn) && dueDate.equals(yesterdayDate)) {
+				if (book.getIsbn().equals(isbn) && dueDate.compareTo(yesterdayDate) <= 0) {
 					int copyNum = bookCopy.getCopyNum();
 					String title = book.getTitle();
 					String memberId = libraryMember.getMemberId();
