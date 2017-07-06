@@ -10,6 +10,8 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import ui.CheckoutRecordWindow;
+import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = Auth.UNAUTHENTICATED;
@@ -137,14 +139,21 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public List<CheckoutRecordEntry> getAllCheckoutRecordEntries() {
+	public List<CheckoutRecordAndLibraryMember> getAllCheckoutRecordEntryAndLibraryMember() {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
-		List<CheckoutRecordEntry> listCheckoutRecords = new ArrayList<>();
+		List<CheckoutRecordAndLibraryMember> listCheckoutRecordsAndLibraryMember = new ArrayList<>();
 		for (String key: memberHashMap.keySet()) {
 			LibraryMember libraryMember = memberHashMap.get(key);
-			listCheckoutRecords.addAll(libraryMember.getCheckoutRecord().getCheckoutRecordEntries());
+			List<CheckoutRecordEntry> checkoutRecordEntries = 
+					libraryMember.getCheckoutRecord().getCheckoutRecordEntries();
+			String firstName = libraryMember.getFirstName();
+			String lastName = libraryMember.getLastName();
+			for (CheckoutRecordEntry checkoutRecordEntry: checkoutRecordEntries) {
+				listCheckoutRecordsAndLibraryMember.add(new CheckoutRecordWindow.CheckoutRecordAndLibraryMember(checkoutRecordEntry.getCheckoutDate(),
+						checkoutRecordEntry.getDueDate(), checkoutRecordEntry.getBookCopy(), firstName, lastName));
+			}
 		}
-		return listCheckoutRecords;
+		return listCheckoutRecordsAndLibraryMember;
 	}
 }
