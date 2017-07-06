@@ -27,11 +27,11 @@ import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
 
-public class SearchLibraryMemberWindow extends Stage implements LibWindow {
-	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();
+public class CheckOverdueBookWindow extends Stage implements LibWindow {
+	public static final CheckOverdueBookWindow INSTANCE = new CheckOverdueBookWindow();
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
-	private TextField memberIdTextField;
+	private TextField isbnTextField;
 	private boolean isInitialized = false;
 
 	public boolean isInitialized() {
@@ -42,7 +42,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
-	private SearchLibraryMemberWindow() {
+	private CheckOverdueBookWindow() {
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,14 +54,14 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Search library member");
+		Text scenetitle = new Text("Check overdue book");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		Label memberIdLabel = new Label("Member ID");
-		grid.add(memberIdLabel, 0, 2);
-		memberIdTextField = new TextField();
-		grid.add(memberIdTextField, 1, 2);
+		Label isbnLabel = new Label("ISBN");
+		grid.add(isbnLabel, 0, 2);
+		isbnTextField = new TextField();
+		grid.add(isbnTextField, 1, 2);
 
 		Button searchBtn = new Button("Search");
 		HBox hbBtn = new HBox(10);
@@ -70,17 +70,25 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		grid.add(hbBtn, 1, 3);
 
 		TableView<LibraryMember> table = new TableView<LibraryMember>();
-		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
-		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("firstName"));
-		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Last Name");
-		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("lastName"));
-		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Telephone");
-		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
-		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Address");
-		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("address"));
+		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("ISBN");
+		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("isbn"));
+		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Book Title");
+		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("title"));
+		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Copy Numbers");
+		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("copyNum"));
+		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Member ID");
+		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("memberId"));
+		TableColumn<LibraryMember, Address> addressColumn1 = new TableColumn<LibraryMember, Address>("First Name");
+		addressColumn1.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("firstName"));
+		TableColumn<LibraryMember, Address> addressColumn2 = new TableColumn<LibraryMember, Address>("Last Name");
+		addressColumn2.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("lastName"));
+		TableColumn<LibraryMember, Address> addressColumn3 = new TableColumn<LibraryMember, Address>("Checkout Date");
+		addressColumn3.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("checkoutDate"));
+		TableColumn<LibraryMember, Address> addressColumn4 = new TableColumn<LibraryMember, Address>("Due Date");
+		addressColumn4.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("dueDate"));
 		table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 
-		memberIdTextField.setMinWidth(700);
+		isbnTextField.setMinWidth(700);
 		table.setMinWidth(800);
 		table.setMinHeight(80);
 		table.setMaxHeight(80);
@@ -94,10 +102,10 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		ControllerInterface c = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
-				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(SearchLibraryMemberWindow.this);
-				searchLibMemberRules.applyRules(SearchLibraryMemberWindow.this);
+				RuleSet checkOverDueBookRules = RuleSetFactory.getRuleSet(CheckOverdueBookWindow.this);
+				checkOverDueBookRules.applyRules(CheckOverdueBookWindow.this);
 
-				LibraryMember member = c.searchMember(getMemberId());
+				LibraryMember member = c.searchMember(getISBN());
 				if (member != null) {
 					libMemberData.clear();
 					libMemberData.add(member);
@@ -140,7 +148,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		setScene(scene);
 	}
 	
-	public String getMemberId(){
-		return memberIdTextField.getText();
+	public String getISBN(){
+		return isbnTextField.getText();
 	}
 }

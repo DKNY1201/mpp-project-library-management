@@ -35,6 +35,7 @@ public class Start extends Application {
 	private static MenuItem addCopyBook;
 	private static MenuItem addNewBook;
 	private static MenuItem searchLibraryMember;
+	private static MenuItem checkOverdueBook;
 	private static MenuItem login;
 	private static MenuItem logout;
 	private static Button btnLogin;
@@ -56,7 +57,8 @@ public class Start extends Application {
 
 	private static Stage[] allWindows = { LoginWindow.INSTANCE, AllMembersWindow.INSTANCE, AllBooksWindow.INSTANCE,
 			NewMemberWindow.INSTANCE, CheckoutBookWindow.INSTANCE, CheckoutRecordWindow.INSTANCE,
-			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE };
+			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE,
+			CheckOverdueBookWindow.INSTANCE };
 
 	public static void hideAllWindows() {
 		primStage.hide();
@@ -78,7 +80,8 @@ public class Start extends Application {
 		case LIBRARIAN:
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
-			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords, searchLibraryMember);
+			optionsMenu.getItems().addAll(bookIds, memberIds, checkoutBook, checkoutRecords, searchLibraryMember,
+					checkOverdueBook);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -87,7 +90,7 @@ public class Start extends Application {
 			btnLogin.setText("Logout");
 			optionsMenu.getItems().clear();
 			optionsMenu.getItems().addAll(bookIds, memberIds, addNewMember, addCopyBook, addNewBook, checkoutBook,
-					checkoutRecords, searchLibraryMember);
+					checkoutRecords, searchLibraryMember, checkOverdueBook);
 			mainMenu.getMenus().addAll(optionsMenu);
 			Start.hideAllWindows();
 			Start.primStage().show();
@@ -137,7 +140,7 @@ public class Start extends Application {
 					optionsMenu.getItems().addAll(login);
 					mainMenu.getMenus().clear();
 					btnLogin.setText("Login");
-					
+
 					hideAllWindows();
 					if (!LoginWindow.INSTANCE.isInitialized()) {
 						LoginWindow.INSTANCE.init();
@@ -175,7 +178,7 @@ public class Start extends Application {
 			optionsMenu.getItems().addAll(login);
 		});
 
-		bookIds = new MenuItem("All Books");
+		bookIds = new MenuItem("All books");
 		bookIds.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
 			if (!AllBooksWindow.INSTANCE.isInitialized()) {
@@ -184,7 +187,7 @@ public class Start extends Application {
 			AllBooksWindow.INSTANCE.show();
 		});
 
-		memberIds = new MenuItem("All Members");
+		memberIds = new MenuItem("All members");
 		memberIds.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
 			if (!AllMembersWindow.INSTANCE.isInitialized()) {
@@ -213,7 +216,7 @@ public class Start extends Application {
 			CheckoutBookWindow.INSTANCE.show();
 		});
 
-		checkoutRecords = new MenuItem("Checkout Records");
+		checkoutRecords = new MenuItem("Checkout records");
 		checkoutRecords.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
 			if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
@@ -243,7 +246,7 @@ public class Start extends Application {
 			AddBookWindow.INSTANCE.show();
 		});
 
-		searchLibraryMember = new MenuItem("Search Library Member");
+		searchLibraryMember = new MenuItem("Search library member");
 		searchLibraryMember.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
 			if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
@@ -252,13 +255,23 @@ public class Start extends Application {
 
 			SearchLibraryMemberWindow.INSTANCE.show();
 		});
-		
+
+		checkOverdueBook = new MenuItem("Check overdue book");
+		checkOverdueBook.setOnAction((ActionEvent e) -> {
+			hideAllWindows();
+			if (!CheckOverdueBookWindow.INSTANCE.isInitialized()) {
+				CheckOverdueBookWindow.INSTANCE.init();
+			}
+
+			CheckOverdueBookWindow.INSTANCE.show();
+		});
+
 		LoginWindow.INSTANCE.init();
 
 		Scene scene = new Scene(topContainer, 420, 375);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		//primaryStage.show();
+		// primaryStage.show();
 	}
 
 }
