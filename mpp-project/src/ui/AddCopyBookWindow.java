@@ -40,7 +40,7 @@ public class AddCopyBookWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Add copy book");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
+        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label isbnLabel = new Label("ISBN number");
