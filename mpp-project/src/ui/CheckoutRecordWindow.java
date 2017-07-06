@@ -1,10 +1,8 @@
 package ui;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import business.BookCopy;
-import business.CheckoutRecordEntry;
 import business.ControllerInterface;
 import business.SystemController;
 import javafx.event.ActionEvent;
@@ -18,7 +16,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;

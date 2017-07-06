@@ -113,7 +113,7 @@ public class NewAuthorWindow extends Stage implements LibWindow {
 				RuleSet addBookRules = RuleSetFactory.getRuleSet(NewAuthorWindow.this);
 				addBookRules.applyRules(NewAuthorWindow.this);
 				
-				AddBookWindow.INSTANCE.addNewAuthorToListView(new Author(getFirstName(), getLastName(), getPhone(),
+				AddBookWindow.INSTANCE.addNewAuthorToTable(new Author(getFirstName(), getLastName(), getPhone(),
 						new Address(getStreet(), getCity(), getState(), getZip()), getBio()));
 				
 				Start.hideAllWindows();
