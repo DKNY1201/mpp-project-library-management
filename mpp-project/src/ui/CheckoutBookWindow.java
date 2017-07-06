@@ -107,7 +107,7 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 4);
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
 

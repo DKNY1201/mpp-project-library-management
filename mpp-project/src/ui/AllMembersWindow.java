@@ -49,6 +49,12 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<LibraryMember> table = new TableView<LibraryMember>();
+		
+		ControllerInterface c = new SystemController();
+		libMemberData.clear();
+		libMemberData.addAll(c.getAllMembers());
+		table.setItems(libMemberData);
+		
 		TableColumn<LibraryMember, String> memberIDColumn = new TableColumn<LibraryMember, String>("Member ID");
 		memberIDColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("memberId"));
 		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
@@ -63,18 +69,8 @@ public class AllMembersWindow extends Stage implements LibWindow {
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
-		table.setMinHeight(80);
-		firstNameColumn.setMinWidth(100);
-		lastNameColumn.setMinWidth(100);
-		telephoneColumn.setMinWidth(100);
-		addressColumn.setMinWidth(600);
 
 		grid.add(table, 0, 1, 2, 1);
-
-		ControllerInterface c = new SystemController();
-		libMemberData.clear();
-		libMemberData.addAll(c.getAllMembers());
-		table.setItems(libMemberData);
 
 		Button backBtn = new Button("<= Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
@@ -88,7 +84,7 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 2);
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
 }

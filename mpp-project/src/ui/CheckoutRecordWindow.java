@@ -55,6 +55,12 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<CheckoutRecordAndLibraryMember> table = new TableView<CheckoutRecordAndLibraryMember>();
+		
+		ControllerInterface c = new SystemController();
+		checkoutRecordData.clear();
+		checkoutRecordData.addAll(c.getAllCheckoutRecordEntryAndLibraryMember());
+		table.setItems(checkoutRecordData);
+		
 		TableColumn<CheckoutRecordAndLibraryMember, String> bookCopyColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Book Copy");
 		bookCopyColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("bookCopy"));
 		TableColumn<CheckoutRecordAndLibraryMember, String> checkoutDateColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Checkout Date");
@@ -69,14 +75,8 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
-		table.setMinHeight(80);
 
 		grid.add(table, 0, 1, 2, 1);
-
-		ControllerInterface c = new SystemController();
-		checkoutRecordData.clear();
-		checkoutRecordData.addAll(c.getAllCheckoutRecordEntryAndLibraryMember());
-		table.setItems(checkoutRecordData);
 
 		Button backBtn = new Button("<= Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
@@ -90,7 +90,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		grid.add(hBack, 0, 2);
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
 	}
 	

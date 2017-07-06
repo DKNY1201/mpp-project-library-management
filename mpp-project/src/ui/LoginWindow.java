@@ -100,7 +100,7 @@ public class LoginWindow extends Stage implements LibWindow {
 		});
 
 		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("resource/css/login.css").toExternalForm());
 		
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 		    public void handle(KeyEvent ke) {

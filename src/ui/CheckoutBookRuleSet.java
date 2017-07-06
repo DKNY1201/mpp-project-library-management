@@ -1,7 +1,6 @@
-package ui.rulesets;
+package ui;
 
 import javafx.stage.Stage;
-import ui.CheckoutBookWindow;
 
 import java.util.regex.Pattern;
 
