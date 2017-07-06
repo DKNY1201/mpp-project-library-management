@@ -34,7 +34,7 @@ import ui.rulesets.RuleSetFactory;
 public class AddBookWindow extends Stage implements LibWindow {
 
 	public static final AddBookWindow INSTANCE = new AddBookWindow();
-	
+
 	private TextField isbnTextField;
 	private TextField titleTextField;
 	private TextField maxCheckoutLenTextField;
@@ -89,7 +89,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		grid.add(numOfCopiesTextField, 1, 4);
 
 		listView = new ListView<>();
-		
+
 		ControllerInterface c = new SystemController();
 		List<Author> authors = c.getAllAuthors();
 		for (Author author : authors) {
@@ -127,20 +127,19 @@ public class AddBookWindow extends Stage implements LibWindow {
 			try {
 				RuleSet addBookRules = RuleSetFactory.getRuleSet(AddBookWindow.this);
 				addBookRules.applyRules(AddBookWindow.this);
-				
-				c.addBook(isbnTextField.getText(), titleTextField.getText(),
-						Integer.parseInt(maxCheckoutLenTextField.getText()),
-						Integer.parseInt(numOfCopiesTextField.getText()), selectedAuthors);
+
+				c.addBook(getISBN(), getBookTitle(), Integer.parseInt(getMaxCheckoutLenght()),
+						Integer.parseInt(getNumberOfCopies()), selectedAuthors);
 			} catch (AddBookException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Database issue");
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
+				alert.setTitle("Database issue");
+				alert.setContentText(ex.getMessage());
+				alert.showAndWait();
 			} catch (RuleException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Incorrect input data");
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
+				alert.setTitle("Incorrect input data");
+				alert.setContentText(ex.getMessage());
+				alert.showAndWait();
 			}
 		});
 
@@ -159,24 +158,24 @@ public class AddBookWindow extends Stage implements LibWindow {
 		setScene(scene);
 	}
 
-	public String getISBN(){
+	public String getISBN() {
 		return isbnTextField.getText();
 	}
-	
-	public String getBookTitle(){
+
+	public String getBookTitle() {
 		return titleTextField.getText();
 	}
-	
-	public String getMaxCheckoutLenght(){
+
+	public String getMaxCheckoutLenght() {
 		return maxCheckoutLenTextField.getText();
 	}
-	
-	public String getNumberOfCopies(){
+
+	public String getNumberOfCopies() {
 		return numOfCopiesTextField.getText();
 	}
-	
-	public Boolean hasSelectedAuthor(){
-		//if (selectedAuthors == null) return false;
-		return false;
+
+	public Boolean noAuthorSelected() {
+		if (selectedAuthors == null) return true;
+		return selectedAuthors.isEmpty();
 	}
 }

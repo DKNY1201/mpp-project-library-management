@@ -27,11 +27,11 @@ import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
 
-public class SearchLibraryMemberWindow extends Stage implements LibWindow {
-	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();
+public class CheckOverdueBookWindow extends Stage implements LibWindow {
+	public static final CheckOverdueBookWindow INSTANCE = new CheckOverdueBookWindow();
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
-	private TextField memberIdTextField;
+	private TextField isbnTextField;
 	private boolean isInitialized = false;
 
 	public boolean isInitialized() {
@@ -42,7 +42,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
-	private SearchLibraryMemberWindow() {
+	private CheckOverdueBookWindow() {
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,10 +58,10 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		Label memberIdLabel = new Label("Member ID");
-		grid.add(memberIdLabel, 0, 2);
-		memberIdTextField = new TextField();
-		grid.add(memberIdTextField, 1, 2);
+		Label isbnLabel = new Label("ISBN");
+		grid.add(isbnLabel, 0, 2);
+		isbnTextField = new TextField();
+		grid.add(isbnTextField, 1, 2);
 
 		Button searchBtn = new Button("Search");
 		HBox hbBtn = new HBox(10);
@@ -80,7 +80,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("address"));
 		table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 
-		memberIdTextField.setMinWidth(700);
+		isbnTextField.setMinWidth(700);
 		table.setMinWidth(800);
 		table.setMinHeight(80);
 		table.setMaxHeight(80);
@@ -94,10 +94,10 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		ControllerInterface c = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
-				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(SearchLibraryMemberWindow.this);
-				searchLibMemberRules.applyRules(SearchLibraryMemberWindow.this);
+				RuleSet checkOverDueBookRules = RuleSetFactory.getRuleSet(CheckOverdueBookWindow.this);
+				checkOverDueBookRules.applyRules(CheckOverdueBookWindow.this);
 
-				LibraryMember member = c.searchMember(getMemberId());
+				LibraryMember member = c.searchMember(getISBN());
 				if (member != null) {
 					libMemberData.clear();
 					libMemberData.add(member);
@@ -140,7 +140,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		setScene(scene);
 	}
 	
-	public String getMemberId(){
-		return memberIdTextField.getText();
+	public String getISBN(){
+		return isbnTextField.getText();
 	}
 }
