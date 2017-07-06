@@ -10,6 +10,7 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import ui.CheckOverdueBookWindow.OverdueDateRecord;
 import ui.CheckoutRecordWindow;
 import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 
@@ -146,17 +147,53 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
 		List<CheckoutRecordAndLibraryMember> listCheckoutRecordsAndLibraryMember = new ArrayList<>();
-		for (String key: memberHashMap.keySet()) {
+		for (String key : memberHashMap.keySet()) {
 			LibraryMember libraryMember = memberHashMap.get(key);
-			List<CheckoutRecordEntry> checkoutRecordEntries = 
-					libraryMember.getCheckoutRecord().getCheckoutRecordEntries();
+			List<CheckoutRecordEntry> checkoutRecordEntries = libraryMember.getCheckoutRecord()
+					.getCheckoutRecordEntries();
 			String firstName = libraryMember.getFirstName();
 			String lastName = libraryMember.getLastName();
-			for (CheckoutRecordEntry checkoutRecordEntry: checkoutRecordEntries) {
-				listCheckoutRecordsAndLibraryMember.add(new CheckoutRecordWindow.CheckoutRecordAndLibraryMember(checkoutRecordEntry.getCheckoutDate(),
-						checkoutRecordEntry.getDueDate(), checkoutRecordEntry.getBookCopy(), firstName, lastName));
+			for (CheckoutRecordEntry checkoutRecordEntry : checkoutRecordEntries) {
+				listCheckoutRecordsAndLibraryMember.add(new CheckoutRecordWindow.CheckoutRecordAndLibraryMember(
+						checkoutRecordEntry.getCheckoutDate(), checkoutRecordEntry.getDueDate(),
+						checkoutRecordEntry.getBookCopy(), firstName, lastName));
 			}
 		}
 		return listCheckoutRecordsAndLibraryMember;
+	}
+
+	@Override
+	public List<OverdueDateRecord> getOverdueDateRecordByISBN(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
+		List<OverdueDateRecord> listOverdueDateRecord = new ArrayList<>();
+		for (String key : memberHashMap.keySet()) {
+			LibraryMember libraryMember = memberHashMap.get(key);
+			List<CheckoutRecordEntry> checkoutRecordEntries = libraryMember.getCheckoutRecord()
+					.getCheckoutRecordEntries();
+
+			for (CheckoutRecordEntry checkoutRecordEntry : checkoutRecordEntries) {
+				BookCopy bookCopy = checkoutRecordEntry.getBookCopy();
+				Book book = bookCopy.getBook();
+				LocalDate dueDate = checkoutRecordEntry.getDueDate();
+				LocalDate yesterdayDate = LocalDate.now().minusDays(1);
+				//Use to hard code date to get overdue record
+				//yesterdayDate = LocalDate.now().plusDays(7);
+				yesterdayDate = LocalDate.now().plusDays(21);
+				
+				if (book.getIsbn().equals(isbn) && dueDate.equals(yesterdayDate)) {
+					int copyNum = bookCopy.getCopyNum();
+					String title = book.getTitle();
+					String memberId = libraryMember.getMemberId();
+					String firstName = libraryMember.getFirstName();
+					String lastName = libraryMember.getLastName();
+					LocalDate checkoutDate = checkoutRecordEntry.getCheckoutDate();
+					
+					listOverdueDateRecord.add(new OverdueDateRecord(isbn, title, copyNum, memberId, firstName, lastName,
+							checkoutDate, dueDate));
+				}
+			}
+		}
+		return listOverdueDateRecord;
 	}
 }
