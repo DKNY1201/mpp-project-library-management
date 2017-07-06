@@ -137,6 +137,13 @@ public class Start extends Application {
 					optionsMenu.getItems().addAll(login);
 					mainMenu.getMenus().clear();
 					btnLogin.setText("Login");
+					
+					hideAllWindows();
+					if (!LoginWindow.INSTANCE.isInitialized()) {
+						LoginWindow.INSTANCE.init();
+					}
+					LoginWindow.INSTANCE.clear();
+					LoginWindow.INSTANCE.show();
 				}
 			}
 		});
@@ -245,11 +252,13 @@ public class Start extends Application {
 
 			SearchLibraryMemberWindow.INSTANCE.show();
 		});
+		
+		LoginWindow.INSTANCE.init();
 
 		Scene scene = new Scene(topContainer, 420, 375);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		primaryStage.show();
+		//primaryStage.show();
 	}
 
 }
