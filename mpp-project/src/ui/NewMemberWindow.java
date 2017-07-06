@@ -40,7 +40,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("new-member-container");
+		grid.setId("while-label-container");
 		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);

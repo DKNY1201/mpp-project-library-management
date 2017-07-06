@@ -127,6 +127,7 @@ public class Start extends Application {
 		splashBox.setAlignment(Pos.CENTER);
 
 		btnLogin = new Button("Login");
+		btnLogin.setId("rich-blue");
 		btnLogin.setOnAction((ActionEvent e) -> {
 			if (SystemController.currentAuth == Auth.UNAUTHENTICATED) {
 				hideAllWindows();

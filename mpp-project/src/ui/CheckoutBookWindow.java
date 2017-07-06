@@ -42,7 +42,7 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("top-container");
+		grid.setId("while-label-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
