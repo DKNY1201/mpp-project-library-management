@@ -53,13 +53,14 @@ public class LoginWindow extends Stage implements LibWindow {
 
 		Text scenetitle = new Text("Library System");
 		// setting id for CSS styling
-		scenetitle.setId("login-text");
+		scenetitle.setId("welcome-text");
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label userName = new Label("User Name:");
 		grid.add(userName, 0, 1);
 
 		TextField userTextField = new TextField();
+		userTextField.setId("username-text");
 		grid.add(userTextField, 1, 1);
 
 		Label pw = new Label("Password:");
