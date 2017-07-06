@@ -1,5 +1,9 @@
 package ui;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import business.BookCopy;
 import business.CheckoutRecordEntry;
 import business.ControllerInterface;
 import business.SystemController;
@@ -14,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,7 +39,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 	private CheckoutRecordWindow() {
 	}
 
-	private ObservableList<CheckoutRecordEntry> checkoutRecordData = FXCollections.observableArrayList();
+	private ObservableList<CheckoutRecordAndLibraryMember> checkoutRecordData = FXCollections.observableArrayList();
 
 	@SuppressWarnings("unchecked")
 	public void init() {
@@ -50,14 +54,18 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		TableView<CheckoutRecordEntry> table = new TableView<CheckoutRecordEntry>();
-		TableColumn<CheckoutRecordEntry, String> bookCopyColumn = new TableColumn<CheckoutRecordEntry, String>("Book Copy");
-		bookCopyColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("bookCopy"));
-		TableColumn<CheckoutRecordEntry, String> checkoutDateColumn = new TableColumn<CheckoutRecordEntry, String>("Checkout Date");
-		checkoutDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("checkoutDate"));
-		TableColumn<CheckoutRecordEntry, String> dueDateColumn = new TableColumn<CheckoutRecordEntry, String>("Due Date");
-		dueDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordEntry, String>("dueDate"));
-		table.getColumns().addAll(bookCopyColumn, checkoutDateColumn, dueDateColumn);
+		TableView<CheckoutRecordAndLibraryMember> table = new TableView<CheckoutRecordAndLibraryMember>();
+		TableColumn<CheckoutRecordAndLibraryMember, String> bookCopyColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Book Copy");
+		bookCopyColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("bookCopy"));
+		TableColumn<CheckoutRecordAndLibraryMember, String> checkoutDateColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Checkout Date");
+		checkoutDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("checkoutDate"));
+		TableColumn<CheckoutRecordAndLibraryMember, String> dueDateColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Due Date");
+		dueDateColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("dueDate"));
+		TableColumn<CheckoutRecordAndLibraryMember, String> firstNameColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("First Name");
+		firstNameColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("firstName"));
+		TableColumn<CheckoutRecordAndLibraryMember, String> lastNameColumn = new TableColumn<CheckoutRecordAndLibraryMember, String>("Last Name");
+		lastNameColumn.setCellValueFactory(new PropertyValueFactory<CheckoutRecordAndLibraryMember, String>("lastName"));
+		table.getColumns().addAll(bookCopyColumn, checkoutDateColumn, dueDateColumn, firstNameColumn, lastNameColumn);
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
@@ -67,7 +75,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 
 		ControllerInterface c = new SystemController();
 		checkoutRecordData.clear();
-		checkoutRecordData.addAll(c.getAllCheckoutRecordEntries());
+		checkoutRecordData.addAll(c.getAllCheckoutRecordEntryAndLibraryMember());
 		table.setItems(checkoutRecordData);
 
 		Button backBtn = new Button("<= Back to Main");
@@ -84,5 +92,36 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);
+	}
+	
+	public static class CheckoutRecordAndLibraryMember {
+		private LocalDate checkoutDate;
+	    private LocalDate dueDate;
+	    private BookCopy bookCopy;
+	    private String firstName;
+	    private String lastName;
+		public CheckoutRecordAndLibraryMember(LocalDate checkoutDate, LocalDate dueDate, BookCopy bookCopy,
+				String firstName, String lastName) {
+			this.checkoutDate = checkoutDate;
+			this.dueDate = dueDate;
+			this.bookCopy = bookCopy;
+			this.firstName = firstName;
+			this.lastName = lastName;
+		}
+		public LocalDate getCheckoutDate() {
+			return checkoutDate;
+		}
+		public LocalDate getDueDate() {
+			return dueDate;
+		}
+		public BookCopy getBookCopy() {
+			return bookCopy;
+		}
+		public String getFirstName() {
+			return firstName;
+		}
+		public String getLastName() {
+			return lastName;
+		}
 	}
 }

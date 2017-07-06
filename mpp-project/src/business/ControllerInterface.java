@@ -2,6 +2,8 @@ package business;
 
 import java.util.List;
 
+import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
+
 public interface ControllerInterface {
 	public void login(String id, String password) throws LoginException;
 	public List<String> allMemberIds();
@@ -14,5 +16,5 @@ public interface ControllerInterface {
 	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors) throws AddBookException;
 	public List<LibraryMember> getAllMembers();
 	public List<Book> getAllBooks();
-	public List<CheckoutRecordEntry> getAllCheckoutRecordEntries();
+	public List<CheckoutRecordAndLibraryMember> getAllCheckoutRecordEntryAndLibraryMember();
 }

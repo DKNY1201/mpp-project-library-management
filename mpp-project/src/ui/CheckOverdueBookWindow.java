@@ -70,14 +70,22 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		grid.add(hbBtn, 1, 3);
 
 		TableView<LibraryMember> table = new TableView<LibraryMember>();
-		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
-		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("firstName"));
-		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Last Name");
-		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("lastName"));
-		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Telephone");
-		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
-		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Address");
-		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("address"));
+		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("ISBN");
+		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("isbn"));
+		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Book Title");
+		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("title"));
+		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Copy Numbers");
+		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("copyNum"));
+		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Member ID");
+		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("memberId"));
+		TableColumn<LibraryMember, Address> addressColumn1 = new TableColumn<LibraryMember, Address>("First Name");
+		addressColumn1.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("firstName"));
+		TableColumn<LibraryMember, Address> addressColumn2 = new TableColumn<LibraryMember, Address>("Last Name");
+		addressColumn2.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("lastName"));
+		TableColumn<LibraryMember, Address> addressColumn3 = new TableColumn<LibraryMember, Address>("Checkout Date");
+		addressColumn3.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("checkoutDate"));
+		TableColumn<LibraryMember, Address> addressColumn4 = new TableColumn<LibraryMember, Address>("Due Date");
+		addressColumn4.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("dueDate"));
 		table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 
 		isbnTextField.setMinWidth(700);
