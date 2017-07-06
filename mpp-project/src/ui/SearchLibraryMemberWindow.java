@@ -55,7 +55,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Text scenetitle = new Text("Search library member");
-		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
+		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label memberIdLabel = new Label("Member ID");
@@ -78,16 +78,11 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
 		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Address");
 		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("address"));
-		table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 
 		memberIdTextField.setMinWidth(700);
 		table.setMinWidth(800);
 		table.setMinHeight(80);
 		table.setMaxHeight(80);
-		firstNameColumn.setMinWidth(100);
-		lastNameColumn.setMinWidth(100);
-		telephoneColumn.setMinWidth(100);
-		addressColumn.setMinWidth(600);
 
 		grid.add(table, 0, 4, 2, 1);
 
@@ -102,6 +97,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 					libMemberData.clear();
 					libMemberData.add(member);
 					table.setItems(libMemberData);
+					table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 				}
 			} catch (RuleException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
