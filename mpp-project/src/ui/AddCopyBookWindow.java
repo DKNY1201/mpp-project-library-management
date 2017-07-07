@@ -33,7 +33,7 @@ public class AddCopyBookWindow extends Stage implements LibWindow {
 	
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("white-label-container");
 		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);

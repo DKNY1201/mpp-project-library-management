@@ -2,16 +2,12 @@
      -fx-background-color: #cccccc;/*#8E0000*/
 }
 
-#top-container .label{
-     -fx-text-fill: #ffffff;
-}
-
 #library-system-title {
 	-fx-text-fill: #ffffff;
 	-fx-padding: 5 0;
 }
 
-#while-label-container .label {
+#white-label-container .label {
 	-fx-text-fill: #ffffff;
 }
 
