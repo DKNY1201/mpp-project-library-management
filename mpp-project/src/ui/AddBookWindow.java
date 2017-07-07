@@ -64,7 +64,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 	@Override
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);

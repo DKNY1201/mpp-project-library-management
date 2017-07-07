@@ -49,7 +49,7 @@ public class NewAuthorWindow extends Stage implements LibWindow {
 	@Override
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("top-container");
+		grid.setId("while-label-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
