@@ -91,7 +91,7 @@ public class EditMemberWindow extends Stage implements LibWindow {
 		
 		fillMemberInformation();
 
-		Button newMemberBtn = new Button("Edit member information");
+		Button newMemberBtn = new Button("Update");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(newMemberBtn);

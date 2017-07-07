@@ -48,7 +48,6 @@ public class AddBookWindow extends Stage implements LibWindow {
 	private TableView<Author> tableView;
 	private List<Author> selectedAuthors;
 	private List<Author> listAuthors;
-	private TableColumn<Author,Boolean> selectColumn;
 
 	private boolean isInitialized = false;
 
@@ -114,7 +113,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
 		TableColumn<Author, String> bioColumn = new TableColumn<Author, String>("Biography");
 		bioColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("bio"));
-		selectColumn = new TableColumn<Author,Boolean>("Select");
+		TableColumn<Author,Boolean> selectColumn = new TableColumn<Author,Boolean>("Select");
 		
 		selectColumn.setCellFactory(col -> {
             CheckBoxTableCell<Author, Boolean> cell = new CheckBoxTableCell<>(index -> {
