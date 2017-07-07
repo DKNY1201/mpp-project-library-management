@@ -64,10 +64,21 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public List<Author> getAllAuthors() {
+   	public List<Author> getAllAuthors() {
 		DataAccess da = new DataAccessFacade();
-		return da.getAllAuthors();
-	}
+       	HashMap<String,Book> books = da.readBooksMap();
+       	HashMap<Author,Author> authors = new HashMap<Author,Author>();
+       	List<Author> listAuthor = new ArrayList<Author>();
+       	for (Book book : books.values()) {
+   			for (Author author : book.getAuthors()) {
+   				if (!authors.containsKey(author)){
+   					listAuthor.add(author);
+   					authors.put(author, author);
+   				}
+   			}
+   		}
+   		return listAuthor;
+   	}
 
 	@Override
 	public LibraryMember searchMember(String memberID) {

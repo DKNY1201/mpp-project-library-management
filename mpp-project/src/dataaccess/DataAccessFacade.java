@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import business.Author;
 import business.Book;
 import business.LibraryMember;
 
@@ -94,22 +93,6 @@ public class DataAccessFacade implements DataAccess {
         books.put(book.getIsbn(), book);
         saveToStorage(StorageType.BOOKS, books);
     }
-    
-    @Override
-   	public List<Author> getAllAuthors() {
-       	HashMap<String,Book> books = readBooksMap();
-       	HashMap<Author,Author> authors = new HashMap<Author,Author>();
-       	List<Author> listAuthor = new ArrayList<Author>();
-       	for (Book book : books.values()) {
-   			for (Author author : book.getAuthors()) {
-   				if (!authors.containsKey(author)){
-   					listAuthor.add(author);
-   					authors.put(author, author);
-   				}
-   			}
-   		}
-   		return listAuthor;
-   	}
 
     /////load methods - these place test data into the storage area
 	///// - used just once at startup  
