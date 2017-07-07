@@ -67,7 +67,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 
 		grid.add(table, 0, 1);
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
 			Start.hideAllWindows();
 			Start.primStage().show();

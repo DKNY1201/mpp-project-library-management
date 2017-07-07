@@ -121,7 +121,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		hPrint.getChildren().add(printCheckoutRecord);
 		grid.add(hPrint, 0, 7, 2, 1);
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
 		backBtn.setOnAction((ActionEvent e) ->  {
 			Start.hideAllWindows();
 			Start.primStage().show();

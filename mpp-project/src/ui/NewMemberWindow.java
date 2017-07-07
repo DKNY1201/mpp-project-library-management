@@ -117,7 +117,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 					}
 				});
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(
 				(ActionEvent e) -> {
 					Start.hideAllWindows();
