@@ -6,6 +6,7 @@ import business.SystemController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -132,6 +135,16 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 
 		Scene scene = new Scene(grid, 900, 600);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
+		
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		    public void handle(KeyEvent ke) {
+		        if (ke.getCode() == KeyCode.ENTER) {
+		        	searchBtn.fire();
+		        	ke.consume();
+		        }
+		    }
+		});
+		
 		setScene(scene);
 	}
 
