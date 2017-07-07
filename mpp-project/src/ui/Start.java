@@ -60,7 +60,7 @@ public class Start extends Application {
 
 	private static Stage[] allWindows = { LoginWindow.INSTANCE, AllMembersWindow.INSTANCE, AllBooksWindow.INSTANCE,
 			NewMemberWindow.INSTANCE, CheckoutBookWindow.INSTANCE, CheckoutRecordWindow.INSTANCE,
-			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE,
+			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, PrintMemberCheckoutReport.INSTANCE,
 			CheckOverdueBookWindow.INSTANCE, NewAuthorWindow.INSTANCE, EditMemberWindow.INSTANCE };
 
 	public static void hideAllWindows() {
@@ -273,11 +273,11 @@ public class Start extends Application {
 		searchLibraryMember = new MenuItem("Print member's checkout report");
 		searchLibraryMember.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
-			if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
-				SearchLibraryMemberWindow.INSTANCE.init();
+			if (!PrintMemberCheckoutReport.INSTANCE.isInitialized()) {
+				PrintMemberCheckoutReport.INSTANCE.init();
 			}
 
-			SearchLibraryMemberWindow.INSTANCE.show();
+			PrintMemberCheckoutReport.INSTANCE.show();
 		});
 
 		checkOverdueBook = new MenuItem("Check overdue book");

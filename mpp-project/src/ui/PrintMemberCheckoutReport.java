@@ -30,8 +30,8 @@ import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
 
-public class SearchLibraryMemberWindow extends Stage implements LibWindow {
-	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();
+public class PrintMemberCheckoutReport extends Stage implements LibWindow {
+	public static final PrintMemberCheckoutReport INSTANCE = new PrintMemberCheckoutReport();
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
 	private TextField memberIdTextField;
@@ -45,7 +45,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
-	private SearchLibraryMemberWindow() {
+	private PrintMemberCheckoutReport() {
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,8 +94,8 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		ControllerInterface c = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
-				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(SearchLibraryMemberWindow.this);
-				searchLibMemberRules.applyRules(SearchLibraryMemberWindow.this);
+				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(PrintMemberCheckoutReport.this);
+				searchLibMemberRules.applyRules(PrintMemberCheckoutReport.this);
 
 				LibraryMember member = c.searchMember(getMemberId());
 				if (member != null) {

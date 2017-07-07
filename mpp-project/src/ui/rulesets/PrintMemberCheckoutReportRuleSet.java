@@ -1,15 +1,15 @@
 package ui.rulesets;
 
 import javafx.stage.Stage;
-import ui.SearchLibraryMemberWindow;
+import ui.PrintMemberCheckoutReport;
 
-final public class SearchLibraryMemberRuleSet implements RuleSet {
-	SearchLibraryMemberRuleSet() {
+final public class PrintMemberCheckoutReportRuleSet implements RuleSet {
+	PrintMemberCheckoutReportRuleSet() {
 	}
 
 	@Override
 	public void applyRules(Stage ob) throws RuleException {
-		SearchLibraryMemberWindow searchLibraryMemberWindow = (SearchLibraryMemberWindow) ob;
+		PrintMemberCheckoutReport searchLibraryMemberWindow = (PrintMemberCheckoutReport) ob;
 		nonEmptyRule(searchLibraryMemberWindow.getMemberId());
 	}
 
