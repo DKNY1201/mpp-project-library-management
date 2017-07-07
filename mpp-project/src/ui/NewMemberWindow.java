@@ -2,6 +2,7 @@ package ui;
 
 import business.ControllerInterface;
 import business.SystemController;
+import business.AddMemberException;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -116,11 +117,17 @@ public class NewMemberWindow extends Stage implements LibWindow {
 						if (alert.getResult() == ButtonType.OK) {
 							showAllMembersWindow();
 						}
+						
 					} catch(RuleException ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Incorrect input data");
                         alert.setContentText(ex.getMessage());
                         alert.showAndWait();
+					} catch(AddMemberException ex) {
+						Alert alert = new Alert(Alert.AlertType.WARNING);
+						alert.setTitle("Database issue");
+						alert.setContentText(ex.getMessage());
+						alert.showAndWait();
 					}
 				});
 

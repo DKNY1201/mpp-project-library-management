@@ -71,10 +71,23 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public void addMember(String id, String firstName, String lastName, String street, String city, String state,
-			String zip, String phone) {
+			String zip, String phone) throws AddMemberException {
+		DataAccess da = new DataAccessFacade();
+		if (da.searchMember(id) != null) {
+			throw new AddMemberException("Library member existing!");
+		}
 		Address address = new Address(street, city, state, zip);
 		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
 
+		da.writeLibraryMember(newLibraryMember);
+	}
+	
+	@Override
+	public void editMember(String id, String firstName, String lastName, String street, String city, String state,
+			String zip, String phone) {
+		Address address = new Address(street, city, state, zip);
+		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
+		
 		DataAccess da = new DataAccessFacade();
 		da.writeLibraryMember(newLibraryMember);
 	}

@@ -3,6 +3,7 @@ package ui;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
+import business.AddMemberException;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -103,7 +104,7 @@ public class EditMemberWindow extends Stage implements LibWindow {
 						RuleSet newMemberRules = RuleSetFactory.getRuleSet(EditMemberWindow.this);
 						newMemberRules.applyRules(EditMemberWindow.this);
 
-						c.addMember(getMemberIDValue(), firstNameTextField.getText(),
+						c.editMember(getMemberIDValue(), firstNameTextField.getText(),
 								lastNameTextField.getText(), streetTextField.getText(),
 								cityTextField.getText(), stateTextField.getText(),
 								zipTextField.getText(), phoneTextField.getText());
