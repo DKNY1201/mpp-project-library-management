@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,9 +20,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class AllMembersWindow extends Stage implements LibWindow {
 	public static final AllMembersWindow INSTANCE = new AllMembersWindow();
+	public static String memberIDToEdit = "";
 	
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -66,7 +69,48 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
 		TableColumn<LibraryMember, String> addressColumn = new TableColumn<LibraryMember, String>("Address");
 		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("address"));
-		table.getColumns().addAll(memberIDColumn, firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
+		
+		 TableColumn actionCol = new TableColumn("Action");
+	        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+	        Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>> cellFactory
+	                = //
+	                new Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>>() {
+	            @Override
+	            public TableCell call(final TableColumn<LibraryMember, String> param) {
+	                final TableCell<LibraryMember, String> cell = new TableCell<LibraryMember, String>() {
+
+	                    final Button btn = new Button("Edit");
+
+	                    @Override
+	                    public void updateItem(String item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (empty) {
+	                            setGraphic(null);
+	                            setText(null);
+	                        } else {
+	                            btn.setOnAction(event -> {
+	                            	LibraryMember currentMember = getTableView().getItems().get(getIndex());
+	                            	memberIDToEdit = currentMember.getMemberId();
+	                            	Start.hideAllWindows();
+	                    			if (!EditMemberWindow.INSTANCE.isInitialized()) {
+	                    				EditMemberWindow.INSTANCE.init();
+	                    			}
+
+	                    			EditMemberWindow.INSTANCE.show();
+	                            });
+	                            setGraphic(btn);
+	                            setText(null);
+	                        }
+	                    }
+	                };
+	                return cell;
+	            }
+	        };
+
+	        actionCol.setCellFactory(cellFactory);
+		
+		table.getColumns().addAll(memberIDColumn, firstNameColumn, lastNameColumn, telephoneColumn, addressColumn, actionCol);
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
@@ -83,7 +127,7 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 0, 2);
-
+		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);

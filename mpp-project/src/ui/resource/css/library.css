@@ -13,6 +13,8 @@
 
 #auth-text {
 	-fx-text-fill: #ffffff;
+	-fx-padding: 70px 0;
+	-fx-font-style: italic;
 }
 
 .label {
