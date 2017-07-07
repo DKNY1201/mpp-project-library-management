@@ -15,6 +15,7 @@ final public class RuleSetFactory {
 		map.put(SearchLibraryMemberWindow.class, new SearchLibraryMemberRuleSet());
 		map.put(CheckOverdueBookWindow.class, new CheckOverdueBookRuleSet());
 		map.put(NewAuthorWindow.class, new NewAuthorRuleSet());
+		map.put(EditMemberWindow.class, new EditMemberRuleSet());
 	}
 	public static RuleSet getRuleSet(Stage c) {
 		Class<? extends Stage> cl = c.getClass();

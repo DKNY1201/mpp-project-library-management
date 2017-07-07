@@ -1,6 +1,7 @@
 package ui;
 
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -17,8 +18,8 @@ import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
 
-public class NewMemberWindow extends Stage implements LibWindow {
-	public static final NewMemberWindow INSTANCE = new NewMemberWindow();
+public class EditMemberWindow extends Stage implements LibWindow {
+	public static final EditMemberWindow INSTANCE = new EditMemberWindow();
 
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -27,7 +28,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private NewMemberWindow() {}
+	private EditMemberWindow() {}
 
 	TextField memberIDTextField;
 	TextField firstNameTextField;
@@ -37,6 +38,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 	TextField stateTextField;
 	TextField zipTextField;
 	TextField phoneTextField;
+	ControllerInterface c = new SystemController();
 
 	public void init() {
 		GridPane grid = new GridPane();
@@ -46,16 +48,10 @@ public class NewMemberWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Add new member");
+        Text scenetitle = new Text("Edit member information");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
         scenetitle.setId("white-color");
         grid.add(scenetitle, 0, 0, 2, 1);
-
-
-		Label memberIDLabel = new Label("Member ID");
-		grid.add(memberIDLabel, 0, 1);
-		memberIDTextField = new TextField();
-		grid.add(memberIDTextField, 1, 1);
 
 		Label firstNameLabel = new Label("First name");
 		grid.add(firstNameLabel, 0, 2);
@@ -91,37 +87,40 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		grid.add(phoneLable, 0, 8);
 		phoneTextField = new TextField();
 		grid.add(phoneTextField, 1, 8);
+		
+		fillMemberInformation();
 
-		Button newMemberBtn = new Button("Create new member");
+		Button newMemberBtn = new Button("Edit member information");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(newMemberBtn);
 		grid.add(hbBtn, 1, 9);
-
+		
 		newMemberBtn.setOnAction(
 				(ActionEvent e) -> {
 					try {
-						RuleSet newMemberRules = RuleSetFactory.getRuleSet(NewMemberWindow.this);
-						newMemberRules.applyRules(NewMemberWindow.this);
+						RuleSet newMemberRules = RuleSetFactory.getRuleSet(EditMemberWindow.this);
+						newMemberRules.applyRules(EditMemberWindow.this);
 
-						ControllerInterface c = new SystemController();
-						c.addMember(memberIDTextField.getText(), firstNameTextField.getText(),
+						c.addMember(getMemberIDValue(), firstNameTextField.getText(),
 								lastNameTextField.getText(), streetTextField.getText(),
 								cityTextField.getText(), stateTextField.getText(),
 								zipTextField.getText(), phoneTextField.getText());
+						showAllMemberWindow();
 					} catch(RuleException ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Incorrect input data");
                         alert.setContentText(ex.getMessage());
                         alert.showAndWait();
 					}
+					
+					
 				});
 
-		Button backBtn = new Button("Back to Main");
+		Button backBtn = new Button("Back to All members");
         backBtn.setOnAction(
 				(ActionEvent e) -> {
-					Start.hideAllWindows();
-					Start.primStage().show();
+					showAllMemberWindow();
 				});
 
         HBox hBack = new HBox(10);
@@ -133,9 +132,29 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
         setScene(scene);
 	}
+	
+	public void showAllMemberWindow() {
+		Start.hideAllWindows();
+		if (!AllMembersWindow.INSTANCE.isInitialized()) {
+			AllMembersWindow.INSTANCE.init();
+		}
+
+		AllMembersWindow.INSTANCE.show();
+	}
+	
+	public void fillMemberInformation() {
+		LibraryMember member = c.searchMember(getMemberIDValue());
+		firstNameTextField.setText(member.getFirstName());
+		lastNameTextField.setText(member.getLastName());
+		streetTextField.setText(member.getAddress().getStreet());
+		cityTextField.setText(member.getAddress().getCity());
+		stateTextField.setText(member.getAddress().getState());
+		zipTextField.setText(member.getAddress().getZip());
+		phoneTextField.setText(member.getTelephone());
+	}
 
 	public String getMemberIDValue() {
-		return memberIDTextField.getText();
+		return AllMembersWindow.memberIDToEdit;
 	}
 
 	public String getFirstNameValue() {

@@ -17,23 +17,6 @@ import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = Auth.UNAUTHENTICATED;
 
-	public static String getCurrentAuthString() {
-		String auth = "";
-		switch (currentAuth) {
-		case ADMIN:
-			auth = "Administrator";
-			break;
-		case LIBRARIAN:
-			auth = "Librarian";
-			break;
-		case BOTH:
-			auth = "God";
-		default:
-			break;
-		}
-		return auth;
-	}
-
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();

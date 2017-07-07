@@ -61,7 +61,7 @@ public class Start extends Application {
 	private static Stage[] allWindows = { LoginWindow.INSTANCE, AllMembersWindow.INSTANCE, AllBooksWindow.INSTANCE,
 			NewMemberWindow.INSTANCE, CheckoutBookWindow.INSTANCE, CheckoutRecordWindow.INSTANCE,
 			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE,
-			CheckOverdueBookWindow.INSTANCE, NewAuthorWindow.INSTANCE };
+			CheckOverdueBookWindow.INSTANCE, NewAuthorWindow.INSTANCE, EditMemberWindow.INSTANCE };
 
 	public static void hideAllWindows() {
 		primStage.hide();
