@@ -10,7 +10,7 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
-import ui.CheckOverdueBookWindow.OverdueDateRecord;
+import ui.CheckOverdueBookWindow.OverdueRecord;
 import ui.CheckoutRecordWindow;
 import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 
@@ -190,21 +190,22 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public List<OverdueDateRecord> getOverdueDateRecordByISBN(String isbn) {
+	public List<OverdueRecord> getOverdueRecordByISBN(String isbn) {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
-		List<OverdueDateRecord> listOverdueDateRecord = new ArrayList<>();
+		List<OverdueRecord> listOverdueRecord = new ArrayList<>();
 		for (String key : memberHashMap.keySet()) {
 			LibraryMember libraryMember = memberHashMap.get(key);
 			List<CheckoutRecordEntry> checkoutRecordEntries = libraryMember.getCheckoutRecord()
 					.getCheckoutRecordEntries();
 
 			for (CheckoutRecordEntry checkoutRecordEntry : checkoutRecordEntries) {
-				BookCopy bookCopy = checkoutRecordEntry.getBookCopy();
-				Book book = bookCopy.getBook();
 				LocalDate dueDate = checkoutRecordEntry.getDueDate();
 				LocalDate yesterdayDate = LocalDate.now().minusDays(1);
-
+				
+				BookCopy bookCopy = checkoutRecordEntry.getBookCopy();
+				Book book = bookCopy.getBook();
+				
 				if (book.getIsbn().equals(isbn) && dueDate.compareTo(yesterdayDate) <= 0) {
 					int copyNum = bookCopy.getCopyNum();
 					String title = book.getTitle();
@@ -213,11 +214,11 @@ public class SystemController implements ControllerInterface {
 					String lastName = libraryMember.getLastName();
 					LocalDate checkoutDate = checkoutRecordEntry.getCheckoutDate();
 
-					listOverdueDateRecord.add(new OverdueDateRecord(isbn, title, copyNum, memberId, firstName, lastName,
+					listOverdueRecord.add(new OverdueRecord(isbn, title, copyNum, memberId, firstName, lastName,
 							checkoutDate, dueDate));
 				}
 			}
 		}
-		return listOverdueDateRecord;
+		return listOverdueRecord;
 	}
 }

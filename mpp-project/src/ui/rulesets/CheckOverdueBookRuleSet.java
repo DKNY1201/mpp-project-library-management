@@ -22,8 +22,8 @@ final public class CheckOverdueBookRuleSet implements RuleSet {
 		}
 	}
 	
-	private void nonEmptyRule(String memberID) throws RuleException {
-		if (memberID.trim().isEmpty()) {
+	private void nonEmptyRule(String isbn) throws RuleException {
+		if (isbn.trim().isEmpty()) {
 			throw new RuleException("ISBN must be nonempty.");
 		}
 	}
