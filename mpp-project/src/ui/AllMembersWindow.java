@@ -25,17 +25,20 @@ import javafx.util.Callback;
 public class AllMembersWindow extends Stage implements LibWindow {
 	public static final AllMembersWindow INSTANCE = new AllMembersWindow();
 	public static String memberIDToEdit = "";
-	
+
 	private boolean isInitialized = false;
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
+
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
 
-	private AllMembersWindow() {}
-	
+	private AllMembersWindow() {
+	}
+
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
 	@SuppressWarnings("unchecked")
@@ -53,12 +56,12 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<LibraryMember> table = new TableView<LibraryMember>();
-		
+
 		ControllerInterface c = new SystemController();
 		libMemberData.clear();
 		libMemberData.addAll(c.getAllMembers());
 		table.setItems(libMemberData);
-		
+
 		TableColumn<LibraryMember, String> memberIDColumn = new TableColumn<LibraryMember, String>("Member ID");
 		memberIDColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("memberId"));
 		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
@@ -69,48 +72,48 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
 		TableColumn<LibraryMember, String> addressColumn = new TableColumn<LibraryMember, String>("Address");
 		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("address"));
-		
-		 TableColumn actionCol = new TableColumn("Action");
-	        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-	        Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>> cellFactory
-	                = //
-	                new Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>>() {
-	            @Override
-	            public TableCell call(final TableColumn<LibraryMember, String> param) {
-	                final TableCell<LibraryMember, String> cell = new TableCell<LibraryMember, String>() {
+		TableColumn<LibraryMember,String> actionCol = new TableColumn<LibraryMember,String>("Action");
+		actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
-	                    final Button btn = new Button("Edit");
+		Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>> cellFactory = //
+				new Callback<TableColumn<LibraryMember, String>, TableCell<LibraryMember, String>>() {
+					@Override
+					public TableCell<LibraryMember, String> call(final TableColumn<LibraryMember, String> param) {
+						final TableCell<LibraryMember, String> cell = new TableCell<LibraryMember, String>() {
 
-	                    @Override
-	                    public void updateItem(String item, boolean empty) {
-	                        super.updateItem(item, empty);
-	                        if (empty) {
-	                            setGraphic(null);
-	                            setText(null);
-	                        } else {
-	                            btn.setOnAction(event -> {
-	                            	LibraryMember currentMember = getTableView().getItems().get(getIndex());
-	                            	memberIDToEdit = currentMember.getMemberId();
-	                            	Start.hideAllWindows();
-	                    			if (!EditMemberWindow.INSTANCE.isInitialized()) {
-	                    				EditMemberWindow.INSTANCE.init();
-	                    			}
+							final Button btn = new Button("Edit");
 
-	                    			EditMemberWindow.INSTANCE.show();
-	                            });
-	                            setGraphic(btn);
-	                            setText(null);
-	                        }
-	                    }
-	                };
-	                return cell;
-	            }
-	        };
+							@Override
+							public void updateItem(String item, boolean empty) {
+								super.updateItem(item, empty);
+								if (empty) {
+									setGraphic(null);
+									setText(null);
+								} else {
+									btn.setOnAction(event -> {
+										LibraryMember currentMember = getTableView().getItems().get(getIndex());
+										memberIDToEdit = currentMember.getMemberId();
+										Start.hideAllWindows();
+										if (!EditMemberWindow.INSTANCE.isInitialized()) {
+											EditMemberWindow.INSTANCE.init();
+										}
 
-	        actionCol.setCellFactory(cellFactory);
-		
-		table.getColumns().addAll(memberIDColumn, firstNameColumn, lastNameColumn, telephoneColumn, addressColumn, actionCol);
+										EditMemberWindow.INSTANCE.show();
+									});
+									setGraphic(btn);
+									setText(null);
+								}
+							}
+						};
+						return cell;
+					}
+				};
+
+		actionCol.setCellFactory(cellFactory);
+
+		table.getColumns().addAll(memberIDColumn, firstNameColumn, lastNameColumn, telephoneColumn, addressColumn,
+				actionCol);
 
 		table.setMinWidth(870);
 		table.setMaxWidth(870);
@@ -127,7 +130,7 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 0, 2);
-		
+
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 		setScene(scene);
