@@ -9,8 +9,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -76,13 +78,18 @@ public class CheckoutBookWindow extends Stage implements LibWindow {
 
 				ControllerInterface c = new SystemController();
 				c.checkoutBook(memberIDTextField.getText(), isbnTextField.getText());
+				
+				Alert alert = new Alert(AlertType.NONE, "Checkout book successful!", ButtonType.OK);
+				alert.showAndWait();
+				if (alert.getResult() == ButtonType.OK) {
+					Start.hideAllWindows();
+					if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
+						CheckoutRecordWindow.INSTANCE.init();
+					}
 
-				Start.hideAllWindows();
-				if (!CheckoutRecordWindow.INSTANCE.isInitialized()) {
-					CheckoutRecordWindow.INSTANCE.init();
+					CheckoutRecordWindow.INSTANCE.show();
 				}
-
-				CheckoutRecordWindow.INSTANCE.show();
+				
 			} catch (CheckoutBookException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Database issue");

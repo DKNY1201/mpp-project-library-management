@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -109,6 +110,12 @@ public class NewMemberWindow extends Stage implements LibWindow {
 								lastNameTextField.getText(), streetTextField.getText(),
 								cityTextField.getText(), stateTextField.getText(),
 								zipTextField.getText(), phoneTextField.getText());
+						
+						Alert alert = new Alert(AlertType.NONE, "Add new member successful!", ButtonType.OK);
+						alert.showAndWait();
+						if (alert.getResult() == ButtonType.OK) {
+							showAllMembersWindow();
+						}
 					} catch(RuleException ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Incorrect input data");
@@ -132,6 +139,15 @@ public class NewMemberWindow extends Stage implements LibWindow {
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
         setScene(scene);
+	}
+	
+	public void showAllMembersWindow() {
+		Start.hideAllWindows();
+		if (!AllMembersWindow.INSTANCE.isInitialized()) {
+			AllMembersWindow.INSTANCE.init();
+		}
+
+		AllMembersWindow.INSTANCE.show();
 	}
 
 	public String getMemberIDValue() {

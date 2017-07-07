@@ -10,8 +10,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -60,6 +62,8 @@ public class AddCopyBookWindow extends Stage implements LibWindow {
 					try {
 						ControllerInterface c = new SystemController();
 						c.addCopyBook(isbnTextField.getText());
+						Alert alert = new Alert(AlertType.NONE, "Add book copy successful!", ButtonType.OK);
+						alert.showAndWait();
 					} catch(AddCopyBookException ex) {
 						Alert alert = new Alert(Alert.AlertType.WARNING);
 						alert.setTitle("Incorrect information");

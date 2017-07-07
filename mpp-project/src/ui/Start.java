@@ -177,7 +177,7 @@ public class Start extends Application {
 		topContainer.getChildren().add(imageHolder);
 		topContainer.getChildren().add(splashBox2);
 
-		bookMenu = new Menu("Menu");
+		bookMenu = new Menu("Book");
 		memberMenu = new Menu("Member");
 
 		login = new MenuItem("Login");
