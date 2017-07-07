@@ -48,7 +48,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
         Text scenetitle = new Text("Add new member");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
-        scenetitle.setId("while-color");
+        scenetitle.setId("white-color");
         grid.add(scenetitle, 0, 0, 2, 1);
 
 
