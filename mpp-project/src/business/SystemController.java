@@ -17,23 +17,6 @@ import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = Auth.UNAUTHENTICATED;
 
-	public static String getCurrentAuthString() {
-		String auth = "";
-		switch (currentAuth) {
-		case ADMIN:
-			auth = "Administrator";
-			break;
-		case LIBRARIAN:
-			auth = "Librarian";
-			break;
-		case BOTH:
-			auth = "God";
-		default:
-			break;
-		}
-		return auth;
-	}
-
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -88,10 +71,23 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public void addMember(String id, String firstName, String lastName, String street, String city, String state,
-			String zip, String phone) {
+			String zip, String phone) throws AddMemberException {
+		DataAccess da = new DataAccessFacade();
+		if (da.searchMember(id) != null) {
+			throw new AddMemberException("Library member with ID " + id + " is existing!");
+		}
 		Address address = new Address(street, city, state, zip);
 		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
 
+		da.writeLibraryMember(newLibraryMember);
+	}
+	
+	@Override
+	public void editMember(String id, String firstName, String lastName, String street, String city, String state,
+			String zip, String phone) {
+		Address address = new Address(street, city, state, zip);
+		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
+		
 		DataAccess da = new DataAccessFacade();
 		da.writeLibraryMember(newLibraryMember);
 	}
@@ -141,6 +137,9 @@ public class SystemController implements ControllerInterface {
 	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)
 			throws AddBookException {
 		DataAccess da = new DataAccessFacade();
+		if (da.searchBook(isbn) != null) {
+			throw new AddBookException("Book with ISBN " + isbn + " is existing!");
+		}
 		Book book = new Book(isbn, title, maxCheckoutLength, authors);
 		for (int i = 1; i < numOfCopies; i++) {
 			book.addCopy();
