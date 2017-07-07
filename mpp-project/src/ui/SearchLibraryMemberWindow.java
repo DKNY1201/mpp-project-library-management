@@ -60,6 +60,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label memberIdLabel = new Label("Member ID");
+		memberIdLabel.setId("white-color-label");
 		grid.add(memberIdLabel, 0, 2);
 		memberIdTextField = new TextField();
 		grid.add(memberIdTextField, 1, 2);

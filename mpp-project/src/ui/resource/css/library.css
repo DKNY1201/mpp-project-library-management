@@ -32,6 +32,10 @@
     -fx-fill: #ffffff;
 }
 
+#white-color-label{
+    -fx-text-fill: #ffffff;
+}
+
 .menu-bar { 
 	-fx-background-color: #055a6f;
 	-fx-text-fill: #ffffff;

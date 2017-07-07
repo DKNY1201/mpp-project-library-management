@@ -76,21 +76,25 @@ public class AddBookWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label isbnLabel = new Label("ISBN");
+		isbnLabel.setId("white-color-label");
 		grid.add(isbnLabel, 0, 1);
 		isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 1);
 
 		Label titleLabel = new Label("Title");
+		titleLabel.setId("white-color-label");
 		grid.add(titleLabel, 0, 2);
 		titleTextField = new TextField();
 		grid.add(titleTextField, 1, 2);
 
 		Label numOfCopiesLabel = new Label("Number of copies");
+		numOfCopiesLabel.setId("white-color-label");
 		grid.add(numOfCopiesLabel, 0, 3);
 		numOfCopiesTextField = new TextField();
 		grid.add(numOfCopiesTextField, 1, 3);
 
 		Label maxCheckoutLenLabel = new Label("Maximum checkout lenght");
+		maxCheckoutLenLabel.setId("white-color-label");
 		grid.add(maxCheckoutLenLabel, 0, 4);
 		maxCheckoutLenComboBox = new ComboBox<>(maxCheckoutLenOptions);
 		maxCheckoutLenComboBox.getSelectionModel().select(1);
@@ -131,6 +135,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		tableView.setEditable(true);
 		
 		Label authorsLabel = new Label("Authors");
+		authorsLabel.setId("white-color-label");
 		grid.add(authorsLabel, 0, 5);
 		grid.add(tableView, 1, 5);
 		

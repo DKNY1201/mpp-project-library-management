@@ -95,7 +95,7 @@ public class NewAuthorWindow extends Stage implements LibWindow {
 		zipTextField = new TextField();
 		grid.add(zipTextField, 1, 7);
 
-		Label bioLablel = new Label("Bio");
+		Label bioLablel = new Label("Biography");
 		grid.add(bioLablel, 0, 8);
 		bioTextArea = new TextArea();
 		grid.add(bioTextArea, 1, 8);

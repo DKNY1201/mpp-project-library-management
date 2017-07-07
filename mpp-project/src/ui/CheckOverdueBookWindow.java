@@ -59,6 +59,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label isbnLabel = new Label("ISBN");
+		isbnLabel.setId("white-color-label");
 		grid.add(isbnLabel, 0, 2);
 		isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 2);
