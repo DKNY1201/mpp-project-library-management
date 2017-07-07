@@ -84,19 +84,7 @@ public class LoginWindow extends Stage implements LibWindow {
 
 			@Override
 			public void handle(ActionEvent e) {
-				try {
-					ControllerInterface c = new SystemController();
-					c.login(userTextField.getText().trim(), pwBox.getText().trim());
-					messageBar.setFill(Start.Colors.green);
-					messageBar.setText("Login successful");
-					Start.updateMenuByAuth(SystemController.currentAuth);
-					Start.setLoginAsLabel();
-					Start.hideAllWindows();
-					Start.primStage().show();
-				} catch (LoginException ex) {
-					messageBar.setFill(Start.Colors.red);
-					messageBar.setText("Error! " + ex.getMessage());
-				}
+				login(userTextField.getText().trim(), pwBox.getText());
 			}
 		});
 
@@ -116,4 +104,18 @@ public class LoginWindow extends Stage implements LibWindow {
 		show();
 	}
 
+	private void login(String userName, String password){
+		try {
+			ControllerInterface c = new SystemController();
+			c.login(userName, password);
+			messageBar.setFill(Start.Colors.green);
+			messageBar.setText("Login successful");
+			Start.updateMainUIByAuth(SystemController.currentAuth);
+			Start.hideAllWindows();
+			Start.primStage().show();
+		} catch (LoginException ex) {
+			messageBar.setFill(Start.Colors.red);
+			messageBar.setText("Error! " + ex.getMessage());
+		}
+	}
 }

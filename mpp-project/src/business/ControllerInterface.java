@@ -2,7 +2,7 @@ package business;
 
 import java.util.List;
 
-import ui.CheckOverdueBookWindow.OverdueDateRecord;
+import ui.CheckOverdueBookWindow.OverdueRecord;
 import ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember;
 
 public interface ControllerInterface {
@@ -21,5 +21,5 @@ public interface ControllerInterface {
 	public List<LibraryMember> getAllMembers();
 	public List<Book> getAllBooks();
 	public List<CheckoutRecordAndLibraryMember> getAllCheckoutRecordEntryAndLibraryMember();
-	public List<OverdueDateRecord> getOverdueDateRecordByISBN(String isbn);
+	public List<OverdueRecord> getOverdueRecordByISBN(String isbn);
 }

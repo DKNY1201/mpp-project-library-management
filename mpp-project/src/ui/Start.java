@@ -60,7 +60,7 @@ public class Start extends Application {
 
 	private static Stage[] allWindows = { LoginWindow.INSTANCE, AllMembersWindow.INSTANCE, AllBooksWindow.INSTANCE,
 			NewMemberWindow.INSTANCE, CheckoutBookWindow.INSTANCE, CheckoutRecordWindow.INSTANCE,
-			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, SearchLibraryMemberWindow.INSTANCE,
+			AddCopyBookWindow.INSTANCE, AddBookWindow.INSTANCE, PrintMemberCheckoutReport.INSTANCE,
 			CheckOverdueBookWindow.INSTANCE, NewAuthorWindow.INSTANCE, EditMemberWindow.INSTANCE };
 
 	public static void hideAllWindows() {
@@ -70,9 +70,11 @@ public class Start extends Application {
 		}
 	}
 
-	public static void updateMenuByAuth(Auth auth) {
+	public static void updateMainUIByAuth(Auth auth) {
+		String currentAuthLevel = "";
 		switch (SystemController.currentAuth) {
 		case ADMIN:
+			currentAuthLevel = "Librarian";
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
@@ -83,6 +85,7 @@ public class Start extends Application {
 			Start.primStage().show();
 			break;
 		case LIBRARIAN:
+			currentAuthLevel = "Admin";
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
@@ -93,6 +96,7 @@ public class Start extends Application {
 			Start.primStage().show();
 			break;
 		case BOTH:
+			currentAuthLevel = "Admin & Librarian";
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
@@ -105,6 +109,8 @@ public class Start extends Application {
 		default:
 			break;
 		}
+		
+		loginAsLabel.setText("You are login as: " + currentAuthLevel);
 	}
 
 	@Override
@@ -132,7 +138,6 @@ public class Start extends Application {
 		HBox splashBox2 = new HBox();
 		
 		loginAsLabel = new Label();
-		setLoginAsLabel();
 		loginAsLabel.setId("auth-text");
 		splashBox2.getChildren().add(loginAsLabel);
 		splashBox2.setAlignment(Pos.CENTER);
@@ -268,11 +273,11 @@ public class Start extends Application {
 		searchLibraryMember = new MenuItem("Print member's checkout report");
 		searchLibraryMember.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
-			if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
-				SearchLibraryMemberWindow.INSTANCE.init();
+			if (!PrintMemberCheckoutReport.INSTANCE.isInitialized()) {
+				PrintMemberCheckoutReport.INSTANCE.init();
 			}
 
-			SearchLibraryMemberWindow.INSTANCE.show();
+			PrintMemberCheckoutReport.INSTANCE.show();
 		});
 
 		checkOverdueBook = new MenuItem("Check overdue book");
@@ -290,23 +295,5 @@ public class Start extends Application {
 		Scene scene = new Scene(topContainer, 620, 475);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
-	}
-
-	public static void setLoginAsLabel(){
-		String currentAuthLevel = "";
-		switch (SystemController.currentAuth) {
-		case LIBRARIAN:
-			currentAuthLevel = "Librarian";
-			break;
-		case ADMIN:
-			currentAuthLevel = "Admin";
-			break;
-		case BOTH:
-			currentAuthLevel = "Admin & Librarian";
-			break;
-		default:
-			break;
-		}
-		loginAsLabel.setText("You are login as: " + currentAuthLevel);
 	}
 }

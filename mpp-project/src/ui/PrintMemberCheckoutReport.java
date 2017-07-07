@@ -30,11 +30,18 @@ import ui.rulesets.RuleException;
 import ui.rulesets.RuleSet;
 import ui.rulesets.RuleSetFactory;
 
-public class SearchLibraryMemberWindow extends Stage implements LibWindow {
-	public static final SearchLibraryMemberWindow INSTANCE = new SearchLibraryMemberWindow();
+public class PrintMemberCheckoutReport extends Stage implements LibWindow {
+	public static final PrintMemberCheckoutReport INSTANCE = new PrintMemberCheckoutReport();
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
 	private TextField memberIdTextField;
+	private TableView<LibraryMember> table;
+	private ControllerInterface controller;
+	private TableColumn<LibraryMember, String> firstNameColumn;
+	private TableColumn<LibraryMember, String> lastNameColumn;
+	private TableColumn<LibraryMember, String> telephoneColumn;
+	private TableColumn<LibraryMember, Address> addressColumn;
+	
 	private boolean isInitialized = false;
 
 	public boolean isInitialized() {
@@ -45,10 +52,9 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
-	private SearchLibraryMemberWindow() {
+	private PrintMemberCheckoutReport() {
 	}
 
-	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -74,14 +80,14 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		hbBtn.getChildren().add(searchBtn);
 		grid.add(hbBtn, 1, 3);
 
-		TableView<LibraryMember> table = new TableView<LibraryMember>();
-		TableColumn<LibraryMember, String> firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
+		table = new TableView<LibraryMember>();
+		firstNameColumn = new TableColumn<LibraryMember, String>("First Name");
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("firstName"));
-		TableColumn<LibraryMember, String> lastNameColumn = new TableColumn<LibraryMember, String>("Last Name");
+		lastNameColumn = new TableColumn<LibraryMember, String>("Last Name");
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("lastName"));
-		TableColumn<LibraryMember, String> telephoneColumn = new TableColumn<LibraryMember, String>("Telephone");
+		telephoneColumn = new TableColumn<LibraryMember, String>("Telephone");
 		telephoneColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("telephone"));
-		TableColumn<LibraryMember, Address> addressColumn = new TableColumn<LibraryMember, Address>("Address");
+		addressColumn = new TableColumn<LibraryMember, Address>("Address");
 		addressColumn.setCellValueFactory(new PropertyValueFactory<LibraryMember, Address>("address"));
 
 		memberIdTextField.setMinWidth(700);
@@ -91,19 +97,14 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 
 		grid.add(table, 0, 4, 2, 1);
 
-		ControllerInterface c = new SystemController();
+		controller = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
-				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(SearchLibraryMemberWindow.this);
-				searchLibMemberRules.applyRules(SearchLibraryMemberWindow.this);
+				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(PrintMemberCheckoutReport.this);
+				searchLibMemberRules.applyRules(PrintMemberCheckoutReport.this);
 
-				LibraryMember member = c.searchMember(getMemberId());
-				if (member != null) {
-					libMemberData.clear();
-					libMemberData.add(member);
-					table.setItems(libMemberData);
-					table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
-				}
+				LibraryMember member = searchMember(getMemberId());
+				displayMemberOnTable(member);
 			} catch (RuleException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Incorrect input data");
@@ -114,10 +115,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 
 		Button printCheckoutRecord = new Button("Print Checkout Record");
 		printCheckoutRecord.setOnAction((ActionEvent e) -> {
-			if (libMemberData.size() > 0) {
-				LibraryMember libMem = libMemberData.get(0);
-				System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
-			}
+			printMemberCheckoutReport();
 		});
 
 		HBox hPrint = new HBox(100);
@@ -153,5 +151,26 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	
 	public String getMemberId(){
 		return memberIdTextField.getText();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void displayMemberOnTable(LibraryMember member){
+		if (member != null) {
+			libMemberData.clear();
+			libMemberData.add(member);
+			table.setItems(libMemberData);
+			table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
+		}
+	}
+	
+	private LibraryMember searchMember(String memberID){
+		return controller.searchMember(memberID);
+	}
+	
+	private void printMemberCheckoutReport(){
+		if (libMemberData.size() > 0) {
+			LibraryMember libMem = libMemberData.get(0);
+			System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
+		}
 	}
 }

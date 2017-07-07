@@ -31,7 +31,7 @@ import ui.rulesets.RuleSetFactory;
 
 public class CheckOverdueBookWindow extends Stage implements LibWindow {
 	public static final CheckOverdueBookWindow INSTANCE = new CheckOverdueBookWindow();
-	private ObservableList<OverdueDateRecord> overdueDateRecords = FXCollections.observableArrayList();
+	private ObservableList<OverdueRecord> OverdueRecords = FXCollections.observableArrayList();
 
 	private TextField isbnTextField;
 	private boolean isInitialized = false;
@@ -73,27 +73,27 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		hbBtn.getChildren().add(searchBtn);
 		grid.add(hbBtn, 1, 3);
 
-		TableView<OverdueDateRecord> table = new TableView<OverdueDateRecord>();
-		TableColumn<OverdueDateRecord, String> isbnColumn = new TableColumn<OverdueDateRecord, String>("ISBN");
-		isbnColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, String>("isbn"));
-		TableColumn<OverdueDateRecord, String> titleColumn = new TableColumn<OverdueDateRecord, String>("Book Title");
-		titleColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, String>("title"));
-		TableColumn<OverdueDateRecord, Integer> numCopiesColumn = new TableColumn<OverdueDateRecord, Integer>(
+		TableView<OverdueRecord> table = new TableView<OverdueRecord>();
+		TableColumn<OverdueRecord, String> isbnColumn = new TableColumn<OverdueRecord, String>("ISBN");
+		isbnColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, String>("isbn"));
+		TableColumn<OverdueRecord, String> titleColumn = new TableColumn<OverdueRecord, String>("Book Title");
+		titleColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, String>("title"));
+		TableColumn<OverdueRecord, Integer> numCopiesColumn = new TableColumn<OverdueRecord, Integer>(
 				"Copy Numbers");
-		numCopiesColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, Integer>("copyNum"));
-		TableColumn<OverdueDateRecord, String> memberIdColumn = new TableColumn<OverdueDateRecord, String>("Member ID");
-		memberIdColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, String>("memberId"));
-		TableColumn<OverdueDateRecord, String> firstNameColumn = new TableColumn<OverdueDateRecord, String>(
+		numCopiesColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, Integer>("copyNum"));
+		TableColumn<OverdueRecord, String> memberIdColumn = new TableColumn<OverdueRecord, String>("Member ID");
+		memberIdColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, String>("memberId"));
+		TableColumn<OverdueRecord, String> firstNameColumn = new TableColumn<OverdueRecord, String>(
 				"First Name");
-		firstNameColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, String>("firstName"));
-		TableColumn<OverdueDateRecord, String> lastNameColumn = new TableColumn<OverdueDateRecord, String>("Last Name");
-		lastNameColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, String>("lastName"));
-		TableColumn<OverdueDateRecord, LocalDate> checkoutDateColumn = new TableColumn<OverdueDateRecord, LocalDate>(
+		firstNameColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, String>("firstName"));
+		TableColumn<OverdueRecord, String> lastNameColumn = new TableColumn<OverdueRecord, String>("Last Name");
+		lastNameColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, String>("lastName"));
+		TableColumn<OverdueRecord, LocalDate> checkoutDateColumn = new TableColumn<OverdueRecord, LocalDate>(
 				"Checkout Date");
-		checkoutDateColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, LocalDate>("checkoutDate"));
-		TableColumn<OverdueDateRecord, LocalDate> dueDateColumn = new TableColumn<OverdueDateRecord, LocalDate>(
+		checkoutDateColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, LocalDate>("checkoutDate"));
+		TableColumn<OverdueRecord, LocalDate> dueDateColumn = new TableColumn<OverdueRecord, LocalDate>(
 				"Due Date");
-		dueDateColumn.setCellValueFactory(new PropertyValueFactory<OverdueDateRecord, LocalDate>("dueDate"));
+		dueDateColumn.setCellValueFactory(new PropertyValueFactory<OverdueRecord, LocalDate>("dueDate"));
 
 		isbnTextField.setMinWidth(750);
 		table.setMinWidth(800);
@@ -108,9 +108,9 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 				RuleSet checkOverDueBookRules = RuleSetFactory.getRuleSet(CheckOverdueBookWindow.this);
 				checkOverDueBookRules.applyRules(CheckOverdueBookWindow.this);
 
-				overdueDateRecords.addAll(c.getOverdueDateRecordByISBN(getISBN()));
-				if (overdueDateRecords != null && !overdueDateRecords.isEmpty()) {
-					table.setItems(overdueDateRecords);
+				OverdueRecords.addAll(c.getOverdueRecordByISBN(getISBN()));
+				if (OverdueRecords != null && !OverdueRecords.isEmpty()) {
+					table.setItems(OverdueRecords);
 					table.getColumns().addAll(isbnColumn, titleColumn, numCopiesColumn, memberIdColumn, firstNameColumn,
 							lastNameColumn, checkoutDateColumn, dueDateColumn);
 				}
@@ -152,7 +152,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		return isbnTextField.getText();
 	}
 
-	public static class OverdueDateRecord {
+	public static class OverdueRecord {
 		private String isbn;
 		private String title;
 		private int copyNum;
@@ -162,7 +162,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		private LocalDate checkoutDate;
 		private LocalDate dueDate;
 
-		public OverdueDateRecord(String isbn, String title, int copyNum, String memberId, String firstName,
+		public OverdueRecord(String isbn, String title, int copyNum, String memberId, String firstName,
 				String lastName, LocalDate checkoutDate, LocalDate dueDate) {
 			this.isbn = isbn;
 			this.title = title;

@@ -12,7 +12,7 @@ final public class RuleSetFactory {
 		map.put(NewMemberWindow.class, new NewMemberRuleSet());
 		map.put(CheckoutBookWindow.class, new CheckoutBookRuleSet());
 		map.put(AddBookWindow.class, new AddBookRuleSet());
-		map.put(SearchLibraryMemberWindow.class, new SearchLibraryMemberRuleSet());
+		map.put(PrintMemberCheckoutReport.class, new PrintMemberCheckoutReportRuleSet());
 		map.put(CheckOverdueBookWindow.class, new CheckOverdueBookRuleSet());
 		map.put(NewAuthorWindow.class, new NewAuthorRuleSet());
 		map.put(EditMemberWindow.class, new EditMemberRuleSet());

@@ -48,6 +48,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 	private TableView<Author> tableView;
 	private List<Author> selectedAuthors;
 	private List<Author> listAuthors;
+	private ControllerInterface controler;
 
 	private boolean isInitialized = false;
 
@@ -102,8 +103,8 @@ public class AddBookWindow extends Stage implements LibWindow {
 		maxCheckoutLenComboBox.getSelectionModel().select(1);
 		grid.add(maxCheckoutLenComboBox, 1, 4);
 
-		ControllerInterface c = new SystemController();
-		listAuthors = c.getAllAuthors();
+		controler = new SystemController();
+		listAuthors = controler.getAllAuthors();
 		selectedAuthors = new ArrayList<Author>();
 		
 		tableView = new TableView<Author>();
@@ -162,31 +163,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		grid.add(hbBtn, 1, 9);
 
 		newMemberBtn.setOnAction((ActionEvent e) -> {
-			try {
-				RuleSet addBookRules = RuleSetFactory.getRuleSet(AddBookWindow.this);
-				addBookRules.applyRules(AddBookWindow.this);
-
-				c.addBook(getISBN(), getBookTitle(), getMaxCheckoutLenght(),
-						Integer.parseInt(getNumberOfCopies()), selectedAuthors);
-				
-				Alert alert = new Alert(AlertType.NONE, "Add new book successful!\nDo you want to add more book?", ButtonType.YES, ButtonType.NO);
-				alert.showAndWait();
-				if (alert.getResult() == ButtonType.YES) {
-					clearAllField();
-				}else{
-					showAllBooksWindow();
-				}
-			} catch (AddBookException ex) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Database issue");
-				alert.setContentText(ex.getMessage());
-				alert.showAndWait();
-			} catch (RuleException ex) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Incorrect input data");
-				alert.setContentText(ex.getMessage());
-				alert.showAndWait();
-			}
+			addBook();
 		});
 
 		Button backBtn = new Button("Back to Main");
@@ -225,7 +202,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		return numOfCopiesTextField.getText();
 	}
 
-	public Boolean noAuthorSelected() {
+	public Boolean isNoAuthorSelected() {
 		if (selectedAuthors == null)
 			return true;
 		return selectedAuthors.isEmpty();
@@ -246,5 +223,33 @@ public class AddBookWindow extends Stage implements LibWindow {
 		}
 
 		AllBooksWindow.INSTANCE.show();
+	}
+	
+	private void addBook(){
+		try {
+			RuleSet addBookRules = RuleSetFactory.getRuleSet(AddBookWindow.this);
+			addBookRules.applyRules(AddBookWindow.this);
+
+			controler.addBook(getISBN(), getBookTitle(), getMaxCheckoutLenght(),
+					Integer.parseInt(getNumberOfCopies()), selectedAuthors);
+			
+			Alert alert = new Alert(AlertType.NONE, "Add new book successful!\nDo you want to add more book?", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.YES) {
+				clearAllField();
+			}else{
+				showAllBooksWindow();
+			}
+		} catch (AddBookException ex) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Database issue");
+			alert.setContentText(ex.getMessage());
+			alert.showAndWait();
+		} catch (RuleException ex) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Incorrect input data");
+			alert.setContentText(ex.getMessage());
+			alert.showAndWait();
+		}
 	}
 }
