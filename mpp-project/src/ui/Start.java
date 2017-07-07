@@ -76,7 +76,7 @@ public class Start extends Application {
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
-			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook);
+			bookMenu.getItems().addAll(bookIds, addNewBook, addCopyBook);
 			memberMenu.getItems().addAll(memberIds, addNewMember);
 			mainMenu.getMenus().addAll(bookMenu, memberMenu);
 			Start.hideAllWindows();
@@ -96,7 +96,7 @@ public class Start extends Application {
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
-			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook, checkoutBook, checkoutRecords,
+			bookMenu.getItems().addAll(bookIds, addNewBook, addCopyBook, checkoutBook, checkoutRecords,
 					checkOverdueBook);
 			memberMenu.getItems().addAll(memberIds, addNewMember, searchLibraryMember);
 			mainMenu.getMenus().addAll(bookMenu, memberMenu);
@@ -265,7 +265,7 @@ public class Start extends Application {
 			AddBookWindow.INSTANCE.show();
 		});
 
-		searchLibraryMember = new MenuItem("Search library member");
+		searchLibraryMember = new MenuItem("Print member's checkout report");
 		searchLibraryMember.setOnAction((ActionEvent e) -> {
 			hideAllWindows();
 			if (!SearchLibraryMemberWindow.INSTANCE.isInitialized()) {
