@@ -40,7 +40,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("white-label-container");
 		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -48,7 +48,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 
         Text scenetitle = new Text("Add new member");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
-        scenetitle.setId("while-color");
+        scenetitle.setId("white-color");
         grid.add(scenetitle, 0, 0, 2, 1);
 
 
@@ -117,7 +117,7 @@ public class NewMemberWindow extends Stage implements LibWindow {
 					}
 				});
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(
 				(ActionEvent e) -> {
 					Start.hideAllWindows();

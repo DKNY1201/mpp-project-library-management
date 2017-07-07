@@ -64,33 +64,37 @@ public class AddBookWindow extends Stage implements LibWindow {
 	@Override
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Text scenetitle = new Text("Add new book");
-		scenetitle.setId("while-color");
+		scenetitle.setId("white-color");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label isbnLabel = new Label("ISBN");
+		isbnLabel.setId("white-color-label");
 		grid.add(isbnLabel, 0, 1);
 		isbnTextField = new TextField();
 		grid.add(isbnTextField, 1, 1);
 
 		Label titleLabel = new Label("Title");
+		titleLabel.setId("white-color-label");
 		grid.add(titleLabel, 0, 2);
 		titleTextField = new TextField();
 		grid.add(titleTextField, 1, 2);
 
 		Label numOfCopiesLabel = new Label("Number of copies");
+		numOfCopiesLabel.setId("white-color-label");
 		grid.add(numOfCopiesLabel, 0, 3);
 		numOfCopiesTextField = new TextField();
 		grid.add(numOfCopiesTextField, 1, 3);
 
 		Label maxCheckoutLenLabel = new Label("Maximum checkout lenght");
+		maxCheckoutLenLabel.setId("white-color-label");
 		grid.add(maxCheckoutLenLabel, 0, 4);
 		maxCheckoutLenComboBox = new ComboBox<>(maxCheckoutLenOptions);
 		maxCheckoutLenComboBox.getSelectionModel().select(1);
@@ -131,6 +135,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		tableView.setEditable(true);
 		
 		Label authorsLabel = new Label("Authors");
+		authorsLabel.setId("white-color-label");
 		grid.add(authorsLabel, 0, 5);
 		grid.add(tableView, 1, 5);
 		
@@ -174,7 +179,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 			}
 		});
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
 		backBtn.setOnAction((ActionEvent e) -> {
 			Start.hideAllWindows();
 			Start.primStage().show();

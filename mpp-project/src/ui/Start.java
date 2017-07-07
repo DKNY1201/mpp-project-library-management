@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Start extends Application {
@@ -41,6 +40,8 @@ public class Start extends Application {
 	private static MenuItem login;
 	private static MenuItem logout;
 	private static Button btnLogin;
+	
+	private static Label loginAsLabel;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -95,8 +96,8 @@ public class Start extends Application {
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
-			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook, checkoutBook,
-					checkoutRecords, checkOverdueBook);
+			bookMenu.getItems().addAll(bookIds, addCopyBook, addNewBook, checkoutBook, checkoutRecords,
+					checkOverdueBook);
 			memberMenu.getItems().addAll(memberIds, addNewMember, searchLibraryMember);
 			mainMenu.getMenus().addAll(bookMenu, memberMenu);
 			Start.hideAllWindows();
@@ -127,13 +128,15 @@ public class Start extends Application {
 		splashLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 		splashBox.getChildren().add(splashLabel);
 		splashBox.setAlignment(Pos.CENTER);
-		
+
 		HBox splashBox2 = new HBox();
-		Label splashLabel2 = new Label("Your are login as: " + SystemController.getCurrentAuthString());
-		splashLabel2.setId("auth-text");
-		splashBox2.getChildren().add(splashLabel2);
-		splashBox2.setAlignment(Pos.CENTER);
 		
+		loginAsLabel = new Label();
+		setLoginAsLabel();
+		loginAsLabel.setId("auth-text");
+		splashBox2.getChildren().add(loginAsLabel);
+		splashBox2.setAlignment(Pos.CENTER);
+
 		btnLogin = new Button("Login");
 		btnLogin.setId("rich-blue");
 		btnLogin.setOnAction((ActionEvent e) -> {
@@ -289,4 +292,21 @@ public class Start extends Application {
 		scene.getStylesheets().add(getClass().getResource("resource/css/library.css").toExternalForm());
 	}
 
+	public static void setLoginAsLabel(){
+		String currentAuthLevel = "";
+		switch (SystemController.currentAuth) {
+		case LIBRARIAN:
+			currentAuthLevel = "Librarian";
+			break;
+		case ADMIN:
+			currentAuthLevel = "Admin";
+			break;
+		case BOTH:
+			currentAuthLevel = "Admin & Librarian";
+			break;
+		default:
+			break;
+		}
+		loginAsLabel.setText("You are login as: " + currentAuthLevel);
+	}
 }

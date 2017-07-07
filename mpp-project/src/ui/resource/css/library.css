@@ -7,7 +7,7 @@
 	-fx-padding: 5 0;
 }
 
-#while-label-container .label {
+#white-label-container .label {
 	-fx-text-fill: #ffffff;
 }
 
@@ -28,8 +28,12 @@
 	-fx-text-fill: #ffffff;
 }
 
-#while-color {
+#white-color {
     -fx-fill: #ffffff;
+}
+
+#white-color-label{
+    -fx-text-fill: #ffffff;
 }
 
 .menu-bar { 

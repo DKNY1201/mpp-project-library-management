@@ -49,14 +49,14 @@ public class NewAuthorWindow extends Stage implements LibWindow {
 	@Override
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("top-container");
+		grid.setId("white-label-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Text scenetitle = new Text("Add new author");
-		scenetitle.setId("while-color");
+		scenetitle.setId("white-color");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -95,7 +95,7 @@ public class NewAuthorWindow extends Stage implements LibWindow {
 		zipTextField = new TextField();
 		grid.add(zipTextField, 1, 7);
 
-		Label bioLablel = new Label("Bio");
+		Label bioLablel = new Label("Biography");
 		grid.add(bioLablel, 0, 8);
 		bioTextArea = new TextArea();
 		grid.add(bioTextArea, 1, 8);

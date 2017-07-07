@@ -33,14 +33,14 @@ public class AddCopyBookWindow extends Stage implements LibWindow {
 	
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("white-label-container");
 		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Add copy book");
-        scenetitle.setId("while-color");
+        scenetitle.setId("white-color");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -70,7 +70,7 @@ public class AddCopyBookWindow extends Stage implements LibWindow {
 
 
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {

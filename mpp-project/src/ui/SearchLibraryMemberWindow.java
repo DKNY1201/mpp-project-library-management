@@ -48,18 +48,19 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 	@SuppressWarnings("unchecked")
 	public void init() {
 		GridPane grid = new GridPane();
-		grid.setId("while-label-container");
+		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Text scenetitle = new Text("Search library member");
-		scenetitle.setId("while-color");
+		scenetitle.setId("white-color");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label memberIdLabel = new Label("Member ID");
+		memberIdLabel.setId("white-color-label");
 		grid.add(memberIdLabel, 0, 2);
 		memberIdTextField = new TextField();
 		grid.add(memberIdTextField, 1, 2);
@@ -121,7 +122,7 @@ public class SearchLibraryMemberWindow extends Stage implements LibWindow {
 		hPrint.getChildren().add(printCheckoutRecord);
 		grid.add(hPrint, 0, 7, 2, 1);
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("Back to Main");
 		backBtn.setOnAction((ActionEvent e) ->  {
 			Start.hideAllWindows();
 			Start.primStage().show();

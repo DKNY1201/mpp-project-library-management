@@ -90,6 +90,7 @@ public class LoginWindow extends Stage implements LibWindow {
 					messageBar.setFill(Start.Colors.green);
 					messageBar.setText("Login successful");
 					Start.updateMenuByAuth(SystemController.currentAuth);
+					Start.setLoginAsLabel();
 					Start.hideAllWindows();
 					Start.primStage().show();
 				} catch (LoginException ex) {
