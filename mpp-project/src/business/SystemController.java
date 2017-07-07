@@ -74,7 +74,7 @@ public class SystemController implements ControllerInterface {
 			String zip, String phone) throws AddMemberException {
 		DataAccess da = new DataAccessFacade();
 		if (da.searchMember(id) != null) {
-			throw new AddMemberException("Library member existing!");
+			throw new AddMemberException("Library member with ID " + id + " is existing!");
 		}
 		Address address = new Address(street, city, state, zip);
 		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
@@ -137,6 +137,9 @@ public class SystemController implements ControllerInterface {
 	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)
 			throws AddBookException {
 		DataAccess da = new DataAccessFacade();
+		if (da.searchBook(isbn) != null) {
+			throw new AddBookException("Book with ISBN " + isbn + " is existing!");
+		}
 		Book book = new Book(isbn, title, maxCheckoutLength, authors);
 		for (int i = 1; i < numOfCopies; i++) {
 			book.addCopy();

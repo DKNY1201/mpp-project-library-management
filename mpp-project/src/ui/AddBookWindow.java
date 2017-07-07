@@ -17,11 +17,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -46,6 +48,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 	private TableView<Author> tableView;
 	private List<Author> selectedAuthors;
 	private List<Author> listAuthors;
+	private TableColumn<Author,Boolean> selectColumn;
 
 	private boolean isInitialized = false;
 
@@ -111,7 +114,7 @@ public class AddBookWindow extends Stage implements LibWindow {
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
 		TableColumn<Author, String> bioColumn = new TableColumn<Author, String>("Biography");
 		bioColumn.setCellValueFactory(new PropertyValueFactory<Author, String>("bio"));
-		TableColumn<Author,Boolean> selectColumn = new TableColumn<Author,Boolean>("Select");
+		selectColumn = new TableColumn<Author,Boolean>("Select");
 		
 		selectColumn.setCellFactory(col -> {
             CheckBoxTableCell<Author, Boolean> cell = new CheckBoxTableCell<>(index -> {
@@ -166,6 +169,14 @@ public class AddBookWindow extends Stage implements LibWindow {
 
 				c.addBook(getISBN(), getBookTitle(), getMaxCheckoutLenght(),
 						Integer.parseInt(getNumberOfCopies()), selectedAuthors);
+				
+				Alert alert = new Alert(AlertType.NONE, "Add new book successful!\nDo you want to add more book?", ButtonType.YES, ButtonType.NO);
+				alert.showAndWait();
+				if (alert.getResult() == ButtonType.YES) {
+					clearAllField();
+				}else{
+					showAllBooksWindow();
+				}
 			} catch (AddBookException ex) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Database issue");
@@ -219,5 +230,22 @@ public class AddBookWindow extends Stage implements LibWindow {
 		if (selectedAuthors == null)
 			return true;
 		return selectedAuthors.isEmpty();
+	}
+	
+	public void clearAllField(){
+		isbnTextField.setText("");
+		titleTextField.setText("");
+		numOfCopiesTextField.setText("");
+		selectedAuthors.clear();
+		tableView.refresh();
+	}
+	
+	public void showAllBooksWindow() {
+		Start.hideAllWindows();
+		if (!AllBooksWindow.INSTANCE.isInitialized()) {
+			AllBooksWindow.INSTANCE.init();
+		}
+
+		AllBooksWindow.INSTANCE.show();
 	}
 }

@@ -3,7 +3,6 @@ package ui;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import business.AddMemberException;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
