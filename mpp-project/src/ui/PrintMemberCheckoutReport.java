@@ -35,6 +35,7 @@ public class PrintMemberCheckoutReport extends Stage implements LibWindow {
 	private ObservableList<LibraryMember> libMemberData = FXCollections.observableArrayList();
 
 	private TextField memberIdTextField;
+	private ControllerInterface controller;
 	private boolean isInitialized = false;
 
 	public boolean isInitialized() {
@@ -91,13 +92,13 @@ public class PrintMemberCheckoutReport extends Stage implements LibWindow {
 
 		grid.add(table, 0, 4, 2, 1);
 
-		ControllerInterface c = new SystemController();
+		controller = new SystemController();
 		searchBtn.setOnAction((ActionEvent e) -> {
 			try {
 				RuleSet searchLibMemberRules = RuleSetFactory.getRuleSet(PrintMemberCheckoutReport.this);
 				searchLibMemberRules.applyRules(PrintMemberCheckoutReport.this);
 
-				LibraryMember member = c.searchMember(getMemberId());
+				LibraryMember member = searchMember(getMemberId());
 				if (member != null) {
 					libMemberData.clear();
 					libMemberData.add(member);
@@ -114,10 +115,7 @@ public class PrintMemberCheckoutReport extends Stage implements LibWindow {
 
 		Button printCheckoutRecord = new Button("Print Checkout Record");
 		printCheckoutRecord.setOnAction((ActionEvent e) -> {
-			if (libMemberData.size() > 0) {
-				LibraryMember libMem = libMemberData.get(0);
-				System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
-			}
+			printMemberCheckoutReport();
 		});
 
 		HBox hPrint = new HBox(100);
@@ -153,5 +151,16 @@ public class PrintMemberCheckoutReport extends Stage implements LibWindow {
 	
 	public String getMemberId(){
 		return memberIdTextField.getText();
+	}
+	
+	private LibraryMember searchMember(String memberId){
+		return controller.searchMember(memberId);
+	}
+	
+	private void printMemberCheckoutReport(){
+		if (libMemberData.size() > 0) {
+			LibraryMember libMem = libMemberData.get(0);
+			System.out.println(libMem.getCheckoutRecord().printCheckoutRecord());
+		}
 	}
 }
