@@ -15,7 +15,7 @@ final public class AddBookRuleSet implements RuleSet {
 		String isbn = addBookWindow.getISBN();
 		String title = addBookWindow.getBookTitle();
 		String numberOfCopies = addBookWindow.getNumberOfCopies();
-		Boolean noAuthorSelected = addBookWindow.noAuthorSelected();
+		Boolean noAuthorSelected = addBookWindow.isNoAuthorSelected();
 
 		nonEmptyRule(isbn, title, numberOfCopies, noAuthorSelected);
 		isbnRule(isbn);
