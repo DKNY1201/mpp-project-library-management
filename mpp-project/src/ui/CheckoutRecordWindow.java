@@ -92,7 +92,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 		setScene(scene);
 	}
 	
-	public static class CheckoutRecordAndLibraryMember {
+	public static final class CheckoutRecordAndLibraryMember {
 		private LocalDate checkoutDate;
 	    private LocalDate dueDate;
 	    private BookCopy bookCopy;
