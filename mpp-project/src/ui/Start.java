@@ -74,7 +74,7 @@ public class Start extends Application {
 		String currentAuthLevel = "";
 		switch (SystemController.currentAuth) {
 		case ADMIN:
-			currentAuthLevel = "Librarian";
+			currentAuthLevel = "Admin";
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();
@@ -85,7 +85,7 @@ public class Start extends Application {
 			Start.primStage().show();
 			break;
 		case LIBRARIAN:
-			currentAuthLevel = "Admin";
+			currentAuthLevel = "Librarian";
 			btnLogin.setText("Logout");
 			bookMenu.getItems().clear();
 			memberMenu.getItems().clear();

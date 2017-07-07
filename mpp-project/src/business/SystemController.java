@@ -202,11 +202,12 @@ public class SystemController implements ControllerInterface {
 			for (CheckoutRecordEntry checkoutRecordEntry : checkoutRecordEntries) {
 				LocalDate dueDate = checkoutRecordEntry.getDueDate();
 				LocalDate yesterdayDate = LocalDate.now().minusDays(1);
+				yesterdayDate = LocalDate.now().plusDays(21);
 				
 				BookCopy bookCopy = checkoutRecordEntry.getBookCopy();
 				Book book = bookCopy.getBook();
 				
-				if (book.getIsbn().equals(isbn) && dueDate.compareTo(yesterdayDate) <= 0) {
+				if (book.getIsbn().equals(isbn) && dueDate.compareTo(yesterdayDate) <= 0 && !bookCopy.isAvailable()) {
 					int copyNum = bookCopy.getCopyNum();
 					String title = book.getTitle();
 					String memberId = libraryMember.getMemberId();

@@ -152,7 +152,7 @@ public class CheckOverdueBookWindow extends Stage implements LibWindow {
 		return isbnTextField.getText();
 	}
 
-	public static class OverdueRecord {
+	final public static class OverdueRecord {
 		private String isbn;
 		private String title;
 		private int copyNum;
