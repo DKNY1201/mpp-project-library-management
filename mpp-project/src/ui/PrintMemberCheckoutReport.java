@@ -158,7 +158,9 @@ public class PrintMemberCheckoutReport extends Stage implements LibWindow {
 		if (member != null) {
 			libMemberData.clear();
 			libMemberData.add(member);
+			
 			table.setItems(libMemberData);
+			table.getColumns().clear();
 			table.getColumns().addAll(firstNameColumn, lastNameColumn, telephoneColumn, addressColumn);
 		}
 	}
