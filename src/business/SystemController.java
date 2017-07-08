@@ -26,7 +26,9 @@ public class SystemController implements ControllerInterface {
 		}
 		currentAuth = map.get(id).getAuthorization();
 	}
-
+	What is the Static Model that is created during analysis? What kind of diagram is used in this
+	model? Describe an approach to building a Static Model based on a problem statement (in other
+words, how did we do it in this class?).
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
