@@ -45,7 +45,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 
 		Text scenetitle = new Text("All books");
 		scenetitle.setId("white-color");
-		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
+		scenetitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<Book> table = new TableView<Book>();

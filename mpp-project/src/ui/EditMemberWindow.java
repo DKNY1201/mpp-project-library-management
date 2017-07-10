@@ -50,7 +50,7 @@ public class EditMemberWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Edit member information");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
+        scenetitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
         scenetitle.setId("white-color");
         grid.add(scenetitle, 0, 0, 2, 1);
 

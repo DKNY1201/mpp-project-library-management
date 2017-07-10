@@ -49,7 +49,7 @@ public class CheckoutRecordWindow extends Stage implements LibWindow {
 
 		Text scenetitle = new Text("Checkout Record");
 		scenetitle.setId("white-color");
-		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20));
+		scenetitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		TableView<CheckoutRecordAndLibraryMember> table = new TableView<CheckoutRecordAndLibraryMember>();
