@@ -1,0 +1,30 @@
+root { 
+    display: block;
+}
+
+.root {
+     -fx-background-image: url("../image/background2.jpg");
+}
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+#welcome-text {
+   -fx-font-size: 32px;
+   -fx-font-family: "Arial Black";
+   -fx-fill: #fefefe;
+}
+
+.button {
+    -fx-text-fill: #000000;
+    -fx-font-family: "Arial Narrow";
+    -fx-border: none;
+}
+
+.button:hover {
+    -fx-font-weight: bold;
+    -fx-cursor: pointer;
+}

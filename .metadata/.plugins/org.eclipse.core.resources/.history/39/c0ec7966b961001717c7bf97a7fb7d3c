@@ -1,0 +1,132 @@
+package business;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import business.Book;
+import dataaccess.Auth;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
+import dataaccess.User;
+
+public class SystemController implements ControllerInterface {
+	public static Auth currentAuth = Auth.UNAUTHENTICATED;
+	
+	public void login(String id, String password) throws LoginException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, User> map = da.readUserMap();
+		if(!map.containsKey(id)) {
+			throw new LoginException("ID " + id + " not found");
+		}
+		String passwordFound = map.get(id).getPassword();
+		if(!passwordFound.equals(password)) {
+			throw new LoginException("Password incorrect");
+		}
+		currentAuth = map.get(id).getAuthorization();
+	}
+
+	@Override
+	public List<String> allMemberIds() {
+		DataAccess da = new DataAccessFacade();
+		List<String> retval = new ArrayList<>();
+		retval.addAll(da.readMemberMap().keySet());
+		return retval;
+	}
+	
+	@Override
+	public List<String> allBookIds() {
+		DataAccess da = new DataAccessFacade();
+		List<String> retval = new ArrayList<>();
+		retval.addAll(da.readBooksMap().keySet());
+		return retval;
+	}
+
+	@Override
+	public void addMember(String id, String firstName, String lastName, String street,
+                          String city, String state, String zip, String phone) {
+		Address address = new Address(street, city, state, zip);
+		LibraryMember newLibraryMember = new LibraryMember(id, firstName, lastName, phone, address);
+
+		DataAccess da = new DataAccessFacade();
+		da.writeLibraryMember(newLibraryMember);
+	}
+
+	@Override
+	public void checkoutBook(String memberID, String isbnNumber) throws CheckoutBookException {
+		DataAccess da = new DataAccessFacade();
+
+		LibraryMember member = null;
+		Book book = null;
+
+		if ((member = da.searchMember(memberID)) == null) {
+			throw new CheckoutBookException("Member ID not found!");
+		}
+
+		if ((book = da.searchBook(isbnNumber)) == null) {
+			throw new CheckoutBookException("The requested book is not available!");
+		}
+
+		if (!book.isAvailable()) {
+			throw new CheckoutBookException("The requested book is not available!");
+		}
+
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		int maxCheckoutLength = book.getMaxCheckoutLength();
+
+		member.checkout(bookCopy, LocalDate.now(), LocalDate.now().plusDays(maxCheckoutLength));
+
+		da.saveMember(member);
+		da.saveBook(book);
+	}
+
+    @Override
+    public void addCopyBook(String isbn) throws AddCopyBookException{
+        DataAccess da = new DataAccessFacade();
+        Book book;
+
+        if ((book = da.searchBook(isbn)) == null) {
+            throw new AddCopyBookException("Book cannot found!");
+        }
+
+        book.addCopy();
+        da.saveBook(book);
+    }
+
+    @Override
+	public void addBook(String isbn, String title, int maxCheckoutLength, int numOfCopies, List<Author> authors)  throws AddBookException{
+		DataAccess da = new DataAccessFacade();
+        Book book = new Book(isbn, title, maxCheckoutLength, authors);
+        da.saveBook(book);
+	}
+
+	@Override
+	public List<LibraryMember> getAllMembers() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberHashMap = da.readMemberMap();
+		List<LibraryMember> listMembers = new ArrayList<>();
+		for (String key: memberHashMap.keySet()) {
+			listMembers.add(memberHashMap.get(key));
+		}
+		return listMembers;
+	}
+
+	@Override
+	public List<Book> getAllBooks() {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> bookHashMap = da.readBooksMap();
+		List<Book> listBooks = new ArrayList<>();
+		for (String key: bookHashMap.keySet()) {
+			listBooks.add(bookHashMap.get(key));
+		}
+		return listBooks;
+	}
+
+	@Override
+	public List<CheckoutRecord> getAllCheckoutRecords() {
+		
+		return null;
+	}
+}

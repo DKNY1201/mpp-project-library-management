@@ -1,0 +1,21 @@
+#top-container{
+     -fx-background-color: #cccccc;/*#8E0000*/
+}
+
+.label {
+   -fx-text-fill: #ffffff;
+}
+
+.root {
+     -fx-background-image: url("../image/main-background2.jpg");
+}
+
+.text{
+	-fx-text-fill: #ffffff;
+}
+
+.menu-bar { -fx-background-color: #055a6f; }
+.menu { -fx-background-color: #055a6f; }
+.menu-item {
+    -fx-background-color: #055a6f;
+}

@@ -1,0 +1,13 @@
+1. This is the start-up code for the MPP Project
+
+2. Students: Mention any extra credit use cases you have done in the other readme file
+
+3. Students: Put sequence diagrams and class diagram in this folder
+
+
+- Allow to see all information of Books in Table View.
+- Allow to see all information of Library Members in Table View.
+- Can edit Library Member information by click on the Edit button on Table View (when view all Library Members).
+- Validation data for all forms by show Alerts.
+- Show the Authentication level of current login user.
+- Show message when user complete any action (E.g: Add new member successful, Checkout book successful...)

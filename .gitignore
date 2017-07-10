@@ -2,3 +2,6 @@
 .project
 .classpath
 out/
+/mpp-project/src/dataaccess/storage/BOOKS
+/mpp-project/src/dataaccess/storage/USERS
+/mpp-project/src/dataaccess/storage/MEMBERS

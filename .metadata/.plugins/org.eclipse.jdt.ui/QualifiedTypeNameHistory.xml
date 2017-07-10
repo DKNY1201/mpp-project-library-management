@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="business.CheckoutRecord"/>
+<fullyQualifiedTypeName name="dataaccess.DataAccess"/>
+<fullyQualifiedTypeName name="business.Book"/>
+<fullyQualifiedTypeName name="business.CheckoutRecordEntry"/>
+<fullyQualifiedTypeName name="business.CheckoutRecordEntry.CheckoutRecordAndLibraryMember"/>
+<fullyQualifiedTypeName name="ui.CheckoutRecordWindow"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="ui.CheckoutRecordWindow.CheckoutRecordAndLibraryMember"/>
+<fullyQualifiedTypeName name="business.LibraryMember"/>
+<fullyQualifiedTypeName name="com.sun.glass.ui.Application"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
+<fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+<fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TableColumn"/>
+<fullyQualifiedTypeName name="javafx.scene.control.cell.PropertyValueFactory"/>
+<fullyQualifiedTypeName name="javafx.util.Callback"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TableCell"/>
+<fullyQualifiedTypeName name="javafx.scene.Group"/>
+<fullyQualifiedTypeName name="javafx.beans.property.SimpleStringProperty"/>
+<fullyQualifiedTypeName name="business.AddMemberException"/>
+</qualifiedTypeNameHistroy>
