@@ -4,7 +4,7 @@
 - JavaFX
 
 ## Account
-- Librian: 101 / xyz
+- Librarian: 101 / xyz
 - Admin: 102 / abc
 - Both: 103 / 111
 
